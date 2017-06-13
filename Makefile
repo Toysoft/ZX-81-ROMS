@@ -5,4 +5,4 @@ zx81.bin : zx81.asm
 	diff zx81.bin.dump zx81.rom.dump
 
 clean:
-	rm -f zx81.bin zx81.err zx81.i zx81.o zx81.lis zx81.map zx81.*.dump
+	rm -f zx81.bin zx81.err zx81.i zx81.o zx81.lis zx81.map zx81.*.dump *.bak
