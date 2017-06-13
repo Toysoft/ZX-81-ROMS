@@ -20,9 +20,9 @@
 ; by the same publishers, Melbourne House.
 
 
-#define DEFB .BYTE      ; TASM cross-assembler definitions
-#define DEFW .WORD
-#define EQU  .EQU
+;#define DEFB .BYTE      ; TASM cross-assembler definitions
+;#define DEFW .WORD
+;#define EQU  .EQU
 
 
 ;*****************************************
