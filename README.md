@@ -11,7 +11,7 @@ As far as I know, the Sinclair ROM copyright is held by Amstrad, who has allowed
 This project is setup on this princile. If I'm wrong, and this project infringes any copyright rights, please
 let me know.
 
-The assembly source files are in the syntax used by the Z88DK Z80ASM assembler [https://github.com/z88dk/z88dk](https://github.com/z88dk/z88dk The development kit for over fifty z80 machines - c compiler, assembler, linker, libraries.)
+The assembly source files are in the syntax used by the Z88DK Z80ASM assembler [https://github.com/z88dk/z88dk](https://github.com/z88dk/z88dk "The development kit for over fifty z80 machines - c compiler, assembler, linker, libraries").
 
 ## ZX-81 version 2 (improved) ROM
 
