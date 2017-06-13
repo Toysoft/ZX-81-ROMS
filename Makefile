@@ -1,5 +1,5 @@
 zx81.bin : zx81.asm
-	asmpp.pl -b -l -m zx81.asm 
+	z80asm -b -l -m zx81.asm 
 	perl -S hexdump zx81.bin > zx81.bin.dump
 	perl -S hexdump zx81.rom > zx81.rom.dump
 	diff zx81.bin.dump zx81.rom.dump

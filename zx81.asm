@@ -53,50 +53,52 @@
 ; ZX-81 SYSTEM VARIABLES
 ; ======================
 
-ERR_NR        equ $4000         ; N1   Current report code minus one
-FLAGS         equ $4001         ; N1   Various flags
-ERR_SP        equ $4002         ; N2   Address of top of GOSUB stack
-RAMTOP        equ $4004         ; N2   Address of reserved area (not wiped out by NEW)
-MODE          equ $4006         ; N1   Current cursor mode
-PPC           equ $4007         ; N2   Line number of line being executed
-VERSN         equ $4009         ; N1   First system variable to be SAVEd
-E_PPC         equ $400A         ; N2   Line number of line with cursor
-D_FILE        equ $400C         ; N2   Address of start of display file
-DF_CC         equ $400E         ; N2   Address of print position within display file
-VARS          equ $4010         ; N2   Address of start of variables area
-DEST          equ $4012         ; N2   Address of variable being assigned
-E_LINE        equ $4014         ; N2   Address of start of edit line
-CH_ADD        equ $4016         ; N2   Address of the next character to interpret
-X_PTR         equ $4018         ; N2   Address of char. preceding syntax error marker
-STKBOT        equ $401A         ; N2   Address of calculator stack
-STKEND        equ $401C         ; N2   Address of end of calculator stack
-BERG          equ $401E         ; N1   Used by floating point calculator
-MEM           equ $401F         ; N2   Address of start of calculator's memory area
-SPARE1        equ $4021         ; N1   One spare byte
-DF_SZ         equ $4022         ; N2   Number of lines in lower part of screen
-S_TOP         equ $4023         ; N2   Line number of line at top of screen
-LAST_K        equ $4025         ; N2   Keyboard scan taken after the last TV frame
-DB_ST         equ $4027         ; N1   Debounce status of keyboard
-MARGIN        equ $4028         ; N1   Number of blank lines above or below picture
-NXTLIN        equ $4029         ; N2   Address of next program line to be executed
-OLDPPC        equ $402B         ; N2   Line number to which CONT/CONTINUE jumps
-FLAGX         equ $402D         ; N1   Various flags
-STRLEN        equ $402E         ; N2   Information concerning assigning of strings
-T_ADDR        equ $4030         ; N2   Address of next item in syntax table
-SEED          equ $4032         ; N2   Seed for random number generator
-FRAMES        equ $4034         ; N2   Updated once for every TV frame displayed
-COORDS        equ $4036         ; N2   Coordinates of last point PLOTed
-PR_CC         equ $4038         ; N1   Address of LPRINT position (high part assumed $40)
-S_POSN        equ $4039         ; N2   Coordinates of print position
-CDFLAG        equ $403B         ; N1   Flags relating to FAST/SLOW mode
-PRBUFF        equ $403C         ; N21h Buffer to store LPRINT output
-MEMBOT        equ $405D         ; N1E  Area which may be used for calculator memory
-SPARE2        equ $407B         ; N2   Two spare bytes
-PROG          equ $407D         ; Start of BASIC program
+defc    ERR_NR  = $4000         ; N1   Current report code minus one
+defc    FLAGS   = $4001         ; N1   Various flags
+defc    ERR_SP  = $4002         ; N2   Address of top of GOSUB stack
+defc    RAMTOP  = $4004         ; N2   Address of reserved area (not wiped out by NEW)
+defc    MODE    = $4006         ; N1   Current cursor mode
+defc    PPC     = $4007         ; N2   Line number of line being executed
+defc    VERSN   = $4009         ; N1   First system variable to be SAVEd
+defc    E_PPC   = $400A         ; N2   Line number of line with cursor
+defc    D_FILE  = $400C         ; N2   Address of start of display file
+defc    DF_CC   = $400E         ; N2   Address of print position within display file
+defc    VARS    = $4010         ; N2   Address of start of variables area
+defc    DEST    = $4012         ; N2   Address of variable being assigned
+defc    E_LINE  = $4014         ; N2   Address of start of edit line
+defc    CH_ADD  = $4016         ; N2   Address of the next character to interpret
+defc    X_PTR   = $4018         ; N2   Address of char. preceding syntax error marker
+defc    STKBOT  = $401A         ; N2   Address of calculator stack
+defc    STKEND  = $401C         ; N2   Address of end of calculator stack
+defc    BERG    = $401E         ; N1   Used by floating point calculator
+defc    MEM     = $401F         ; N2   Address of start of calculator's memory area
+defc    SPARE1  = $4021         ; N1   One spare byte
+defc    DF_SZ   = $4022         ; N2   Number of lines in lower part of screen
+defc    S_TOP   = $4023         ; N2   Line number of line at top of screen
+defc    LAST_K  = $4025         ; N2   Keyboard scan taken after the last TV frame
+defc    DB_ST   = $4027         ; N1   Debounce status of keyboard
+defc    MARGIN  = $4028         ; N1   Number of blank lines above or below picture
+defc    NXTLIN  = $4029         ; N2   Address of next program line to be executed
+defc    OLDPPC  = $402B         ; N2   Line number to which CONT/CONTINUE jumps
+defc    FLAGX   = $402D         ; N1   Various flags
+defc    STRLEN  = $402E         ; N2   Information concerning assigning of strings
+defc    T_ADDR  = $4030         ; N2   Address of next item in syntax table
+defc    SEED    = $4032         ; N2   Seed for random number generator
+defc    FRAMES  = $4034         ; N2   Updated once for every TV frame displayed
+defc    COORDS  = $4036         ; N2   Coordinates of last point PLOTed
+defc    PR_CC   = $4038         ; N1   Address of LPRINT position (high part assumed $40)
+defc    S_POSN  = $4039         ; N2   Coordinates of print position
+defc    CDFLAG  = $403B         ; N1   Flags relating to FAST/SLOW mode
+defc    PRBUFF  = $403C         ; N21h Buffer to store LPRINT output
+defc    MEMBOT  = $405D         ; N1E  Area which may be used for calculator memory
+defc    SPARE2  = $407B         ; N2   Two spare bytes
 
-IY0           equ ERR_NR
+defc    PROG    = $407D         ; Start of BASIC program
+defc    MAXRAM  = $7FFF         ; Maximum value of RAMTOP
 
-        org     $0000
+defc    IY0     = ERR_NR        ; Base of system variables
+
+org     $0000
 
 
 ;*****************************************
@@ -112,10 +114,10 @@ IY0           equ ERR_NR
 
 START:
         out     ($FD), a        ; Turn off the NMI generator if this ROM is
-                                ; running in ZX81 hardware. This does nothing 
+                                ; running in ZX81 hardware. This does nothing
                                 ; if this ROM is running within an upgraded
                                 ; ZX80.
-        ld      bc, $7FFF       ; Set BC to the top of possible RAM.
+        ld      bc, MAXRAM      ; Set BC to the top of possible RAM.
                                 ; The higher unpopulated addresses are used for
                                 ; video generation.
         jp      RAM_CHECK       ; Jump forward to RAM-CHECK.
@@ -123,8 +125,8 @@ START:
 ; -------------------
 ; THE 'ERROR' RESTART
 ; -------------------
-; The error restart deals immediately with an error. ZX computers execute the 
-; same code in runtime as when checking syntax. If the error occurred while 
+; The error restart deals immediately with an error. ZX computers execute the
+; same code in runtime as when checking syntax. If the error occurred while
 ; running a program then a brief report is produced. If the error occurred
 ; while entering a BASIC line or in input etc., then the error marker indicates
 ; the exact point at which the error lies.
@@ -162,7 +164,7 @@ PRINT_A:
 ; THE 'COLLECT A CHARACTER' RESTART
 ; ---------------------------------
 ; The character addressed by the system variable CH_ADD is fetched and if it
-; is a non-space, non-cursor character it is returned else CH_ADD is 
+; is a non-space, non-cursor character it is returned else CH_ADD is
 ; incremented and the new addressed character tested until it is not a space.
 
 GET_CHAR:
@@ -179,7 +181,7 @@ TEST_SP:
 ; ------------------------------------
 ; THE 'COLLECT NEXT CHARACTER' RESTART
 ; ------------------------------------
-; The character address in incremented and the new addressed character is 
+; The character address in incremented and the new addressed character is
 ; returned if not a space, or cursor, else the process is repeated.
 
 NEXT_CHAR:
@@ -236,9 +238,9 @@ BC_SPACES:
 ; -----------------------
 ;   The Mode 1 Interrupt routine is concerned solely with generating the central
 ;   television picture.
-;   On the ZX81 interrupts are enabled only during the interrupt routine, 
-;   although the interrupt 
-;   This Interrupt Service Routine automatically disables interrupts at the 
+;   On the ZX81 interrupts are enabled only during the interrupt routine,
+;   although the interrupt
+;   This Interrupt Service Routine automatically disables interrupts at the
 ;   outset and the last interrupt in a cascade exits before the interrupts are
 ;   enabled.
 ;   There is no DI instruction in the ZX81 ROM.
@@ -246,24 +248,24 @@ BC_SPACES:
 ;   changes from set to reset.
 ;   The Z80 will always be executing a HALT (NEWLINE) when the interrupt occurs.
 ;   A HALT instruction repeatedly executes NOPS but the seven lower bits
-;   of the Refresh register are incremented each time as they are when any 
+;   of the Refresh register are incremented each time as they are when any
 ;   simple instruction is executed. (The lower 7 bits are incremented twice for
 ;   a prefixed instruction)
-;   This is controlled by the Sinclair Computer Logic Chip - manufactured from 
+;   This is controlled by the Sinclair Computer Logic Chip - manufactured from
 ;   a Ferranti Uncommitted Logic Array.
 ;
 ;   When a Mode 1 Interrupt occurs the Program Counter, which is the address in
-;   the upper echo display following the NEWLINE/HALT instruction, goes on the 
+;   the upper echo display following the NEWLINE/HALT instruction, goes on the
 ;   machine stack.  193 interrupts are required to generate the last part of
-;   the 56th border line and then the 192 lines of the central TV picture and, 
-;   although each interrupt interrupts the previous one, there are no stack 
+;   the 56th border line and then the 192 lines of the central TV picture and,
+;   although each interrupt interrupts the previous one, there are no stack
 ;   problems as the 'return address' is discarded each time.
 ;
 ;   The scan line counter in C counts down from 8 to 1 within the generation of
-;   each text line. For the first interrupt in a cascade the initial value of 
+;   each text line. For the first interrupt in a cascade the initial value of
 ;   C is set to 1 for the last border line.
 ;   Timing is of the utmost importance as the RH border, horizontal retrace
-;   and LH border are mostly generated in the 58 clock cycles this routine 
+;   and LH border are mostly generated in the 58 clock cycles this routine
 ;   takes .
 
 INTERRUPT:
@@ -289,14 +291,14 @@ WAIT_INT:
         ei                      ; (4) Enable Interrupts.  [ R is now $DE ].
 
         jp      (hl)            ; (4) jump to the echo display file in upper
-                                ;     memory and execute characters $00 - $3F 
-                                ;     as NOP instructions.  The video hardware 
-                                ;     is able to read these characters and, 
-                                ;     with the I register is able to convert 
-                                ;     the character bitmaps in this ROM into a 
+                                ;     memory and execute characters $00 - $3F
+                                ;     as NOP instructions.  The video hardware
+                                ;     is able to read these characters and,
+                                ;     with the I register is able to convert
+                                ;     the character bitmaps in this ROM into a
                                 ;     line of bytes. Eventually the NEWLINE/HALT
-                                ;     will be encountered before R reaches $FF. 
-                                ;     It is however the transition from $FF to 
+                                ;     will be encountered before R reaches $FF.
+                                ;     It is however the transition from $FF to
                                 ;     $80 that triggers the next interrupt.
                                 ;     [ The Refresh register is now $DF ]
 
@@ -305,7 +307,7 @@ WAIT_INT:
 SCAN_LINE:
         pop     de              ; (10) discard the address after NEWLINE as the
                                 ;      same text line has to be done again
-                                ;      eight times. 
+                                ;      eight times.
 
         ret     z               ; (5)  Harmless Nonsensical Timing.
                                 ;      (condition never met)
@@ -316,20 +318,20 @@ SCAN_LINE:
 ;   display file and the above mechanism deals with both types of display.
 ;
 ;   With a full display, the 32 characters in the line are treated as NOPS
-;   and the Refresh register rises from $E0 to $FF and, at the next instruction 
+;   and the Refresh register rises from $E0 to $FF and, at the next instruction
 ;   - HALT, the interrupt occurs.
-;   With a collapsed display and an initial NEWLINE/HALT, it is the NOPs 
+;   With a collapsed display and an initial NEWLINE/HALT, it is the NOPs
 ;   generated by the HALT that cause the Refresh value to rise from $E0 to $FF,
 ;   triggering an Interrupt on the next transition.
-;   This works happily for all display lines between these extremes and the 
-;   generation of the 32 character, 1 pixel high, line will always take 128 
+;   This works happily for all display lines between these extremes and the
+;   generation of the 32 character, 1 pixel high, line will always take 128
 ;   clock cycles.
 
 ; ---------------------------------
 ; THE 'INCREMENT CH-ADD' SUBROUTINE
 ; ---------------------------------
 ; This is the subroutine that increments the character address system variable
-; and returns if it is not the cursor character. The ZX81 has an actual 
+; and returns if it is not the cursor character. The ZX81 has an actual
 ; character at the cursor position rather than a pointer system variable
 ; as is the case with prior and subsequent ZX computers.
 
@@ -380,22 +382,22 @@ ERROR_3:
 ; THE 'NON MASKABLE INTERRUPT' ROUTINE
 ; ------------------------------------
 ;   Jim Westwood's technical dodge using Non-Maskable Interrupts solved the
-;   flicker problem of the ZX80 and gave the ZX81 a multi-tasking SLOW mode 
-;   with a steady display.  Note that the AF' register is reserved for this 
-;   function and its interaction with the display routines.  When counting 
+;   flicker problem of the ZX80 and gave the ZX81 a multi-tasking SLOW mode
+;   with a steady display.  Note that the AF' register is reserved for this
+;   function and its interaction with the display routines.  When counting
 ;   TV lines, the NMI makes no use of the main registers.
-;   The circuitry for the NMI generator is contained within the SCL (Sinclair 
-;   Computer Logic) chip. 
-;   ( It takes 32 clock cycles while incrementing towards zero ). 
+;   The circuitry for the NMI generator is contained within the SCL (Sinclair
+;   Computer Logic) chip.
+;   ( It takes 32 clock cycles while incrementing towards zero ).
 
 NMI:
         ex      af, af'         ; (4) switch in the NMI's copy of the
                                 ;     accumulator.
         inc     a               ; (4) increment.
         jp      m, NMI_RET      ; (10/10) jump, if minus, to NMI-RET as this is
-                                ;     part of a test to see if the NMI 
-                                ;     generation is working or an intermediate 
-                                ;     value for the ascending negated blank 
+                                ;     part of a test to see if the NMI
+                                ;     generation is working or an intermediate
+                                ;     value for the ascending negated blank
                                 ;     line counter.
 
         jr      z, NMI_CONT     ; (12) forward to NMI-CONT
@@ -421,7 +423,7 @@ NMI_CONT:
         push    de              ; (11) ***
         push    hl              ; (11) ****
 
-;   the next set-up procedure is only really applicable when the top set of 
+;   the next set-up procedure is only really applicable when the top set of
 ;   blank lines have been generated.
 
         ld      hl, (D_FILE)    ; (16) fetch start of Display File from D_FILE
@@ -433,7 +435,7 @@ NMI_CONT:
                                 ; Z80 HALT and WAIT lines to take 1 clock cycle.
 
 ; ----------------------------------------------------------------------------
-;   the NMI has been generated - start counting. The cathode ray is at the RH 
+;   the NMI has been generated - start counting. The cathode ray is at the RH
 ;   side of the TV.
 ;   First the NMI servicing, similar to CALL            =  17 clock cycles.
 ;   Then the time taken by the NMI for zero-to-one path =  39 cycles
@@ -453,7 +455,7 @@ NMI_CONT:
 ;
 ;   Since at the time the first JP (HL) is encountered to execute the echo
 ;   display another 8 character positions have to be put out, then the
-;   Refresh register need to hold $F8. Working back and counteracting 
+;   Refresh register need to hold $F8. Working back and counteracting
 ;   the fact that every instruction increments the Refresh register then
 ;   the value that is loaded into R needs to be $F5.      :-)
 ;
@@ -793,8 +795,8 @@ SLOW_FAST:
         rla                     ; rotate result out to carry.
         ret     nc              ; return if both bits were the same.
 
-;   Now test if this really is a ZX81 or a ZX80 running the upgraded ROM.
-;   The standard ZX80 did not have an NMI generator.
+; Now test if this really is a ZX81 or a ZX80 running the upgraded ROM.
+; The standard ZX80 did not have an NMI generator.
 
         ld      a, $7F          ; Load accumulator with %011111111
         ex      af, af'         ; save in AF'
@@ -940,14 +942,14 @@ R_IX_1:
                                 ;      very clever?
         ld      bc, $1901       ; (10) 25 lines, 1 scanline in first.
         ld      a, $F5          ; (7)  This value will be loaded into R and
-                                ; ensures that the cycle starts at the right 
-                                ; part of the display  - after 32nd character 
+                                ; ensures that the cycle starts at the right
+                                ; part of the display  - after 32nd character
                                 ; position.
 
         call    DISPLAY_5       ; (17) routine DISPLAY-5 completes the current
-                                ; blank line and then generates the display of 
+                                ; blank line and then generates the display of
                                 ; the live picture using INT interrupts
-                                ; The final interrupt returns to the next 
+                                ; The final interrupt returns to the next
                                 ; address.
 
 DISPLAY_5_RET:
@@ -962,11 +964,11 @@ R_IX_2:
         jp      DISPLAY_1       ; JUMP back to DISPLAY-1
 
 ; ---------------------------------
-; THE 'DISPLAY BLANK LINES' ROUTINE 
+; THE 'DISPLAY BLANK LINES' ROUTINE
 ; ---------------------------------
-;   This subroutine is called twice (see above) to generate first the blank 
+;   This subroutine is called twice (see above) to generate first the blank
 ;   lines at the top of the television display and then the blank lines at the
-;   bottom of the display. 
+;   bottom of the display.
 
 DISPLAY_3:
         pop     ix              ; pop the return address to IX register.
@@ -1012,10 +1014,10 @@ DISPLAY_4:
 ; --------------------------
 ; THE 'DISPLAY-5' SUBROUTINE
 ; --------------------------
-;   This subroutine is called from SLOW mode and FAST mode to generate the 
+;   This subroutine is called from SLOW mode and FAST mode to generate the
 ;   central TV picture. With SLOW mode the R register is incremented, with
-;   each instruction, to $F7 by the time it completes.  With fast mode, the 
-;   final R value will be $FF and an interrupt will occur as soon as the 
+;   each instruction, to $F7 by the time it completes.  With fast mode, the
+;   final R value will be $FF and an interrupt will occur as soon as the
 ;   Program Counter reaches the HALT.  (24 clock cycles)
 
 DISPLAY_5:
@@ -1029,14 +1031,14 @@ DISPLAY_5:
 ; ----------------------------------
 ; THE 'KEYBOARD SCANNING' SUBROUTINE
 ; ----------------------------------
-; The keyboard is read during the vertical sync interval while no video is 
-; being displayed.  Reading a port with address bit 0 low i.e. $FE starts the 
+; The keyboard is read during the vertical sync interval while no video is
+; being displayed.  Reading a port with address bit 0 low i.e. $FE starts the
 ; vertical sync pulse.
 
 KEYBOARD:
         ld      hl, $FFFF       ; (16) prepare a buffer to take key.
         ld      bc, $FEFE       ; (20) set BC to port $FEFE. The B register,
-                                ;      with its single reset bit also acts as 
+                                ;      with its single reset bit also acts as
                                 ;      an 8-counter.
         in      a, (c)          ; (11) read the port - all 16 bits are put on
                                 ;      the address bus.  Start VSYNC pulse.
@@ -1051,7 +1053,7 @@ EACH_LINE:
         sbc     a, a            ; [4] $FF if $00 else zero.
         or      b               ; [7] $FF or port FE,FD,FB....
         and     l               ; [4] unless more than one key, L will still be
-                                ;     $FF. if more than one key is pressed then A is 
+                                ;     $FF. if more than one key is pressed then A is
                                 ;     now invalid.
         ld      l, a            ; [4] transfer to L.
 
@@ -1096,7 +1098,7 @@ EACH_LINE:
         and     $18             ; (7)           $18 or $00
         add     a, $1F          ; (7)           $37 or $1F
 
-;   result is either 31 (USA) or 55 (UK) blank lines above and below the TV 
+;   result is either 31 (USA) or 55 (UK) blank lines above and below the TV
 ;   picture.
 
         ld      (MARGIN), a     ; (13) update system variable MARGIN
@@ -1263,7 +1265,7 @@ RESTART:
         jp      nc, INITIAL     ; jump forward to INITIAL if D is zero
                                 ; to reset the system
                                 ; if the tape signal has timed out for example
-                                ; if the tape is stopped. Not just a simple 
+                                ; if the tape is stopped. Not just a simple
                                 ; report as some system variables will have
                                 ; been overwritten.
 
@@ -1279,7 +1281,7 @@ IN_NAME:
 
         cp      (hl)            ; else compare with string in memory.
         jr      nz, NEXT_PROG   ; back with mis-match to NEXT-PROG
-                                ; (seemingly out of subroutine but return 
+                                ; (seemingly out of subroutine but return
                                 ; address has been dropped).
 
 MATCHING:
@@ -1287,7 +1289,7 @@ MATCHING:
         rla                     ; test for inverted bit.
         jr      nc, IN_NAME     ; back if not to IN-NAME
 
-; the name has been matched in full. 
+; the name has been matched in full.
 ; proceed to load the data but first increment the high byte of E_LINE, which
 ; is one of the system variables to be loaded in. Since the low byte is loaded
 ; before the high byte, it is possible that, at the in-between stage, a false
@@ -1447,9 +1449,9 @@ INITIAL:
                                 ; the base of the now empty machine stack.
 
 ; Now set the I register so that the video hardware knows where to find the
-; character set. This ROM only uses the character set when printing to 
-; the ZX Printer. The TV picture is formed by the external video hardware. 
-; Consider also, that this 8K ROM can be retro-fitted to the ZX80 instead of 
+; character set. This ROM only uses the character set when printing to
+; the ZX Printer. The TV picture is formed by the external video hardware.
+; Consider also, that this 8K ROM can be retro-fitted to the ZX80 instead of
 ; its original 4K ROM so the video hardware could be on the ZX80.
 
         ld      a, char_set >> 8; address for this ROM is $1E00.
@@ -1655,7 +1657,7 @@ SLOW_DISP:
 ; -------------------------------
 ; THE 'KEYBOARD DECODING' SECTION
 ; -------------------------------
-;   The decoded key value is in E and HL points to the position in the 
+;   The decoded key value is in E and HL points to the position in the
 ;   key table. D contains zero.
 
 K_DECODE:
@@ -2010,7 +2012,7 @@ EDIT_KEY:
 
         jr      ENDED_2         ; back to ENDED-2 and after 3 more jumps
                                 ; to L0472, LOWER.
-                                ; Note. The LOWER routine removes the hidden 
+                                ; Note. The LOWER routine removes the hidden
                                 ; floating-point numbers from the edit line.
 
 ; -------------------------
@@ -2515,8 +2517,8 @@ WRITE_NL:
 ; --------------------------
 ; This routine sends a character to the ZX-Printer placing the code for the
 ; character in the Printer Buffer.
-; Note. PR-CC contains the low byte of the buffer address. The high order byte 
-; is always constant. 
+; Note. PR-CC contains the low byte of the buffer address. The high order byte
+; is always constant.
 
 
 LPRINT_CH:
@@ -2569,7 +2571,7 @@ COPY_MULT_D:
         call    SET_FAST        ; routine SET-FAST
 
         push    bc              ; *** preserve BC throughout.
-                                ; a pending character may be present 
+                                ; a pending character may be present
                                 ; in C from LPRINT-CH
 
 COPY_LOOP:
@@ -2667,7 +2669,7 @@ COPY_WAIT:
 
 ; ---
 
-; A NEWLINE has been encountered either following a text line or as the 
+; A NEWLINE has been encountered either following a text line or as the
 ; first character of the screen or printer line.
 
 COPY_NL:
@@ -2705,9 +2707,9 @@ COPY_END:
 ; This subroutine sets 32 bytes of the printer buffer to zero (space) and
 ; the 33rd character is set to a NEWLINE.
 ; This occurs after the printer buffer is sent to the printer but in addition
-; after the 24 lines of the screen are sent to the printer. 
-; Note. This is a logic error as the last operation does not involve the 
-; buffer at all. Logically one should be able to use 
+; after the 24 lines of the screen are sent to the printer.
+; Note. This is a logic error as the last operation does not involve the
+; buffer at all. Logically one should be able to use
 ; 10 LPRINT "HELLO ";
 ; 20 COPY
 ; 30 LPRINT ; "WORLD"
@@ -3605,37 +3607,37 @@ SCROLL:
 ; i) The Offset table
 
 offset_t:
-        defb    P_LPRINT - $    ; 8B offset to; Address: P-LPRINT
-        defb    P_LLIST - $     ; 8D offset to; Address: P-LLIST
-        defb    P_STOP - $      ; 2D offset to; Address: P-STOP
-        defb    P_SLOW - $      ; 7F offset to; Address: P-SLOW
-        defb    P_FAST - $      ; 81 offset to; Address: P-FAST
-        defb    P_NEW - $       ; 49 offset to; Address: P-NEW
-        defb    P_SCROLL - $    ; 75 offset to; Address: P-SCROLL
-        defb    P_CONT - $      ; 5F offset to; Address: P-CONT
-        defb    P_DIM - $       ; 40 offset to; Address: P-DIM
-        defb    P_REM - $       ; 42 offset to; Address: P-REM
-        defb    P_FOR - $       ; 2B offset to; Address: P-FOR
-        defb    P_GOTO - $      ; 17 offset to; Address: P-GOTO
-        defb    P_GOSUB - $     ; 1F offset to; Address: P-GOSUB
-        defb    P_INPUT - $     ; 37 offset to; Address: P-INPUT
-        defb    P_LOAD - $      ; 52 offset to; Address: P-LOAD
-        defb    P_LIST - $      ; 45 offset to; Address: P-LIST
-        defb    P_LET - $       ; 0F offset to; Address: P-LET
-        defb    P_PAUSE - $     ; 6D offset to; Address: P-PAUSE
-        defb    P_NEXT - $      ; 2B offset to; Address: P-NEXT
-        defb    P_POKE - $      ; 44 offset to; Address: P-POKE
-        defb    P_PRINT - $     ; 2D offset to; Address: P-PRINT
-        defb    P_PLOT - $      ; 5A offset to; Address: P-PLOT
-        defb    P_RUN - $       ; 3B offset to; Address: P-RUN
-        defb    P_SAVE - $      ; 4C offset to; Address: P-SAVE
-        defb    P_RAND - $      ; 45 offset to; Address: P-RAND
-        defb    P_IF - $        ; 0D offset to; Address: P-IF
-        defb    P_CLS - $       ; 52 offset to; Address: P-CLS
-        defb    P_UNPLOT - $    ; 5A offset to; Address: P-UNPLOT
-        defb    P_CLEAR - $     ; 4D offset to; Address: P-CLEAR
-        defb    P_RETURN - $    ; 15 offset to; Address: P-RETURN
-        defb    P_COPY - $      ; 6A offset to; Address: P-COPY
+        defb    P_LPRINT - ASMPC; 8B offset to; Address: P-LPRINT
+        defb    P_LLIST - ASMPC ; 8D offset to; Address: P-LLIST
+        defb    P_STOP - ASMPC  ; 2D offset to; Address: P-STOP
+        defb    P_SLOW - ASMPC  ; 7F offset to; Address: P-SLOW
+        defb    P_FAST - ASMPC  ; 81 offset to; Address: P-FAST
+        defb    P_NEW - ASMPC   ; 49 offset to; Address: P-NEW
+        defb    P_SCROLL - ASMPC; 75 offset to; Address: P-SCROLL
+        defb    P_CONT - ASMPC  ; 5F offset to; Address: P-CONT
+        defb    P_DIM - ASMPC   ; 40 offset to; Address: P-DIM
+        defb    P_REM - ASMPC   ; 42 offset to; Address: P-REM
+        defb    P_FOR - ASMPC   ; 2B offset to; Address: P-FOR
+        defb    P_GOTO - ASMPC  ; 17 offset to; Address: P-GOTO
+        defb    P_GOSUB - ASMPC ; 1F offset to; Address: P-GOSUB
+        defb    P_INPUT - ASMPC ; 37 offset to; Address: P-INPUT
+        defb    P_LOAD - ASMPC  ; 52 offset to; Address: P-LOAD
+        defb    P_LIST - ASMPC  ; 45 offset to; Address: P-LIST
+        defb    P_LET - ASMPC   ; 0F offset to; Address: P-LET
+        defb    P_PAUSE - ASMPC ; 6D offset to; Address: P-PAUSE
+        defb    P_NEXT - ASMPC  ; 2B offset to; Address: P-NEXT
+        defb    P_POKE - ASMPC  ; 44 offset to; Address: P-POKE
+        defb    P_PRINT - ASMPC ; 2D offset to; Address: P-PRINT
+        defb    P_PLOT - ASMPC  ; 5A offset to; Address: P-PLOT
+        defb    P_RUN - ASMPC   ; 3B offset to; Address: P-RUN
+        defb    P_SAVE - ASMPC  ; 4C offset to; Address: P-SAVE
+        defb    P_RAND - ASMPC  ; 45 offset to; Address: P-RAND
+        defb    P_IF - ASMPC    ; 0D offset to; Address: P-IF
+        defb    P_CLS - ASMPC   ; 52 offset to; Address: P-CLS
+        defb    P_UNPLOT - ASMPC; 5A offset to; Address: P-UNPLOT
+        defb    P_CLEAR - ASMPC ; 4D offset to; Address: P-CLEAR
+        defb    P_RETURN - ASMPC; 15 offset to; Address: P-RETURN
+        defb    P_COPY - ASMPC  ; 6A offset to; Address: P-COPY
 
 ; ii) The parameter table.
 
@@ -3922,13 +3924,13 @@ SEPARATOR:
 ;
 
 class_tbl:
-        defb    CLASS_0 - $     ; 17 offset to; Address: CLASS-0
-        defb    CLASS_1 - $     ; 25 offset to; Address: CLASS-1
-        defb    CLASS_2 - $     ; 53 offset to; Address: CLASS-2
-        defb    CLASS_3 - $     ; 0F offset to; Address: CLASS-3
-        defb    CLASS_4 - $     ; 6B offset to; Address: CLASS-4
-        defb    CLASS_5 - $     ; 13 offset to; Address: CLASS-5
-        defb    CLASS_6 - $     ; 76 offset to; Address: CLASS-6
+        defb    CLASS_0 - ASMPC ; 17 offset to; Address: CLASS-0
+        defb    CLASS_1 - ASMPC ; 25 offset to; Address: CLASS-1
+        defb    CLASS_2 - ASMPC ; 53 offset to; Address: CLASS-2
+        defb    CLASS_3 - ASMPC ; 0F offset to; Address: CLASS-3
+        defb    CLASS_4 - ASMPC ; 6B offset to; Address: CLASS-4
+        defb    CLASS_5 - ASMPC ; 13 offset to; Address: CLASS-5
+        defb    CLASS_6 - ASMPC ; 76 offset to; Address: CLASS-6
 
 
 ; --------------------------
@@ -4372,7 +4374,7 @@ CONT:
 ; THE 'GOTO' COMMAND ROUTINE
 ; --------------------------
 ; This token also suffered from the shortage of room and there is no space
-; getween GO and TO as there is on the ZX80 and ZX Spectrum. The same also 
+; getween GO and TO as there is on the ZX80 and ZX Spectrum. The same also
 ; applies to the GOSUB keyword.
 
 GOTO:
@@ -5656,10 +5658,10 @@ I_RESTORE:
 ; --------------------------
 ; THE 'DE, (DE+1)' SUBROUTINE
 ; --------------------------
-; INDEX and LOAD Z80 subroutine. 
+; INDEX and LOAD Z80 subroutine.
 ; This emulates the 6800 processor instruction LDX 1,X which loads a two-byte
 ; value from memory into the register indexing it. Often these are hardly worth
-; the bother of writing as subroutines and this one doesn't save any time or 
+; the bother of writing as subroutines and this one doesn't save any time or
 ; memory. The timing and space overheads have to be offset against the ease of
 ; writing and the greater program readability from using such toolkit routines.
 
@@ -6591,7 +6593,7 @@ FP_A_END:
 ; ----------------------------------------------
 ; prints 'last value' x on calculator stack.
 ; There are a wide variety of formats see Chapter 4.
-; e.g. 
+; e.g.
 ; PI            prints as       3.1415927
 ; .123          prints as       0.123
 ; .0123         prints as       .0123
@@ -6644,8 +6646,8 @@ PF_POSTVE:
         call    STACK_A         ; routine STACK-A places on calculator stack.
 
 ; now calculate roughly the number of digits, n, before the decimal point by
-; subtracting a half from true exponent and multiplying by log to 
-; the base 10 of 2. 
+; subtracting a half from true exponent and multiplying by log to
+; the base 10 of 2.
 ; The true number could be one higher than n, the integer result.
 
         rst     FP_CALC         ;; FP-CALC              x, e.
@@ -6679,7 +6681,7 @@ PF_POSTVE:
         defb    $24             ;;int                   i.
         defb    $34             ;;end-calc
 
-; If there were 8 digits then final rounding will take place on the calculator 
+; If there were 8 digits then final rounding will take place on the calculator
 ; stack above and the next two instructions insert a masked zero so that
 ; no further rounding occurs. If the result is a 9 digit integer then
 ; rounding takes place within the buffer.
@@ -6959,8 +6961,8 @@ PF_NIBBLE:
 ; The exponent is picked up from the first byte which is then cleared to act
 ; as a sign byte and accept any overflow.
 ; If the exponent is zero then the number is zero and an early return is made.
-; The now redundant sign bit of the mantissa is set and if the number is 
-; negative then all five bytes of the number are twos-complemented to prepare 
+; The now redundant sign bit of the mantissa is set and if the number is
+; negative then all five bytes of the number are twos-complemented to prepare
 ; the number for addition.
 ; On the second invocation the exponent of the first number is in B.
 
@@ -7071,7 +7073,7 @@ FETCH_TWO:
 ; THE 'SHIFT ADDEND' SUBROUTINE
 ; -----------------------------
 ; The accumulator A contains the difference between the two exponents.
-; This is the lowest of the two numbers to be added 
+; This is the lowest of the two numbers to be added
 
 SHIFT_FP:
         and     a               ; test difference between exponents.
@@ -7105,7 +7107,7 @@ ONE_SHIFT:
         ret     nz              ; return if not FF 00 00 00 00
 
 ; this branch makes all five bytes of the addend zero and is made during
-; addition when the exponents are too far apart for the addend bits to 
+; addition when the exponents are too far apart for the addend bits to
 ; affect the result.
 
 ADDEND_0:
@@ -7114,7 +7116,7 @@ ADDEND_0:
         xor     a               ; clear accumulator.
 
 
-; this entry point (from multiplication) sets four of the bytes to zero or if 
+; this entry point (from multiplication) sets four of the bytes to zero or if
 ; continuing from above, during addition, then all five bytes are set to zero.
 
 ZEROS_4_OR_5:
@@ -7133,9 +7135,9 @@ ZEROS_4_OR_5:
 ; This is really a 32-bit increment routine which sets the zero flag according
 ; to the 32-bit result.
 ; During addition, only negative numbers like FF FF FF FF FF,
-; the twos-complement version of xx 80 00 00 01 say 
+; the twos-complement version of xx 80 00 00 01 say
 ; will result in a full ripple FF 00 00 00 00.
-; FF FF FF FF FF when shifted right is unchanged by SHIFT-FP but sets the 
+; FF FF FF FF FF when shifted right is unchanged by SHIFT-FP but sets the
 ; carry invoking this routine.
 
 ADD_BACK:
@@ -7163,7 +7165,7 @@ ALL_ADDED:
 
 subtract:
         ld      a, (de)         ; fetch exponent byte of second number the
-                                ; subtrahend. 
+                                ; subtrahend.
         and     a               ; test for zero
         ret     z               ; return if zero - first number is result.
 
@@ -7558,7 +7560,7 @@ SHIFT_ONE:
 
         djnz    SHIFT_ONE       ; loop back to SHIFT-ONE
 
-; if thirty-two left shifts were performed without setting the most significant 
+; if thirty-two left shifts were performed without setting the most significant
 ; bit then the result is zero.
 
         jr      ZERO_RSLT       ; back to ZERO-RSLT
@@ -7633,7 +7635,7 @@ REPORT_6:
 ; THE 'DIVISION' OPERATION
 ; ------------------------
 ;   "Of all the arithmetic subroutines, division is the most complicated and
-;   the least understood.  It is particularly interesting to note that the 
+;   the least understood.  It is particularly interesting to note that the
 ;   Sinclair programmer himself has made a mistake in his programming ( or has
 ;   copied over someone else's mistake!) for
 ;   PRINT PEEK 6352 [ $18D0 ] ('unimproved' ROM, 6351 [ $18CF ] )
@@ -7778,15 +7780,15 @@ T_GR_ZERO:
         sub     $A0             ; subtract +32 from exponent
         ret     p               ; return if result is positive as all 32 bits
                                 ; of the mantissa relate to the integer part.
-                                ; The floating point is somewhere to the right 
+                                ; The floating point is somewhere to the right
                                 ; of the mantissa
 
         neg                     ; else negate to form number of rightmost bits
                                 ; to be blanked.
 
-; for instance, disregarding the sign bit, the number 3.5 is held as 
+; for instance, disregarding the sign bit, the number 3.5 is held as
 ; exponent $82 mantissa .11100000 00000000 00000000 00000000
-; we need to set $82 - $A0 = $E2 NEG = $1E (thirty) bits to zero to form the 
+; we need to set $82 - $A0 = $E2 NEG = $1E (thirty) bits to zero to form the
 ; integer.
 ; The sign of the number is never considered as the first bit of the mantissa
 ; must be part of the integer.
@@ -9390,38 +9392,38 @@ RSLT_ZERO:
 ;   "Nothing doth more molest and hinder calculators than the multiplications,
 ;    divisions, square and cubical extractions of great numbers".
 ;
-;   Napier's logarithms enabled the above operations to be accomplished by 
-;   simple addition and subtraction simplifying the navigational and 
+;   Napier's logarithms enabled the above operations to be accomplished by
+;   simple addition and subtraction simplifying the navigational and
 ;   astronomical calculations which beset his age.
 ;   Napier's logarithms were quickly overtaken by logarithms to the base 10
-;   devised, in conjunction with Napier, by Henry Briggs a Cambridge-educated 
+;   devised, in conjunction with Napier, by Henry Briggs a Cambridge-educated
 ;   professor of Geometry at Oxford University. These simplified the layout
 ;   of the tables enabling humans to easily scale calculations.
 ;
 ;   It is only recently with the introduction of pocket calculators and
 ;   computers like the ZX81 that natural logarithms are once more at the fore,
 ;   although some computers retain logarithms to the base ten.
-;   'Natural' logarithms are powers to the base 'e', which like 'pi' is a 
+;   'Natural' logarithms are powers to the base 'e', which like 'pi' is a
 ;   naturally occurring number in branches of mathematics.
 ;   Like 'pi' also, 'e' is an irrational number and starts 2.718281828...
 ;
 ;   The tabular use of logarithms was that to multiply two numbers one looked
-;   up their two logarithms in the tables, added them together and then looked 
+;   up their two logarithms in the tables, added them together and then looked
 ;   for the result in a table of antilogarithms to give the desired product.
 ;
-;   The EXP function is the BASIC equivalent of a calculator's 'antiln' function 
+;   The EXP function is the BASIC equivalent of a calculator's 'antiln' function
 ;   and by picking any two numbers, 1.72 and 6.89 say,
-;     10 PRINT EXP ( LN 1.72 + LN 6.89 ) 
+;     10 PRINT EXP ( LN 1.72 + LN 6.89 )
 ;   will give just the same result as
 ;     20 PRINT 1.72 * 6.89.
 ;   Division is accomplished by subtracting the two logs.
 ;
-;   Napier also mentioned "square and cubicle extractions". 
-;   To raise a number to the power 3, find its 'ln', multiply by 3 and find the 
+;   Napier also mentioned "square and cubicle extractions".
+;   To raise a number to the power 3, find its 'ln', multiply by 3 and find the
 ;   'antiln'.  e.g. PRINT EXP( LN 4 * 3 )  gives 64.
 ;   Similarly to find the n'th root divide the logarithm by 'n'.
-;   The ZX81 ROM used PRINT EXP ( LN 9 / 2 ) to find the square root of the 
-;   number 9. The Napieran square root function is just a special case of 
+;   The ZX81 ROM used PRINT EXP ( LN 9 / 2 ) to find the square root of the
+;   number 9. The Napieran square root function is just a special case of
 ;   the 'to_power' function. A cube root or indeed any root/power would be just
 ;   as simple.
 
@@ -9534,7 +9536,7 @@ GRE_8:
 ; THE 'TRIGONOMETRIC' FUNCTIONS
 ; -----------------------------
 ;   Trigonometry is rocket science. It is also used by carpenters and pyramid
-;   builders. 
+;   builders.
 ;   Some uses can be quite abstract but the principles can be seen in simple
 ;   right-angled triangles. Triangles have some special properties -
 ;
@@ -9544,8 +9546,8 @@ GRE_8:
 ;      sides is equal to the square of the longest side opposite the right-angle.
 ;      Very useful if you know the length of two sides and wish to know the
 ;      length of the third side.
-;   3) Functions sine, cosine and tangent enable one to calculate the length 
-;      of an unknown side when the length of one other side and an angle is 
+;   3) Functions sine, cosine and tangent enable one to calculate the length
+;      of an unknown side when the length of one other side and an angle is
 ;      known.
 ;   4) Functions arcsin, arccosine and arctan enable one to calculate an unknown
 ;      angle when the length of two of the sides is known.
@@ -9557,23 +9559,23 @@ GRE_8:
 ;
 ;   This routine performs two functions on the angle, in radians, that forms
 ;   the argument to the sine and cosine functions.
-;   First it ensures that the angle 'wraps round'. That if a ship turns through 
-;   an angle of, say, 3*PI radians (540 degrees) then the net effect is to turn 
+;   First it ensures that the angle 'wraps round'. That if a ship turns through
+;   an angle of, say, 3*PI radians (540 degrees) then the net effect is to turn
 ;   through an angle of PI radians (180 degrees).
 ;   Secondly it converts the angle in radians to a fraction of a right angle,
-;   depending within which quadrant the angle lies, with the periodicity 
+;   depending within which quadrant the angle lies, with the periodicity
 ;   resembling that of the desired sine value.
-;   The result lies in the range -1 to +1.              
+;   The result lies in the range -1 to +1.
 ;
 ;                       90 deg.
-; 
+;
 ;                       (pi/2)
 ;                II       +1        I
 ;                         |
 ;          sin+      |\   |   /|    sin+
 ;          cos-      | \  |  / |    cos+
 ;          tan-      |  \ | /  |    tan+
-;                    |   \|/)  |           
+;                    |   \|/)  |
 ;   180 deg. (pi) 0 -|----+----|-- 0  (0)   0 degrees
 ;                    |   /|\   |
 ;          sin-      |  / | \  |    sin-
@@ -9658,20 +9660,20 @@ YNEG:
 ; THE 'COSINE' FUNCTION
 ; ---------------------
 ; (offset $1D: 'cos')
-;   Cosines are calculated as the sine of the opposite angle rectifying the 
-;   sign depending on the quadrant rules. 
+;   Cosines are calculated as the sine of the opposite angle rectifying the
+;   sign depending on the quadrant rules.
 ;
 ;
 ;             /|
 ;          h /y|
 ;           /  |o
 ;          /x  |
-;         /----|    
+;         /----|
 ;           a
 ;
 ;   The cosine of angle x is the adjacent side (a) divided by the hypotenuse 1.
 ;   However if we examine angle y then a/h is the sine of that angle.
-;   Since angle x plus angle y equals a right-angle, we can find angle y by 
+;   Since angle x plus angle y equals a right-angle, we can find angle y by
 ;   subtracting angle x from pi/2.
 ;   However it's just as easy to reduce the argument first and subtract the
 ;   reduced argument from the value 1 (a reduced right-angle).
@@ -9691,13 +9693,13 @@ cos:
         defb    $E0             ;;get-mem-0             fetch sign indicator.
         defb    $00             ;;jump-true
         defb    $06             ;;fwd to L1D4B, C-ENT
-                                ;;forward to common code if in QII or QIII 
+                                ;;forward to common code if in QII or QIII
 
 
         defb    $18             ;;negate                else make positive.
         defb    $2F             ;;jump
         defb    $03             ;;fwd to L1D4B, C-ENT
-                                ;;with quadrants QI and QIV 
+                                ;;with quadrants QI and QIV
 
 ; -------------------
 ; THE 'SINE' FUNCTION
@@ -9712,10 +9714,10 @@ cos:
 ;          1 / |
 ;           /  |x
 ;          /a  |
-;         /----|    
+;         /----|
 ;           y
 ;
-;   The 'get-argt' function is designed to modify the angle and its sign 
+;   The 'get-argt' function is designed to modify the angle and its sign
 ;   in line with the desired sine value and afterwards it can launch straight
 ;   into common code.
 
@@ -9767,12 +9769,12 @@ C_ENT:
 ;          h / |
 ;           /  |o
 ;          /x  |
-;         /----|    
+;         /----|
 ;           a
 ;
-;   The tangent of angle x is the ratio of the length of the opposite side 
-;   divided by the length of the adjacent side. As the opposite length can 
-;   be calculates using sin(x) and the adjacent length using cos(x) then 
+;   The tangent of angle x is the ratio of the length of the opposite side
+;   divided by the length of the adjacent side. As the opposite length can
+;   be calculates using sin(x) and the adjacent length using cos(x) then
 ;   the tangent can be defined in terms of the previous two functions.
 
 ;   Error 6 if the argument, in radians, is too close to one like pi/2
@@ -9887,12 +9889,12 @@ CASES:
 ;                / |
 ;              1/  |x
 ;              /a  |
-;             /----|    
+;             /----|
 ;               y
 ;
-;   e.g. We know the opposite side (x) and hypotenuse (1) 
+;   e.g. We know the opposite side (x) and hypotenuse (1)
 ;   and we wish to find angle a in radians.
-;   We can derive length y by Pythagoras and then use ATN instead. 
+;   We can derive length y by Pythagoras and then use ATN instead.
 ;   Since y*y + x*x = 1*1 (Pythagoras Theorem) then
 ;   y=sqr(1-x*x)                         - no need to multiply 1 by itself.
 ;   So, asn(a) = atn(x/y)
@@ -9903,8 +9905,8 @@ CASES:
 
 ;   While PRINT ATN (x/SQR (1-x*x)) gives the same results as PRINT ASN x,
 ;   it leads to division by zero when x is 1 or -1.
-;   To overcome this, 1 is added to y giving half the required angle and the 
-;   result is then doubled. 
+;   To overcome this, 1 is added to y giving half the required angle and the
+;   result is then doubled.
 ;   That is, PRINT ATN (x/(SQR (1-x*x) +1)) *2
 ;
 ;
@@ -9912,10 +9914,10 @@ CASES:
 ;            .  c/ |
 ;         .     /1 |x
 ;      . c   b /a  |
-;    ---------/----|    
+;    ---------/----|
 ;      1      y
 ;
-;   By creating an isosceles triangle with two equal sides of 1, angles c and 
+;   By creating an isosceles triangle with two equal sides of 1, angles c and
 ;   c are also equal. If b+c+d = 180 degrees and b+a = 180 degrees then c=a/2.
 ;
 ;   A value higher than 1 gives the required error as attempting to find  the
@@ -9948,24 +9950,24 @@ asn:
 ;   The inverse cosine function with the result in radians.
 ;   Error A unless the argument is between -1 and +1.
 ;   Result in range 0 to pi.
-;   Derived from asn above which is in turn derived from the preceding atn. It 
+;   Derived from asn above which is in turn derived from the preceding atn. It
 ;   could have been derived directly from atn using acs(x) = atn(sqr(1-x*x)/x).
 ;   However, as sine and cosine are horizontal translations of each other,
 ;   uses acs(x) = pi/2 - asn(x)
 
-;   e.g. the arccosine of a known x value will give the required angle b in 
+;   e.g. the arccosine of a known x value will give the required angle b in
 ;   radians.
-;   We know, from above, how to calculate the angle a using asn(x). 
+;   We know, from above, how to calculate the angle a using asn(x).
 ;   Since the three angles of any triangle add up to 180 degrees, or pi radians,
 ;   and the largest angle in this case is a right-angle (pi/2 radians), then
 ;   we can calculate angle b as pi/2 (both angles) minus asn(x) (angle a).
-; 
+;
 ;
 ;            /|
 ;         1 /b|
 ;          /  |x
 ;         /a  |
-;        /----|    
+;        /----|
 ;          y
 
 acs:
@@ -10791,7 +10793,7 @@ char_set:
         defb    %01111110
         defb    %00000000
 
-.END                                ;TASM assembler instruction.
+.END                            ;TASM assembler instruction.
 
 
 
