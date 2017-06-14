@@ -1,18 +1,25 @@
-all: zx81.bin
+CALL_MAKE = $(MAKE) --no-print-directory
 
-zx81.bin zx81.map: zx81.asm
-	z80asm -b -l -m zx81.asm 
-	perl -S hexdump zx81.bin > zx81.bin.dump
-	perl -S hexdump zx81.rom > zx81.rom.dump
-	diff zx81.bin.dump zx81.rom.dump
+all: 
+	@$(CALL_MAKE) PROJ=zx81 make_proj
+	@$(CALL_MAKE) PROJ=tk85 make_proj
 
-clean:
-	rm -f zx81.bin zx81.err zx81.i zx81.o zx81.lis zx81.map zx81.*.dump *.bak
+clean: 
+	@$(CALL_MAKE) PROJ=zx81 clean_proj
+	@$(CALL_MAKE) PROJ=tk85 clean_proj
 
+make_proj: $(PROJ).bin $(PROJ).html
 
-# build browsable asm source with hyperlinks
-all: zx81.html
+$(PROJ).bin: $(PROJ).asm
+	z80asm -b -l -m $(PROJ).asm 
+	dz80c -q $(PROJ).bin $(PROJ).dump
+	dz80c -q $(PROJ).rom $(PROJ).rom.dump
+	diff -I '^;' $(PROJ).dump $(PROJ).rom.dump
+	rm $(PROJ).rom.dump
 
-zx81.html: zx81.asm format_asm.pl build_asm_html.pl
-	perl format_asm.pl zx81.asm
-	perl build_asm_html.pl zx81.asm
+clean_proj:
+	rm -f $(PROJ).bin $(PROJ).err $(PROJ).i $(PROJ).o $(PROJ).lis $(PROJ).map $(PROJ)*.dump *.bak
+
+$(PROJ).html: $(PROJ).asm format_asm.pl build_asm_html.pl
+	perl format_asm.pl     $(PROJ).asm
+	perl build_asm_html.pl $(PROJ).asm
