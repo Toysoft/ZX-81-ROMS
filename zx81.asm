@@ -273,9 +273,6 @@ ERROR_1:
 
 ; ---
 
-        defs    ERROR_1 + 8 - ASMPC, $FF
-                                ; fill remaining space
-
 ; -------------------------------
 ; THE 'PRINT A CHARACTER' RESTART
 ; -------------------------------
