@@ -15,6 +15,8 @@ The assembly source files are in the syntax used by the Z88DK Z80ASM assembler [
 
 ## ZX-81 version 2 (improved) ROM
 
+ROM disassembly: [https://www.dropbox.com/s/kobh280px4ab0lr/zx81.html?dl=0](https://www.dropbox.com/s/kobh280px4ab0lr/zx81.html?dl=0 "ZX-81 version 2 (improved) ROM")
+
 Source: An Assembly Listing of the Operating System of the ZX81 ROM [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20source.txt](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20source.txt "An Assembly Listing of the Operating System of the ZX81 ROM")
 
 User Manual: ZX81 Basic Programming [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ZX81%20Basic%20Programming.pdf](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ZX81%20Basic%20Programming.pdf "ZX81 Basic Programming")
@@ -23,6 +25,8 @@ The ROM Disassembly Book by Dr. Ian Logan and Dr. Frank O'Hara [https://k1.spdns
 
 
 ## TK-85 ROM
+
+ROM disassembly: [https://www.dropbox.com/s/0crgpfcqqcu2jbt/tk85.html?dl=0](https://www.dropbox.com/s/0crgpfcqqcu2jbt/tk85.html?dl=0 "TK-85 ROM")
 
 The TK-85 was a Brazilian clone of the ZX-81 that came with 2K, 16K or 48K of RAM and 10K of ROM.
 
