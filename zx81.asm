@@ -10934,7 +10934,7 @@ char_set:
         defb    %01111110
         defb    %00000000
 
-.END                            ;TASM assembler instruction.
+
 
 
 
