@@ -1,6 +1,24 @@
+#if 0
+; *****************************************************************************
+; This sorce file is used to generate different ZX81-ROMS by filepp, with
+; input constants defining which ROM to generate.
+; 
+; Constants:
+;       ROM_zx81	ZX-81 version 2 (improved) ROM
+; 		ROM_tk85	TK-85 ROM
+; *****************************************************************************
+
+#endif
+#ifdef ROM_zx81
+; ===========================================================
+; An Assembly Listing of the Operating System of the ZX81 ROM
+; ===========================================================
+#endif
+#ifdef ROM_tk85
 ; ===========================================================
 ; An Assembly Listing of the Operating System of the TK85 ROM
 ; ===========================================================
+#endif
 ;
 ; Work in progress.
 ; This file will cross-assemble an original version of the "Improved"
@@ -150,7 +168,11 @@ defc    MEMBOT  = $405D         ; N1E  Area which may be used for calculator mem
 defc    SPARE2  = $407B         ; N2   Two spare bytes
 
 defc    PROG    = $407D         ; Start of BASIC program
+#ifdef ROM_tk85
 defc    MAXRAM  = $FEFF         ; Maximum value of RAMTOP (TK85)
+#else
+defc    MAXRAM  = $7FFF         ; Maximum value of RAMTOP
+#endif
 
 defc    IY0     = ERR_NR        ; Base of system variables
 
@@ -231,6 +253,7 @@ defc    ERR_D_BREAK = $0D - 1
 ; F     The program name provided is the empty string.
 defc    ERR_F_PROG_NAME = $0F - 1
 
+#ifdef ROM_tk85
 ; =======================
 ; TK-85 BASIC Error Codes
 ; =======================
@@ -314,6 +337,7 @@ defc    TOS_TAPE_ERROR_VOLUME_HIGH                      = 19
 defc    TOS_TAPE_ERROR_VOLUME_LOW_OR_HIGH               = 20
 defc    TOS_TAPE_ERROR_VOLUME_FLUTUATION_OR_HIGH        = 21
 defc    TOS_TAPE_ERROR_VOLUME_FLUTUATION_OR_LOW_OR_HIGH = 22
+#endif
 
 
 org     $0000
@@ -372,8 +396,13 @@ PRINT_A:
 
 ; ---
 
+#ifdef ROM_tk85
 ; Signature
         defb    'T' - 27        ; fill remaining space
+#else
+        defs    PRINT_A + 8 - ASMPC, $FF
+                                ; fill remaining space
+#endif
 
 ; ---------------------------------
 ; THE 'COLLECT A CHARACTER' RESTART
@@ -406,10 +435,15 @@ NEXT_CHAR:
 
 ; ---
 
+#ifdef ROM_tk85
 ; Signature
         defb    'K' - 27        ; fill remaining space
         defb    '8' - 20
         defb    '2' - 20
+#else
+        defs    NEXT_CHAR + 8 - ASMPC, $FF
+                                ; unused locations.
+#endif
 
 ; ---------------------------------------
 ; THE 'FLOATING POINT CALCULATOR' RESTART
@@ -592,8 +626,13 @@ ERROR_3:
 
 ; ---
 
+#ifdef ROM_tk85
 ; Signature
         defb    'C' - 27        ; fill remaining space
+#else
+        defs    0x0066 - ASMPC, $FF
+                                ; unused.
+#endif
 
 ; ------------------------------------
 ; THE 'NON MASKABLE INTERRUPT' ROUTINE
@@ -4819,10 +4858,17 @@ PAUSE:
         ld      l, c            ;
         call    DISPLAY_P       ; routine DISPLAY-P
 
+#ifdef ROM_tk85
                                 ; Different order than in ZX81
         call    SLOW_FAST       ; routine SLOW/FAST
         ld      (iy+FRAMES+1-IY0), $FF
                                 ; sv FRAMES_hi
+#else
+        ld      (iy+FRAMES+1-IY0), $FF
+                                ; sv FRAMES_hi
+
+        call    SLOW_FAST       ; routine SLOW/FAST
+#endif
         jr      DEBOUNCE        ; routine DEBOUNCE
 
 ; ----------------------
@@ -11019,6 +11065,7 @@ char_set:
         defb    %01111110
         defb    %00000000
 
+#ifdef ROM_tk85
 ; ======================
 ; TK85 specific routines
 ; ======================
@@ -12879,6 +12926,7 @@ VAR_FOUND_STR_OR_STRARR:
         defb    $34
         defb    $20
         defb    $41
+#endif
 
 
 

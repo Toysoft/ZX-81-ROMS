@@ -19,6 +19,9 @@ $(PROJ).bin: $(PROJ).asm
 	diff -I '^;' $(PROJ).dump $(PROJ).rom.dump
 	rm $(PROJ).rom.dump
 
+$(PROJ).asm: $(wildcard src/*.asm)
+	perl -S filepp -DROM_$(PROJ) src/zx81_roms.asm -o $(PROJ).asm
+
 clean_proj:
 	rm -f $(PROJ).bin $(PROJ).err $(PROJ).i $(PROJ).o $(PROJ).lis $(PROJ).map $(PROJ)*.dump *.bak
 

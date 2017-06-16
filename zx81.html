@@ -1722,7 +1722,7 @@
 <br><a name="EACH_CHAR"></a><a href="#EACH_CHAR">EACH_CHAR</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;fetch&nbsp;a&nbsp;character&nbsp;from&nbsp;edit&nbsp;line.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$7E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;compare&nbsp;to&nbsp;the&nbsp;number&nbsp;marker.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#END_LINE">END_LINE</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;to&nbsp;<a href="#END">END</a>-<a href="#LINE">LINE</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#END_LINE">END_LINE</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;to&nbsp;END-<a href="#LINE">LINE</a>
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;<b>$0006</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;else&nbsp;six&nbsp;invisible&nbsp;bytes&nbsp;to&nbsp;be&nbsp;removed.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#RECLAIM_2">RECLAIM_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;RECLAIM-2
@@ -2385,7 +2385,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OUT_LINE">OUT_LINE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;OUT-<a href="#LINE">LINE</a>&nbsp;lists&nbsp;one&nbsp;line&nbsp;of&nbsp;BASIC
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;making&nbsp;an&nbsp;early&nbsp;return&nbsp;when&nbsp;the&nbsp;screen&nbsp;is
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;full&nbsp;<a href="#or">or</a>&nbsp;the&nbsp;end&nbsp;of&nbsp;program&nbsp;is&nbsp;reached.&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#UNTIL_END">UNTIL_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;loop&nbsp;back&nbsp;to&nbsp;UNTIL-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#UNTIL_END">UNTIL_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;loop&nbsp;back&nbsp;to&nbsp;UNTIL-END
 <br>
 <br>;&nbsp;<b>-----------------------------------</b>
 <br>;&nbsp;THE&nbsp;&#39;<a href="#PRINT">PRINT</a>&nbsp;A&nbsp;BASIC&nbsp;<a href="#LINE">LINE</a>&#39;&nbsp;SUBROUTINE
@@ -2397,7 +2397,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;(<a href="#E_PPC">E_PPC</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;E_PPC_lo
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CP_LINES">CP_LINES</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CP-<a href="#LINES">LINES</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d,&nbsp;<b>$92</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#TEST_END">TEST_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;TEST-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#TEST_END">TEST_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;TEST-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;<b>$0000</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
@@ -2750,7 +2750,7 @@
 <br><a name="COPY_CONT"></a><a href="#COPY_CONT">COPY_CONT</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(<b>$FB</b>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;read&nbsp;from&nbsp;printer&nbsp;port.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;bit&nbsp;6&nbsp;and&nbsp;7
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m,&nbsp;<a href="#COPY_END">COPY_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;jump&nbsp;forward&nbsp;with&nbsp;no&nbsp;printer&nbsp;to&nbsp;<a href="#COPY">COPY</a>-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m,&nbsp;<a href="#COPY_END">COPY_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;jump&nbsp;forward&nbsp;with&nbsp;no&nbsp;printer&nbsp;to&nbsp;<a href="#COPY">COPY</a>-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#COPY_BRK">COPY_BRK</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;back&nbsp;if&nbsp;stylus&nbsp;<a href="#not">not</a>&nbsp;in&nbsp;position&nbsp;to&nbsp;<a href="#COPY">COPY</a>-BRK
 <br>
@@ -3438,7 +3438,7 @@
 <br><a name="PRINT"></a><a href="#PRINT">PRINT</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$76</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#PRINT_END">PRINT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#PRINT">PRINT</a>-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#PRINT_END">PRINT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#PRINT">PRINT</a>-END
 <br>
 <br><a name="PRINT_1"></a><a href="#PRINT_1">PRINT_1</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$1A</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
@@ -3514,8 +3514,8 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$00</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#SPACING">SPACING</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#SPACING">SPACING</a>
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-<a href="#END">END</a>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_END">PRINT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;;&nbsp;to&nbsp;<a href="#PRINT">PRINT</a>-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-END
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_END">PRINT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;;&nbsp;to&nbsp;<a href="#PRINT">PRINT</a>-END
 <br>
 <br>;&nbsp;---
 <br>
@@ -3678,7 +3678,7 @@
 <br>
 <br><a name="UNPLOT"></a><a href="#UNPLOT">UNPLOT</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$08</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#PLOT_END">PLOT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#PLOT">PLOT</a>-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#PLOT_END">PLOT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#PLOT">PLOT</a>-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$8F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>
@@ -4081,7 +4081,7 @@
 <br>
 <br>
 <br>;&nbsp;<b>--------------------------</b>
-<br>;&nbsp;THE&nbsp;&#39;CHECK&nbsp;<a href="#END">END</a>&#39;&nbsp;SUBROUTINE
+<br>;&nbsp;THE&nbsp;&#39;CHECK&nbsp;END&#39;&nbsp;SUBROUTINE
 <br>;&nbsp;<b>--------------------------</b>
 <br>;&nbsp;Check&nbsp;for&nbsp;end&nbsp;of&nbsp;statement&nbsp;and&nbsp;that&nbsp;no&nbsp;spurious&nbsp;characters&nbsp;occur&nbsp;after
 <br>;&nbsp;a&nbsp;correctly&nbsp;parsed&nbsp;statement.&nbsp;Since&nbsp;only&nbsp;one&nbsp;statement&nbsp;is&nbsp;allowed&nbsp;on&nbsp;each
@@ -4118,7 +4118,7 @@
 <br>
 <br><a name="CLASS_5"></a><a href="#CLASS_5">CLASS_5</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-END
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;(<a href="#T_ADDR">T_ADDR</a>)&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;T_ADDR_lo
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
@@ -4196,7 +4196,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#REPORT_C">REPORT_C</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#REPORT">REPORT</a>-C
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7,&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#CLASS_END">CLASS_END</a>&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;CLASS-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#CLASS_END">CLASS_END</a>&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;CLASS-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_2">CHECK_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;CHECK-2
 <br>
@@ -4266,7 +4266,7 @@
 <br>
 <br><a name="IF"></a><a href="#IF">IF</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SYNTAX_Z">SYNTAX_Z</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;SYNTAX-Z
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#IF_END">IF_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;checking&nbsp;syntax&nbsp;to&nbsp;<a href="#IF">IF</a>-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#IF_END">IF_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;checking&nbsp;syntax&nbsp;to&nbsp;<a href="#IF">IF</a>-END
 <br>
 <br>;&nbsp;else&nbsp;<a href="#delete">delete</a>&nbsp;the&nbsp;Boolean&nbsp;value&nbsp;on&nbsp;the&nbsp;calculator&nbsp;stack.
 <br>
@@ -4296,13 +4296,13 @@
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#NEXT_CHAR">NEXT_CHAR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#NEXT">NEXT</a>-CHAR
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CLASS_6">CLASS_6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CLASS-6&nbsp;stacks&nbsp;the&nbsp;number
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-END
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#F_REORDER">F_REORDER</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;F-REORDER
 <br>
 <br>;&nbsp;---
 <br>
 <br><a name="F_USE_ONE"></a><a href="#F_USE_ONE">F_USE_ONE</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FP_CALC">FP_CALC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;FP-CALC
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$A1</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;stk-one
@@ -4373,7 +4373,7 @@
 <br><a name="NXTLIN_NO"></a><a href="#NXTLIN_NO">NXTLIN_NO</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;fetch&nbsp;high&nbsp;byte&nbsp;of&nbsp;line&nbsp;number.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$C0</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;mask&nbsp;off&nbsp;low&nbsp;bits&nbsp;<b>$3F</b>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#FOR_END">FOR_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;at&nbsp;end&nbsp;of&nbsp;program&nbsp;to&nbsp;<a href="#FOR">FOR</a>-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#FOR_END">FOR_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;at&nbsp;end&nbsp;of&nbsp;program&nbsp;to&nbsp;<a href="#FOR">FOR</a>-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;bc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;save&nbsp;letter
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#NEXT_ONE">NEXT_ONE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;<a href="#NEXT">NEXT</a>-<a href="#ONE">ONE</a>&nbsp;finds&nbsp;next&nbsp;line.
@@ -4799,7 +4799,7 @@
 <br>;&nbsp;<b>------------------</b>
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SYNTAX_Z">SYNTAX_Z</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;SYNTAX-Z
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#S_JPI_END">S_JPI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;checking&nbsp;syntax&nbsp;to&nbsp;S-JPI-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#S_JPI_END">S_JPI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;checking&nbsp;syntax&nbsp;to&nbsp;S-JPI-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;(<a href="#SEED">SEED</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;SEED_lo
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STACK_BC">STACK_BC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;STACK-BC
@@ -4826,13 +4826,13 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#SEED">SEED</a>),&nbsp;bc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;update&nbsp;the&nbsp;<a href="#SEED">SEED</a>&nbsp;system&nbsp;variable.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;HL&nbsp;addresses&nbsp;the&nbsp;exponent&nbsp;of&nbsp;the&nbsp;last&nbsp;value.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;for&nbsp;zero
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#S_JPI_END">S_JPI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward,&nbsp;if&nbsp;so,&nbsp;to&nbsp;S-JPI-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#S_JPI_END">S_JPI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward,&nbsp;if&nbsp;so,&nbsp;to&nbsp;S-JPI-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$10</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;else&nbsp;reduce&nbsp;exponent&nbsp;by&nbsp;sixteen
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl),&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;thus&nbsp;dividing&nbsp;by&nbsp;65536&nbsp;for&nbsp;last&nbsp;value.
 <br>
 <br><a name="S_JPI_END"></a><a href="#S_JPI_END">S_JPI_END</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#S_PI_END">S_PI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;S-PI-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#S_PI_END">S_PI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;S-PI-END
 <br>
 <br>;&nbsp;---
 <br>
@@ -4845,7 +4845,7 @@
 <br>;&nbsp;<b>-------------------</b>
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SYNTAX_Z">SYNTAX_Z</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;SYNTAX-Z
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#S_PI_END">S_PI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;checking&nbsp;syntax&nbsp;to&nbsp;S-PI-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#S_PI_END">S_PI_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;checking&nbsp;syntax&nbsp;to&nbsp;S-PI-END
 <br>
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FP_CALC">FP_CALC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;FP-CALC
@@ -5412,7 +5412,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#V_PASS">V_PASS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;V-PASS
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5,&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#V_END">V_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;V-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#V_END">V_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;V-END
 <br>
 <br>;&nbsp;---
 <br>
@@ -5428,7 +5428,7 @@
 <br>
 <br><a name="V_PASS"></a><a href="#V_PASS">V_PASS</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ALPHANUM">ALPHANUM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;<a href="#ALPHANUM">ALPHANUM</a>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#V_END">V_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;alphanumeric&nbsp;to&nbsp;V-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#V_END">V_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;alphanumeric&nbsp;to&nbsp;V-END
 <br>
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#NEXT_CHAR">NEXT_CHAR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#NEXT">NEXT</a>-CHAR
@@ -5843,7 +5843,7 @@
 <br>
 <br><a name="HL_LOOP"></a><a href="#HL_LOOP">HL_LOOP</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#HL_END">HL_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;with&nbsp;carry&nbsp;to&nbsp;HL-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#HL_END">HL_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;with&nbsp;carry&nbsp;to&nbsp;HL-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rla&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
@@ -6125,7 +6125,7 @@
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6,&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STK_VAR">STK_VAR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;STK-VAR
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CHECK_END">CHECK_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;CHECK-END
 <br>
 <br><a name="D_RUN"></a><a href="#D_RUN">D_RUN</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#D_LETTER">D_LETTER</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;D-LETTER
@@ -6309,7 +6309,7 @@
 <br>
 <br>
 <br>;&nbsp;<b>------------------------------------</b>
-<br>;&nbsp;THE&nbsp;&#39;RECLAIM&nbsp;THE&nbsp;<a href="#END">END</a>-MARKER&#39;&nbsp;ROUTINE
+<br>;&nbsp;THE&nbsp;&#39;RECLAIM&nbsp;THE&nbsp;END-MARKER&#39;&nbsp;ROUTINE
 <br>;&nbsp;<b>------------------------------------</b>
 <br>
 <br><a name="REC_V80"></a><a href="#REC_V80">REC_V80</a>:
@@ -6560,7 +6560,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$2D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;<a href="#duplicate">duplicate</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x,&nbsp;m-1,m-1.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$32</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;less-0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x,&nbsp;m-1,&nbsp;(1/0).
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$00</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;jump-true&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x,&nbsp;m-1.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$22</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;to&nbsp;L1587,&nbsp;E-<a href="#END">END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x,&nbsp;m-1.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$22</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;to&nbsp;L1587,&nbsp;E-END&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x,&nbsp;m-1.
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$2D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;<a href="#duplicate">duplicate</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x,&nbsp;m-1,&nbsp;m-1.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;<b>$30</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;stk-data
@@ -6638,7 +6638,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;zero&nbsp;to&nbsp;B
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;also&nbsp;to&nbsp;C
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;save&nbsp;the&nbsp;flags&nbsp;on&nbsp;machine&nbsp;stack
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FPBC_END">FPBC_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;FPBC-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FPBC_END">FPBC_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;FPBC-END
 <br>
 <br>;&nbsp;---
 <br>
@@ -6656,7 +6656,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;push&nbsp;the&nbsp;result
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7,&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;the&nbsp;implied&nbsp;bit
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#FPBC_END">FPBC_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;with&nbsp;carry&nbsp;from&nbsp;SUB/CCF&nbsp;to&nbsp;FPBC-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#FPBC_END">FPBC_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;with&nbsp;carry&nbsp;from&nbsp;SUB/CCF&nbsp;to&nbsp;FPBC-END
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;number&nbsp;is&nbsp;too&nbsp;big.
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;increment&nbsp;the&nbsp;exponent&nbsp;and
@@ -6728,7 +6728,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#FP_A_END">FP_A_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;in&nbsp;range&nbsp;to&nbsp;FP-A-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#FP_A_END">FP_A_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;in&nbsp;range&nbsp;to&nbsp;FP-A-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;fetch&nbsp;result
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;carry&nbsp;flag&nbsp;signaling&nbsp;overflow
@@ -7466,7 +7466,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;ditto
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cpl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$00</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#END_COMPL">END_COMPL</a>&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;without&nbsp;overflow&nbsp;to&nbsp;<a href="#END">END</a>-COMPL
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#END_COMPL">END_COMPL</a>&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;without&nbsp;overflow&nbsp;to&nbsp;END-COMPL
 <br>
 <br>;&nbsp;else&nbsp;entire&nbsp;mantissa&nbsp;is&nbsp;now&nbsp;zero.&nbsp;&nbsp;00&nbsp;00&nbsp;00&nbsp;00
 <br>
@@ -7965,7 +7965,7 @@
 <br>
 <br><a name="BITS_ZERO"></a><a href="#BITS_ZERO">BITS_ZERO</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$07</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;isolate&nbsp;the&nbsp;remaining&nbsp;bits
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#IX_END">IX_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;none&nbsp;to&nbsp;IX-<a href="#END">END</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#IX_END">IX_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;none&nbsp;to&nbsp;IX-END
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;transfer&nbsp;bit&nbsp;count&nbsp;to&nbsp;B&nbsp;counter.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$FF</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;form&nbsp;a&nbsp;mask&nbsp;11111111
@@ -8942,7 +8942,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;save&nbsp;A&nbsp;and&nbsp;carry
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#subtract">subtract</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;<a href="#subtract">subtract</a>&nbsp;leaves&nbsp;result&nbsp;on&nbsp;stack.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#END_TESTS">END_TESTS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;<a href="#END">END</a>-TESTS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#END_TESTS">END_TESTS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;to&nbsp;END-TESTS
 <br>
 <br>;&nbsp;---
 <br>
@@ -10946,7 +10946,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;%01111110
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;%00000000
 <br>
-<br><a name="END"></a>.<a href="#END">END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;TASM&nbsp;assembler&nbsp;instruction.
+<br>
 <br>
 <br>
 <br>
@@ -11647,7 +11647,6 @@
 <br>;&nbsp;<a href="#LAST">LAST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$1DFD</b>
 <br>;&nbsp;<a href="#SPARE">SPARE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$1DFF</b>
 <br>;&nbsp;<a href="#char_set">char_set</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$1E00</b>
-<br>;&nbsp;<a href="#END">END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$2000</b>
 <br>;&nbsp;<a href="#ERR_NR">ERR_NR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4000</b>
 <br>;&nbsp;<a href="#IY0">IY0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4000</b>
 <br>;&nbsp;<a href="#FLAGS">FLAGS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4001</b>
@@ -11807,7 +11806,6 @@
 <br>;&nbsp;<a href="#EDIT_LINE">EDIT_LINE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0487</b>
 <br>;&nbsp;<a href="#EDIT_ROOM">EDIT_ROOM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$048A</b>
 <br>;&nbsp;<a href="#ED_KEYS">ED_KEYS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0562</b>
-<br>;&nbsp;<a href="#END">END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$2000</b>
 <br>;&nbsp;<a href="#ENDED_1">ENDED_1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0589</b>
 <br>;&nbsp;<a href="#ENDED_2">ENDED_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$059D</b>
 <br>;&nbsp;<a href="#END_COMPL">END_COMPL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$17B7</b>
