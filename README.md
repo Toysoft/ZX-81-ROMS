@@ -24,6 +24,15 @@ User Manual: ZX81 Basic Programming [https://k1.spdns.de/Vintage/Sinclair/80/Sin
 The ROM Disassembly Book by Dr. Ian Logan and Dr. Frank O'Hara [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20disassembly%20(Logan%2C%20O'Hara).html](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20disassembly%20(Logan%2C%20O'Hara).html "The Complete Timex TS1000 / Sinclair ZX81 ROM Disassembly")
 
 
+## ZX-81 "Shoulder of Giants" ROM
+
+ROM disassembly: ...work in progress...
+
+This is a customized ZX81 ROM variant by Geoff Wearmouth which uses space-saving techniques to make way for Newton's square root calculation, improved decimal number input and consistent output to the screen and printer of floating point numbers. 
+
+Source: [https://web.archive.org/web/20150501015418/http://www.wearmouth.demon.co.uk/sg.htm](https://web.archive.org/web/20150501015418/http://www.wearmouth.demon.co.uk/sg.htm "The Shoulders of Giants ZX81 ROM Assembly")
+
+
 ## TK-85 ROM
 
 ROM disassembly: [https://www.dropbox.com/s/0crgpfcqqcu2jbt/tk85.html?dl=0](https://www.dropbox.com/s/0crgpfcqqcu2jbt/tk85.html?dl=0 "TK-85 ROM")

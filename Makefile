@@ -3,10 +3,12 @@ CALL_MAKE = $(MAKE) --no-print-directory
 all: 
 	@$(CALL_MAKE) PROJ=zx81 make_proj
 	@$(CALL_MAKE) PROJ=tk85 make_proj
+	@$(CALL_MAKE) PROJ=sg81 make_proj
 
 clean: 
 	@$(CALL_MAKE) PROJ=zx81 clean_proj
 	@$(CALL_MAKE) PROJ=tk85 clean_proj
+	@$(CALL_MAKE) PROJ=sg81 clean_proj
 
 make_proj: $(PROJ).bin $(PROJ).html
 
