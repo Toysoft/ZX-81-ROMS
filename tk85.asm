@@ -231,6 +231,10 @@ defc    ERR_D_BREAK = $0D - 1
 ; F     The program name provided is the empty string.
 defc    ERR_F_PROG_NAME = $0F - 1
 
+; =======================
+; TK-85 BASIC Error Codes
+; =======================
+
 ; G     Not enough space for DSAVE/DLOAD (tk85 only)
 defc    ERR_G_NO_ROOM_WS = $10 - 1
 
