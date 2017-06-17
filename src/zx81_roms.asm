@@ -11,14 +11,22 @@
 
 #endif
 #ifdef ROM_zx81
-; ===========================================================
-; An Assembly Listing of the Operating System of the ZX81 ROM
-; ===========================================================
+; ================================================================================
+; An Assembly Listing of the Operating System of the ZX81 version 2 (improved) ROM
+; ================================================================================
+#endif
+#ifdef ROM_zx81v1
+; =============================================================================
+; An Assembly Listing of the Operating System of the ZX81 version 1 (buggy) ROM
+; =============================================================================
 #endif
 #ifdef ROM_tk85
 ; ===========================================================
 ; An Assembly Listing of the Operating System of the TK85 ROM
 ; ===========================================================
+#endif
+#ifdef ROM_zx81v1
+#define ROM_zx81
 #endif
 #ifdef ROM_sg81
 ; =========================================================
@@ -4736,13 +4744,20 @@ REPORT_7:
 
 INPUT:
         bit     7, (iy+PPC+1-IY0)
-                                ; sv PPC_hi
-        jr      nz, REPORT_8    ; to REPORT-8
+                                ; Test high byte of PPC for line number
+        jr      nz, REPORT_8    ; REPORT-8 (Input must have line number)
 
-        call    X_TEMP          ; routine X-TEMP
-        ld      hl, FLAGX       ; sv FLAGX
-        set     5, (hl)         ;
-        res     6, (hl)         ;
+#ifndef ROM_zx81v1
+
+; In edition 2 ROM, a new CALL instruction added to clear the workspace
+; during the INPUT routine
+
+        call    X_TEMP          ; Call X-TEMP to clears the workspace
+#endif
+
+        ld      hl, FLAGX       ; FLAGX
+        set     5, (hl)         ; Set INPUT mode
+        res     6, (hl)         ; to string
         ld      a, (FLAGS)      ; sv FLAGS
         and     $40             ;
         ld      bc, $0002       ;
@@ -4808,22 +4823,35 @@ SLOW:
 ; ---------------------------
 
 PAUSE:
-        call    FIND_INT        ; routine FIND-INT
-        call    SET_FAST        ; routine SET-FAST
-        ld      h, b            ;
-        ld      l, c            ;
-        call    DISPLAY_P       ; routine DISPLAY-P
+        call    FIND_INT        ; Call FIND-INT to get the PAUSE parameter
+        call    SET_FAST        ; Call SET-FAST to go into fast mode
+                                ; (but keep CDFLAG bit 6 set, indicating SLOW mode)
+        ld      h, b            ; Move PAUSE parameter into HL
+        ld      l, c            ; NB: This will be saved to FRAMES
+        call    DISPLAY_P       ; Call DISPLAY-P to generate display until
+                                ; FRAMES zero or a key is pressed
 
 #ifdef ROM_tk85
                                 ; Different order than in ZX81
-        call    SLOW_FAST       ; routine SLOW/FAST
+        call    SLOW_FAST       ; Call SLOW/FAST to re-enter "normal" slow mode
         ld      (iy+FRAMES+1-IY0), $FF
-                                ; sv FRAMES_hi
+                                ; Set high byte of FRAMES to make sure a
+                                ; new frame does not get FRAMES to zero
 #else
-        ld      (iy+FRAMES+1-IY0), $FF
-                                ; sv FRAMES_hi
+#ifdef ROM_zx81v1
+        call    SLOW_FAST       ; Call SLOW/FAST to re-enter "normal" slow mode
+        set     7, (iy+$35)     ; Sets the top bit (bit 15) of FRAMES
+                                ; to indicate not in PAUSE
+#else
 
-        call    SLOW_FAST       ; routine SLOW/FAST
+; In edition 2 ROM, rewritten PAUSE routine to ensure bit 15 of FRAMES set.
+
+        ld      (iy+FRAMES+1-IY0), $FF
+                                ; Set high byte of FRAMES to make sure a
+                                ; new frame does not get FRAMES to zero
+
+        call    SLOW_FAST       ; Call SLOW/FAST to re-enter "normal" slow mode
+#endif
 #endif
         jr      DEBOUNCE        ; routine DEBOUNCE
 
@@ -5089,22 +5117,37 @@ S_PUSH_PO:
 ; ---
 
 S_LTR_DGT:
-        cp      $26             ; compare to 'A'.
-        jr      c, S_DECIMAL    ; forward if less to S-DECIMAL
+        cp      'A' - 27        ; Jump if dealing with a digit (<'A').
+        jr      c, S_DECIMAL    ; to the S-DECIMAL routine
 
-        call    LOOK_VARS       ; routine LOOK-VARS
+        call    LOOK_VARS       ; We have a variable name. See if it exists
+                                ; by calling LOOK-VARS
         jp      c, REPORT_2     ; back if not found to REPORT-2
+                                ; (Undefined variable)
                                 ; a variable is always 'found' when checking
                                 ; syntax.
 
         call    z, STK_VAR      ; routine STK-VAR stacks string parameters or
                                 ; returns cell location if numeric.
 
-        ld      a, (FLAGS)      ; fetch FLAGS
-        cp      $C0             ; compare to numeric result/numeric operand
-        jr      c, S_CONT_2     ; forward if not numeric to S-CONT-2
+#ifdef ROM_zx81v1
+        bit     6, (iy+FLAGS-IY0)
+                                ; IY=4000H
+        jr      z, S_CONT_2     ; Jump to S-CONT-2 to continue processing
+                                ; if not a number
+#else
 
-        inc     hl              ; address numeric contents of variable.
+; In Edition 2 ROM, rewritten numeric processing routine to cater for
+; syntax checking.
+
+        ld      a, (FLAGS)      ; Fetch the value of FLAGS
+        cp      $C0             ; Test bit 6 & 7 together
+        jr      c, S_CONT_2     ; Jump to S-CONT-2 to continue processing if
+                                ; not a number and/or are syntax checking
+#endif
+
+        inc     hl              ; A numeric value is to be stacked during
+                                ; line execution
         ld      de, (STKEND)    ; set destination to STKEND
         call    duplicate       ; routine MOVE-FP/duplicate stacks the five bytes
         ex      de, hl          ; transfer new free location from DE to HL.
@@ -7380,14 +7423,22 @@ ONE_SHIFT:
 ADDEND_0:
         exx                     ; select alternate set for more significant
                                 ; bytes.
-        xor     a               ; clear accumulator.
 
+#ifdef ROM_zx81v1
+        ld      a, h
+        sub     l
+        ld      h, a
+#endif
+
+; In Edition 2 ROM, deleted spurious instructions causing floating point bug
+
+        xor     a               ; clear accumulator.
 
 ; this entry point (from multiplication) sets four of the bytes to zero or if
 ; continuing from above, during addition, then all five bytes are set to zero.
 
 ZEROS_4_OR_5:
-        ld      l, $00          ; set byte 1 to zero.
+        ld      l, $00          ; set byte 1 to zero - sign indicator
         ld      d, a            ; set byte 2 to A.
         ld      e, l            ; set byte 3 to zero.
         exx                     ; select main set

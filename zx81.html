@@ -10,9 +10,9 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF">
-;&nbsp;<b>===========================================================</b>
-<br>;&nbsp;An&nbsp;Assembly&nbsp;Listing&nbsp;of&nbsp;the&nbsp;Operating&nbsp;System&nbsp;of&nbsp;the&nbsp;ZX81&nbsp;ROM
-<br>;&nbsp;<b>===========================================================</b>
+;&nbsp;<b>================================================================================</b>
+<br>;&nbsp;An&nbsp;Assembly&nbsp;Listing&nbsp;of&nbsp;the&nbsp;Operating&nbsp;System&nbsp;of&nbsp;the&nbsp;ZX81&nbsp;version&nbsp;2&nbsp;(improved)&nbsp;ROM
+<br>;&nbsp;<b>================================================================================</b>
 <br>;
 <br>;&nbsp;Work&nbsp;in&nbsp;progress.
 <br>;&nbsp;This&nbsp;file&nbsp;will&nbsp;cross-assemble&nbsp;an&nbsp;original&nbsp;version&nbsp;of&nbsp;the&nbsp;&quot;Improved&quot;
@@ -4893,13 +4893,18 @@
 <br>
 <br><a name="INPUT"></a><a href="#INPUT">INPUT</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7,&nbsp;(iy+<a href="#PPC">PPC</a>+1-<a href="#IY0">IY0</a>)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;PPC_hi
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#REPORT_8">REPORT_8</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#REPORT">REPORT</a>-8
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Test&nbsp;high&nbsp;byte&nbsp;of&nbsp;<a href="#PPC">PPC</a>&nbsp;for&nbsp;line&nbsp;number
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#REPORT_8">REPORT_8</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#REPORT">REPORT</a>-8&nbsp;(Input&nbsp;must&nbsp;have&nbsp;line&nbsp;number)
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#X_TEMP">X_TEMP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;X-TEMP
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<a href="#FLAGX">FLAGX</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;<a href="#FLAGX">FLAGX</a>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>
+<br>;&nbsp;In&nbsp;edition&nbsp;2&nbsp;ROM,&nbsp;a&nbsp;new&nbsp;CALL&nbsp;instruction&nbsp;added&nbsp;to&nbsp;clear&nbsp;the&nbsp;workspace
+<br>;&nbsp;during&nbsp;the&nbsp;<a href="#INPUT">INPUT</a>&nbsp;routine
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#X_TEMP">X_TEMP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;X-TEMP&nbsp;to&nbsp;clears&nbsp;the&nbsp;workspace
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<a href="#FLAGX">FLAGX</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#FLAGX">FLAGX</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Set&nbsp;<a href="#INPUT">INPUT</a>&nbsp;mode
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;string
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(<a href="#FLAGS">FLAGS</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;<a href="#FLAGS">FLAGS</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$40</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;<b>$0002</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
@@ -4965,16 +4970,22 @@
 <br>;&nbsp;<b>---------------------------</b>
 <br>
 <br><a name="PAUSE"></a><a href="#PAUSE">PAUSE</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FIND_INT">FIND_INT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;FIND-INT
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SET_FAST">SET_FAST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;SET-<a href="#FAST">FAST</a>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h,&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l,&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DISPLAY_P">DISPLAY_P</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;DISPLAY-P
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FIND_INT">FIND_INT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;FIND-INT&nbsp;to&nbsp;get&nbsp;the&nbsp;<a href="#PAUSE">PAUSE</a>&nbsp;parameter
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SET_FAST">SET_FAST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;SET-<a href="#FAST">FAST</a>&nbsp;to&nbsp;go&nbsp;into&nbsp;fast&nbsp;mode
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;(but&nbsp;keep&nbsp;<a href="#CDFLAG">CDFLAG</a>&nbsp;bit&nbsp;6&nbsp;set,&nbsp;indicating&nbsp;<a href="#SLOW">SLOW</a>&nbsp;mode)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h,&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Move&nbsp;<a href="#PAUSE">PAUSE</a>&nbsp;parameter&nbsp;into&nbsp;HL
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l,&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;NB:&nbsp;This&nbsp;will&nbsp;be&nbsp;saved&nbsp;to&nbsp;<a href="#FRAMES">FRAMES</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DISPLAY_P">DISPLAY_P</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;DISPLAY-P&nbsp;to&nbsp;generate&nbsp;display&nbsp;until
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#FRAMES">FRAMES</a>&nbsp;zero&nbsp;<a href="#or">or</a>&nbsp;a&nbsp;key&nbsp;is&nbsp;pressed
+<br>
+<br>
+<br>;&nbsp;In&nbsp;edition&nbsp;2&nbsp;ROM,&nbsp;rewritten&nbsp;<a href="#PAUSE">PAUSE</a>&nbsp;routine&nbsp;to&nbsp;ensure&nbsp;bit&nbsp;15&nbsp;of&nbsp;<a href="#FRAMES">FRAMES</a>&nbsp;set.
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(iy+<a href="#FRAMES">FRAMES</a>+1-<a href="#IY0">IY0</a>),&nbsp;<b>$FF</b>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;FRAMES_hi
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Set&nbsp;high&nbsp;byte&nbsp;of&nbsp;<a href="#FRAMES">FRAMES</a>&nbsp;to&nbsp;make&nbsp;sure&nbsp;a
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;new&nbsp;frame&nbsp;does&nbsp;<a href="#not">not</a>&nbsp;get&nbsp;<a href="#FRAMES">FRAMES</a>&nbsp;to&nbsp;zero
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SLOW_FAST">SLOW_FAST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;<a href="#SLOW">SLOW</a>/<a href="#FAST">FAST</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SLOW_FAST">SLOW_FAST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;<a href="#SLOW">SLOW</a>/<a href="#FAST">FAST</a>&nbsp;to&nbsp;re-enter&nbsp;&quot;normal&quot;&nbsp;slow&nbsp;mode
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DEBOUNCE">DEBOUNCE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;<a href="#DEBOUNCE">DEBOUNCE</a>
 <br>
 <br>;&nbsp;<b>----------------------</b>
@@ -5239,22 +5250,30 @@
 <br>;&nbsp;---
 <br>
 <br><a name="S_LTR_DGT"></a><a href="#S_LTR_DGT">S_LTR_DGT</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$26</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;compare&nbsp;to&nbsp;&#39;A&#39;.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#S_DECIMAL">S_DECIMAL</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;less&nbsp;to&nbsp;S-DECIMAL
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;A&#39;&nbsp;-&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;dealing&nbsp;with&nbsp;a&nbsp;digit&nbsp;(&lt;&#39;A&#39;).
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#S_DECIMAL">S_DECIMAL</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;the&nbsp;S-DECIMAL&nbsp;routine
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#LOOK_VARS">LOOK_VARS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;LOOK-<a href="#VARS">VARS</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#LOOK_VARS">LOOK_VARS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;We&nbsp;have&nbsp;a&nbsp;variable&nbsp;name.&nbsp;See&nbsp;if&nbsp;it&nbsp;exists
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;by&nbsp;calling&nbsp;LOOK-<a href="#VARS">VARS</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#REPORT_2">REPORT_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;back&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;found&nbsp;to&nbsp;<a href="#REPORT">REPORT</a>-2
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;(Undefined&nbsp;variable)
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;a&nbsp;variable&nbsp;is&nbsp;always&nbsp;&#39;found&#39;&nbsp;when&nbsp;checking
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;syntax.
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#STK_VAR">STK_VAR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;STK-VAR&nbsp;stacks&nbsp;string&nbsp;parameters&nbsp;<a href="#or">or</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;returns&nbsp;cell&nbsp;location&nbsp;if&nbsp;numeric.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(<a href="#FLAGS">FLAGS</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;fetch&nbsp;<a href="#FLAGS">FLAGS</a>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$C0</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;compare&nbsp;to&nbsp;numeric&nbsp;result/numeric&nbsp;operand
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#S_CONT_2">S_CONT_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;forward&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;numeric&nbsp;to&nbsp;S-<a href="#CONT">CONT</a>-2
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;address&nbsp;numeric&nbsp;contents&nbsp;of&nbsp;variable.
+<br>;&nbsp;In&nbsp;Edition&nbsp;2&nbsp;ROM,&nbsp;rewritten&nbsp;numeric&nbsp;processing&nbsp;routine&nbsp;to&nbsp;cater&nbsp;for
+<br>;&nbsp;syntax&nbsp;checking.
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(<a href="#FLAGS">FLAGS</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Fetch&nbsp;the&nbsp;value&nbsp;of&nbsp;<a href="#FLAGS">FLAGS</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$C0</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Test&nbsp;bit&nbsp;6&nbsp;&amp;&nbsp;7&nbsp;together
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#S_CONT_2">S_CONT_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;to&nbsp;S-<a href="#CONT">CONT</a>-2&nbsp;to&nbsp;continue&nbsp;processing&nbsp;if
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#not">not</a>&nbsp;a&nbsp;number&nbsp;and/<a href="#or">or</a>&nbsp;are&nbsp;syntax&nbsp;checking
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;A&nbsp;numeric&nbsp;value&nbsp;is&nbsp;to&nbsp;be&nbsp;stacked&nbsp;during
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;line&nbsp;execution
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;(<a href="#STKEND">STKEND</a>)&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;destination&nbsp;to&nbsp;<a href="#STKEND">STKEND</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#duplicate">duplicate</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;MOVE-FP/<a href="#duplicate">duplicate</a>&nbsp;stacks&nbsp;the&nbsp;five&nbsp;bytes
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;transfer&nbsp;new&nbsp;free&nbsp;location&nbsp;from&nbsp;DE&nbsp;to&nbsp;HL.
@@ -7509,14 +7528,17 @@
 <br><a name="ADDEND_0"></a><a href="#ADDEND_0">ADDEND_0</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;select&nbsp;alternate&nbsp;set&nbsp;for&nbsp;more&nbsp;significant
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;bytes.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;clear&nbsp;accumulator.
 <br>
+<br>
+<br>;&nbsp;In&nbsp;Edition&nbsp;2&nbsp;ROM,&nbsp;deleted&nbsp;spurious&nbsp;instructions&nbsp;causing&nbsp;floating&nbsp;point&nbsp;bug
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;clear&nbsp;accumulator.
 <br>
 <br>;&nbsp;this&nbsp;entry&nbsp;point&nbsp;(from&nbsp;multiplication)&nbsp;sets&nbsp;four&nbsp;of&nbsp;the&nbsp;bytes&nbsp;to&nbsp;zero&nbsp;<a href="#or">or</a>&nbsp;if
 <br>;&nbsp;continuing&nbsp;from&nbsp;above,&nbsp;during&nbsp;<a href="#addition">addition</a>,&nbsp;then&nbsp;all&nbsp;five&nbsp;bytes&nbsp;are&nbsp;set&nbsp;to&nbsp;zero.
 <br>
 <br><a name="ZEROS_4_OR_5"></a><a href="#ZEROS_4_OR_5">ZEROS_4_OR_5</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l,&nbsp;<b>$00</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;byte&nbsp;1&nbsp;to&nbsp;zero.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l,&nbsp;<b>$00</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;byte&nbsp;1&nbsp;to&nbsp;zero&nbsp;-&nbsp;sign&nbsp;indicator
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;byte&nbsp;2&nbsp;to&nbsp;A.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e,&nbsp;l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;byte&nbsp;3&nbsp;to&nbsp;zero.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;select&nbsp;main&nbsp;set

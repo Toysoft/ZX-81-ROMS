@@ -27,6 +27,13 @@ User Manual: ZX81 Basic Programming [https://k1.spdns.de/Vintage/Sinclair/80/Sin
 The ROM Disassembly Book by Dr. Ian Logan and Dr. Frank O'Hara [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20disassembly%20(Logan%2C%20O'Hara).html](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20disassembly%20(Logan%2C%20O'Hara).html "The Complete Timex TS1000 / Sinclair ZX81 ROM Disassembly")
 
 
+## ZX-81 version 1 (buggy) ROM
+
+Source: [https://www.dropbox.com/s/mhlsi9z6nemlr0e/zx81v1.html?dl=0](https://www.dropbox.com/s/mhlsi9z6nemlr0e/zx81v1.html?dl=0 "ZX-81 version 1 (buggy) ROM")
+
+- Differences between version 1 and version 2: [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20differences.htm](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20differences.htm "ZX81 ROMs")
+- Comments by Paul Farrow, www.fruitcake.plus.com
+
 ## ZX-81 "Shoulder of Giants" ROM
 
 ROM disassembly: [https://www.dropbox.com/s/hrnha9ouqt8qbs0/sg81.html?dl=0](https://www.dropbox.com/s/hrnha9ouqt8qbs0/sg81.html?dl=0 "ZX-81 Shoulder of Giants ROM")
