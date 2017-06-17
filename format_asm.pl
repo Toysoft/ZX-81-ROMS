@@ -2,6 +2,8 @@
 
 use Modern::Perl;
 use File::Copy;
+use Getopt::Std;
+use Path::Tiny;
 use Text::Tabs; $tabstop = 4;
 
 my $KW_L = qr/ \b (?: nz | z | nc | c | po | pe | p | m 
@@ -24,8 +26,14 @@ my $KW_L = qr/ \b (?: nz | z | nc | c | po | pe | p | m
 my $KW_U = qr/ \b (?: ASMPC
 				  ) \b /ix;
 
-@ARGV==1 or die;
-my($src) = @ARGV;
+our $opt_m; # call make, revert changes if make fails
+(getopts("m") &&
+ (@ARGV >= 1) &&
+ (my $src = shift) &&
+ (scalar(@ARGV) % 2 == 0)	# even number of arguments
+) or die "Usage: ", path($0)->basename, " [-m] ASM_FILE [str1 replace1 str2 replace2...]\n";
+
+my(%replace) = @ARGV;
 
 $src =~ s/\.\w+$//;
 
@@ -81,6 +89,14 @@ while (<$in>) {
 		}
 	}
 	
+	# replace strings
+	while (my($k, $v) = each %replace) {
+		my $re = qr/\Q$k\E/;
+		if ($k =~ /^\w/) { $re = qr/\b$re/; }
+		if ($k =~ /\w$/) { $re = qr/$re\b/; }
+		$asm =~ s/$re/$v/g;
+	}
+	
 	# format output
 	my $after;
 	if (length($asm) > 32) {
@@ -120,8 +136,11 @@ if ($changes) {
 	say "Update ".$src.".asm";
 	move($src.".new", $src.".asm");
 
-	if (system("make") != 0) {
+	if ($opt_m && system("make") != 0) {
 		say "Error assembling new file, reverting to previous ".$src.".asm";
-		copy($src.".bak", $src.".asm");
+		move($src.".bak", $src.".asm");
 	}
+}
+else {
+	unlink $src.".new";
 }
