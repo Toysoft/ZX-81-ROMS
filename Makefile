@@ -20,6 +20,7 @@ $(PROJ).bin: $(PROJ).asm
 	rm $(PROJ).rom.dump
 
 $(PROJ).asm: $(wildcard src/*.asm)
+	for i in $(wildcard src/*.asm); do perl format_asm.pl $$i; done
 	perl -S filepp -DROM_$(PROJ) src/zx81_roms.asm -o $(PROJ).asm
 
 clean_proj:
