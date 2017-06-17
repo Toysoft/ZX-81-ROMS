@@ -45,7 +45,6 @@
 ; ZX-81 MEMORY MAP
 ; ================
 
-
 ; +------------------+-- Top of memory
 ; | Reserved area    |
 ; +------------------+-- (RAMTOP)
@@ -122,54 +121,235 @@
 ;
 
 
+; -------------------
+; THE 'CHARACTER SET'
+; -------------------
+;
+; $00 $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $0D $0E $0F
+;     gra gra gra gra gra gra gra gra gra gra  "   à  $   :   ?
+;
+; $10 $11 $12 $13 $14 $15 $16 $17 $18 $19 $1A $1B $1C $1D $1E $1F
+;  (   )   >   <   =   +   -   *   /   ;   ,   .   0   1   2   3
+;
+; $20 $21 $22 $23 $24 $25 $26 $27 $28 $29 $2A $2B $2C $2D $2E $2F
+;  4   5   6   7   8   9   A   B   C   D   E   F   G   H   I   J
+;
+; $30 $31 $32 $33 $34 $35 $36 $37 $38 $39 $3A $3B $3C $3D $3E $3F
+;  K   L   M   N   O   P   Q   R   S   T   U   V   W   X   Y   Z
+;
+
+
+; -------------------
+; THE 'ZX81 KEYBOARD'
+; -------------------
+;
+;                                [] mosaic graphic
+;
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+; | EDIT| |  AND| | THEN| |  TO | |  <- | |   v | |   ^ | |  -> | |GRAPH| | RUB |
+; | 1 []| | 2 []| | 3 []| | 4 []| | 5 []| | 6 []| | 7 []| | 8 []| | 9   | | 0   |
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+;
+;  PLOT   UNPLOT    REM     RUN     RAND  RETURN    IF     INPUT   POKE    PRINT
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+; |  "" | |  OR | | STEP| |  <= | |  <> | |  >= | |   $ | |   ( | |   ) | |   " |
+; | Q []| | W []| | E []| | R []| | T []| | Y []| | U   | | I   | | O   | | P   |
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+;
+;   NEW    SAVE     DIM     FOR     GOTO   GOSUB   LOAD    LIST     LET
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+; | STOP| |LPRNT| | SLOW| | FAST| |LLIST| |  ** | |   - | |   + | |   = | |FUNCT|
+; | A []| | S []| | D []| | F []| | G []| | H []| | J   | | K   | | L   | | N/L |
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+;
+;          COPY    CLEAR   CONT     CLS   SCROLL    NEXT   PAUSE           BREAK
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+; |     | |   : | |   ; | |   ? | |   / | |   * | |   < | |   > | |   , | |   à|
+; |SHIFT| | Z   | | X   | | C   | | V   | | B   | | N   | | M   | | .   | |SPACE|
+; +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+ +-----+
+;
+;
+; Graphic Character Locations
+; ---------------------------
+;
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;  |# |  | #|  |  |  |  |  |# |    |  |  |##|  | #|  |  |  |  |
+;  |  |  |  |  | #|  |# |  |# |    |##|  |  |  | #|  |  |  |  |
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;  | #|  |# |  |##|  |##|  | #|    |# |  |  |  |  |  |  |  |  |
+;  |##|  |##|  |# |  | #|  |# |    | #|  |  |  |  |  |  |  |  |
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;  |XX|  |XX|  |  |  |xx|  |##|    |xx|  |  |  |  |  |  |  |  |
+;  |XX|  |  |  |XX|  |##|  |xx|    |xx|  |  |  |  |  |  |  |  |
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;  |  |  |  |  |  |  |  |  |  |    |  |  |  |  |  |  |  |  |  |
+;  |  |  |  |  |  |  |  |  |  |    |  |  |  |  |  |  |  |  |  |
+;  +--+  +--+  +--+  +--+  +--+    +--+  +--+  +--+  +--+  +--+
+;
+
 ; ======================
 ; ZX-81 SYSTEM VARIABLES
 ; ======================
+; X The variable should not be poked, because the system might crash.
+; N Poking the variable will have no lasting effect.
+; S The variable is saved by SAVE.
+;
+defc    ERR_NR  = $4000         ;    1  16384
+                                ;       1 less than the report code. Starts off
+                                ;       at 255 (for -1), so PEEK 16384, if it
+                                ;       works at all, gives 255.
+                                ;       POKE 16384,n can be used to force an
+                                ;       error halt: 0 <= n <= 14 gives one of
+                                ;       the usual reports, 15 <= n <= 34 or
+                                ;       99 <= n <= 127 gives a nonstandard
+                                ;       report, and 35 <= n <= 98 is likely to
+                                ;       mess up the display file.
+defc    FLAGS   = $4001         ;   X1  16385
+                                ;       Various flags to control the BASIC system.
+defc    ERR_SP  = $4002         ;   X2  16386
+                                ;       Address of first item on machine stack
+                                ;       (after GOSUB returns).
+defc    RAMTOP  = $4004         ;    2  16388
+                                ;       Address of first byte above BASIC system
+                                ;       area. You can poke this to make NEW
+                                ;       reserve space above that area (see
+                                ;       Chapter 26) or to fool CLS into setting
+                                ;       up a minimal display file (Chapter 27).
+defc    MODE    = $4006         ;   N1  16390
+                                ;       Specifies K, L, F or G cursor.
+defc    PPC     = $4007         ;   N2  16391
+                                ;       Line number of statement currently being
+                                ;       executed. Poking this has no lasting
+                                ;       effect except in the last line of the
+                                ;       program.
+defc    VERSN   = $4009         ;   S1  16393
+                                ;       0 identifies 8K ROM in saved programs.
+defc    E_PPC   = $400A         ;   S2  16394
+                                ;       Number of current line (with program
+                                ;       cursor).
+defc    D_FILE  = $400C         ;  SX2  16396
+                                ;       The display file is the memory copy of
+                                ;       the television picture. It begins with a
+                                ;       NEWLINE character, & then has the twenty
+                                ;       four lines of text, each finishing with
+                                ;       a NEWLINE.
+defc    DF_CC   = $400E         ;   S2  16398
+                                ;       Address of PRINT position in display
+                                ;       file. Can be poked so that PRINT output
+                                ;       is sent elsewhere.
+defc    VARS    = $4010         ;  SX2  16400
+                                ;       The variables have different formats
+                                ;       according to their different natures.
+defc    DEST    = $4012         ;  SN2  16402
+                                ;       Address of variable in assignment.
+defc    E_LINE  = $4014         ;  SX2  16404
+                                ;       Contains the line being typed (as a
+                                ;       command, a program line, or INPUT data)
+                                ;       & also some work space.
+defc    CH_ADD  = $4016         ;  SX2  16406
+                                ;       Address of the next character to be
+                                ;       interpreted: the character after the
+                                ;       argument of PEEK, or the ENTER at the
+                                ;       end of a POKE statement.
+defc    X_PTR   = $4018         ;   S2  16408
+                                ;       Address of the character preceding the
+                                ;       syntax error marker.
+defc    STKBOT  = $401A         ;  SX2  16410
+                                ;       Calculator stack start. The calculator
+                                ;       stack is the part of the BASIC system
+                                ;       that deals with arithmetic, & the
+                                ;       numbers on which it is operating are
+                                ;       held mostly in the calculator stack.
+defc    STKEND  = $401C         ;  SX2  16412
+                                ;       Calculator stack end.
+defc    BREG    = $401E         ;  SN1  16414
+                                ;       Calculator's b register.
+defc    MEM     = $401F         ;  SN2  16415
+                                ;       Address of area used for calculator's
+                                ;       memory. (Usually MEMBOT but not always.)
+defc    SPARE1  = $4021         ;   S1  16417
+                                ;       Not used.
+defc    DF_SZ   = $4022         ;  SX1  16418
+                                ;       The number of lines (including one blank
+                                ;       line) in the lower part of the screen.
+defc    S_TOP   = $4023         ;   S2  16419
+                                ;       The number of the top program line in
+                                ;       automatic listings.
+defc    LAST_K  = $4025         ;  SN2  16421
+                                ;       Shows which keys pressed.
+defc    DB_ST   = $4027         ;  SN1  16423
+                                ;       Debounce status of keyboard.
+defc    MARGIN  = $4028         ;  SN1  16424
+                                ;       Number of blank lines above or below
+                                ;       picture - 31.
+defc    NXTLIN  = $4029         ;  SX2  16425
+                                ;       Address of next program line to be
+                                ;       executed.
+defc    OLDPPC  = $402B         ;   S2  16427
+                                ;       Line number to which CONT jumps.
+defc    FLAGX   = $402D         ;  SN1  16429
+                                ;       Various flags.
+defc    STRLEN  = $402E         ;  SN2  16430
+                                ;       Length of string type designation in
+                                ;       assignment.
+defc    T_ADDR  = $4030         ;  SN2  16432
+                                ;       Address of next item in syntax table
+                                ;       (very unlikely to be useful).
+defc    SEED    = $4032         ;   S2  16434
+                                ;       The seed for RND. This is the variable
+                                ;       that is set by RAND.
+defc    FRAMES  = $4034         ;   S2  16436
+                                ;       Counts the frames displayed on the
+                                ;       television. Bit 15 is 1. Bits 0 to 14
+                                ;       are decremented for each frame sent to
+                                ;       the television. This can be used for
+                                ;       timing, but PAUSE also uses it.
+                                ;       PAUSE resets bit 15 to 0 and puts in
+                                ;       bits 0 to 14 the length of the pause.
+                                ;       When these have been counted down to
+                                ;       zero, the pause stops. If the pause
+                                ;       stops because of a key depression, bit
+                                ;       15 is set to 1 again.
+defc    COORDS  = $4036         ;   S1  16438
+                                ;       x-coordinate of last pointed PLOTted.
+                                ;   S1  16439
+                                ;       y-coordinate of last pointed PLOTted.
+defc    PR_CC   = $4038         ;   S1  16440
+                                ;       Less significant byte of address of next
+                                ;       position for LPRINT to print at (in
+                                ;       PRBUFF).
+defc    S_POSN  = $4039         ;  SX1  16441
+                                ;       Column number for PRINT position.
+                                ;  SX1  16442
+                                ;       Line number for PRINT position.
+defc    CDFLAG  = $403B         ;   S1  16443
+                                ;       Various flags.
+                                ;       Bit 7 is 1 during compute and display
+                                ;       mode, 0 for fast mode.
+                                ;       Bit 6 is 1 to request slow mode, 0 to
+                                ;       request fast mode. If slow mode not
+                                ;       available then bit 6 is set back to 0.
+                                ;       If slow mode is available then bit 7
+                                ;       will be set to 1.
+                                ;       Bit 0 is set if key available.
+defc    PRBUFF  = $403C         ;  S33  16444
+                                ;       Printer buffer (33rd character is ENTER).
+defc    MEMBOT  = $405D         ; SN30  16477
+                                ;       Calculator's memory area; used to store
+                                ;       numbers that cannot conveniently be put
+                                ;       on the calculator stack.
+defc    SPARE2  = $407B         ;   S2  16507
+                                ;       Not used.
 
-defc    ERR_NR  = $4000         ; N1   Current report code minus one
-defc    FLAGS   = $4001         ; N1   Various flags
-defc    ERR_SP  = $4002         ; N2   Address of top of GOSUB stack
-defc    RAMTOP  = $4004         ; N2   Address of reserved area (not wiped out by NEW)
-defc    MODE    = $4006         ; N1   Current cursor mode
-defc    PPC     = $4007         ; N2   Line number of line being executed
-defc    VERSN   = $4009         ; N1   First system variable to be SAVEd
-defc    E_PPC   = $400A         ; N2   Line number of line with cursor
-defc    D_FILE  = $400C         ; N2   Address of start of display file
-defc    DF_CC   = $400E         ; N2   Address of print position within display file
-defc    VARS    = $4010         ; N2   Address of start of variables area
-defc    DEST    = $4012         ; N2   Address of variable being assigned
-defc    E_LINE  = $4014         ; N2   Address of start of edit line
-defc    CH_ADD  = $4016         ; N2   Address of the next character to interpret
-defc    X_PTR   = $4018         ; N2   Address of char. preceding syntax error marker
-defc    STKBOT  = $401A         ; N2   Address of calculator stack
-defc    STKEND  = $401C         ; N2   Address of end of calculator stack
-defc    BREG    = $401E         ; N1   Used by floating point calculator
-defc    MEM     = $401F         ; N2   Address of start of calculator's memory area
-defc    SPARE1  = $4021         ; N1   One spare byte
-defc    DF_SZ   = $4022         ; N2   Number of lines in lower part of screen
-defc    S_TOP   = $4023         ; N2   Line number of line at top of screen
-defc    LAST_K  = $4025         ; N2   Keyboard scan taken after the last TV frame
-defc    DB_ST   = $4027         ; N1   Debounce status of keyboard
-defc    MARGIN  = $4028         ; N1   Number of blank lines above or below picture
-defc    NXTLIN  = $4029         ; N2   Address of next program line to be executed
-defc    OLDPPC  = $402B         ; N2   Line number to which CONT/CONTINUE jumps
-defc    FLAGX   = $402D         ; N1   Various flags
-defc    STRLEN  = $402E         ; N2   Information concerning assigning of strings
-defc    T_ADDR  = $4030         ; N2   Address of next item in syntax table
-defc    SEED    = $4032         ; N2   Seed for random number generator
-defc    FRAMES  = $4034         ; N2   Updated once for every TV frame displayed
-defc    COORDS  = $4036         ; N2   Coordinates of last point PLOTed
-defc    PR_CC   = $4038         ; N1   Address of LPRINT position (high part assumed $40)
-defc    S_POSN  = $4039         ; N2   Coordinates of print position
-defc    CDFLAG  = $403B         ; N1   Flags relating to FAST/SLOW mode
-                                ;           bit 7: if SLOW mode, clear if FAST mode (ZX80 cannot do SLOW)
-                                ;           bit 6: set if SLOW mode requested, cleat if FAST mode requested
-                                ;           bit 0: set if key available
-defc    PRBUFF  = $403C         ; N21h Buffer to store LPRINT output
-defc    MEMBOT  = $405D         ; N1E  Area which may be used for calculator memory
-defc    SPARE2  = $407B         ; N2   Two spare bytes
+defc    PROG    = $407D         ;       16509
+                                ;       Start of BASIC program
 
-defc    PROG    = $407D         ; Start of BASIC program
 defc    MAXRAM  = $7FFF         ; Maximum value of RAMTOP
 
 defc    IY0     = ERR_NR        ; Base of system variables
@@ -2904,8 +3084,7 @@ PRINT_AT:
         jr      c, WRONG_VAL    ; to WRONG-VAL
 
 TEST_VAL:
-        cp      (iy+DF_SZ-IY0)
-                                ; sv DF_SZ
+        cp      (iy+DF_SZ-IY0)  ; sv DF_SZ
         jp      c, REPORT_5     ; to REPORT-5
 
         inc     a               ;
@@ -3631,73 +3810,120 @@ RIGHT:
 ; THE 'PLOT AND UNPLOT' COMMAND ROUTINES
 ; --------------------------------------
 ;
+; The graphic character codes used by PLOT are formed by assigning values as follows:
 ;
+; +---+---+
+; | 1 | 2 |
+; +---+---+
+; | 4 |   |
+; +---+---+
+;
+; This yields codes $00 to $07:
+;
+; +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+
+; |   |   | |###|   | |   |###| |###|###| |   |   | |###|   | |   |###| |###|###|
+; +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+
+; |   |   | |   |   | |   |   | |   |   | |###|   | |###|   | |###|   | |###|   |
+; +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+
+;    $00       $01       $02       $03       $04       $05       $06       $07
+;
+; The inverse characters are therefore available via codes $80 to $87:
+;
+; +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+
+; |###|###| |   |###| |###|   | |   |   | |###|###| |   |###| |###|   | |   |   |
+; +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+
+; |###|###| |###|###| |###|###| |###|###| |   |###| |   |###| |   |###| |   |###|
+; +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+ +---+---+
+;    $80       $81       $82       $83       $84       $85       $86       $87
 
 PLOT_UNPLOT:
-        call    STK_TO_BC       ; routine STK-TO-BC
-        ld      (COORDS), bc    ; sv COORDS_x
-        ld      a, $2B          ;
+        call    STK_TO_BC       ; Call routine STK-TO-BC to fetch the x coordinate
+                                ; to C and the y coordinate to B.
+        ld      (COORDS), bc    ; Store the coordinates in system variable COORDS.
+
+        ld      a, 43           ; Is the specified y coordinate out of range, i.e. greater than 43?
         sub     b               ;
-        jp      c, REPORT_B     ; to REPORT-B
+        jp      c, REPORT_B     ; Jump if so to produce an error (REPORT-B).
 
-        ld      b, a            ;
-        ld      a, $01          ;
-        sra     b               ;
-        jr      nc, COLUMNS     ; to COLUMNS
+; The y coordinate is within range and has been negated.
 
-        ld      a, $04          ;
+        ld      b, a            ; Store 43-y in B.
+
+        ld      a, $01          ; Assume it is a point with even x and y coordinates.
+        sra     b               ; Test whether an even or odd y coordinate by dividing B by 2.
+        jr      nc, COLUMNS     ; Jump if an even coordinate to COLUMNS.
+
+        ld      a, $04          ; It is an odd y coordinate, but still assume an even x coordinate.
 
 COLUMNS:
-        sra     c               ;
-        jr      nc, FIND_ADDR   ; to FIND-ADDR
+        sra     c               ; Test whether an even or odd x coordinate by dividing C by 2.
+        jr      nc, FIND_ADDR   ; Jump if an even coordinate to FIND-ADDR.
 
-        rlca                    ;
+        rlca                    ; It is an odd x coordinate so multiple by 2, i.e. A holds
+                                ; $02 (even y coordinate) or $08 (odd y coordinate).
+
+; By here the A register holds either $01 (even y, even x), $02 (even y, odd x),
+; $04 (odd y, even x) or $08 (odd y, odd x),
+; and B holds the row position and C the column position.
 
 FIND_ADDR:
-        push    af              ;
-        call    PRINT_AT        ; routine PRINT-AT
-        ld      a, (hl)         ;
-        rlca                    ;
-        cp      $10             ;
-        jr      nc, TABLE_PTR   ; to TABLE-PTR
+        push    af              ; Save the generated plot code.
+        call    PRINT_AT        ; Call routine PRINT-AT to find the location within the display file.
+        ld      a, (hl)         ; Fetch the current character at the display file location.
+        rlca                    ; Shift such that the 'invert' flags goes into bit 0. The low
+                                ; 4 bits uniquely identifies all graphic plot characters.
+        cp      $10             ; Did the location hold a graphic plot character (code $00 to $0F)?
+        jr      nc, TABLE_PTR   ; Jump if not to TABLE-PTR.
 
-        rrca                    ;
-        jr      nc, SQ_SAVED    ; to SQ-SAVED
+        rrca                    ; Shift to restore the 'invert' flag, testing it in the process.
+        jr      nc, SQ_SAVED    ; Jump if the 'invert' flag is reset (i.e. a non-inverted
+                                ; character) to SQ-SAVED.
 
-        xor     $8F             ;
+        xor     $8F             ; The existing character code is inverted so un-invert it.
 
 SQ_SAVED:
-        ld      b, a            ;
+        ld      b, a            ; Store the non-inverted character code of the existing
+                                ; graphic character.
+
+; Now determine whether plotting or unplotting.
 
 TABLE_PTR:
         ld      de, P_UNPLOT    ; Address: P-UNPLOT
         ld      a, (T_ADDR)     ; sv T_ADDR_lo
         sub     e               ;
-        jp      m, PLOT         ; to PLOT
+        jp      m, PLOT         ; Jump if plotting to PLOT.
 
-        pop     af              ;
-        cpl                     ;
-        and     b               ;
-        jr      UNPLOT          ; to UNPLOT
+        pop     af              ; Fetch the plot code.
+        cpl                     ; Invert it and
+        and     b               ; mask out the point in the existing character code.
+        jr      UNPLOT          ; Jump ahead to UNPLOT.
 
 ; ---
 
 PLOT:
-        pop     af              ;
-        or      b               ;
+        pop     af              ; Fetch the plot code and
+        or      b               ; set the point in the existing character code.
+
+; Plot and unplot join here. If the new generated graphic code is above $07 then it needs to
+; be represented by an inverse character code.
 
 UNPLOT:
-        cp      $08             ;
-        jr      c, PLOT_END     ; to PLOT-END
+        cp      $08             ; If the new graphic code below $08?
+        jr      c, PLOT_END     ; Jump if so to PLOT-END.
 
-        xor     $8F             ;
+        xor     $8F             ; Invert the graphic code to form the appropriate
+                                ; inverse character code.
+
+; The character code to display has been constructed.
 
 PLOT_END:
-        exx                     ;
+        exx                     ; Preserve the main registers.
 
-        rst     PRINT_A         ; PRINT-A
-        exx                     ;
-        ret                     ;
+        rst     PRINT_A         ; Call PRINT-A to update the display file location with
+                                ; the new character code.
+
+        exx                     ; Restore the main registers.
+        ret
 
 ; ----------------------------
 ; THE 'STACK-TO-BC' SUBROUTINE
@@ -5827,8 +6053,7 @@ I_RESTORE:
 ; writing and the greater program readability from using such toolkit routines.
 
 GET_DE_FROM_DE_PLUS_1:
-        ex      de, hl
-                                ; move index address into HL.
+        ex      de, hl          ; move index address into HL.
         inc     hl              ; increment to address word.
         ld      e, (hl)         ; pick up word low-order byte.
         inc     hl              ; index high-order byte and
@@ -8273,7 +8498,7 @@ ENT_TABLE:
         push    de              ; now the address of routine is stacked.
         exx                     ; back to main set
                                 ; avoid using IY register.
-        ld      bc, (STKEND+1)  ; STKEND_hi
+        ld      bc, (BREG-1)    ; STKEND_hi
                                 ; nothing much goes to C but BREG to B
                                 ; and continue into next ret instruction
                                 ; which has a dual identity

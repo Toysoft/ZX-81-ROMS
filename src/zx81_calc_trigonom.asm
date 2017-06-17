@@ -416,8 +416,8 @@ asn:
 ;   The inverse cosine function with the result in radians.
 ;   Error A unless the argument is between -1 and +1.
 ;   Result in range 0 to pi.
-;   Derived from asn above which is in turn derived from the preceding atn. 
-;	It could have been derived directly from atn using acs(x) = atn(sqr(1-x*x)/x).
+;   Derived from asn above which is in turn derived from the preceding atn.
+;   It could have been derived directly from atn using acs(x) = atn(sqr(1-x*x)/x).
 ;   However, as sine and cosine are horizontal translations of each other,
 ;   uses acs(x) = pi/2 - asn(x)
 

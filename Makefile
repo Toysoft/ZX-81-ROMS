@@ -24,7 +24,7 @@ $(PROJ).asm: $(wildcard src/*.asm)
 	perl -S filepp -DROM_$(PROJ) src/zx81_roms.asm -o $(PROJ).asm
 
 clean_proj:
-	rm -f $(PROJ).bin $(PROJ).asm~ $(PROJ).err $(PROJ).i $(PROJ).o $(PROJ).lis $(PROJ).map $(PROJ)*.dump *.bak 
+	rm -f $(PROJ).bin $(PROJ).asm~ $(PROJ).err $(PROJ).i $(PROJ).o $(PROJ).lis $(PROJ).map $(PROJ)*.dump *.bak src/*.bak
 
 $(PROJ).html: $(PROJ).asm format_asm.pl build_asm_html.pl
 	perl format_asm.pl     $(PROJ).asm

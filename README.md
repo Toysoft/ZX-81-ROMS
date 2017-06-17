@@ -17,7 +17,10 @@ The assembly source files are in the syntax used by the Z88DK Z80ASM assembler [
 
 ROM disassembly: [https://www.dropbox.com/s/kobh280px4ab0lr/zx81.html?dl=0](https://www.dropbox.com/s/kobh280px4ab0lr/zx81.html?dl=0 "ZX-81 version 2 (improved) ROM")
 
-Source: An Assembly Listing of the Operating System of the ZX81 ROM [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20source.txt](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20source.txt "An Assembly Listing of the Operating System of the ZX81 ROM")
+Source: 
+
+- An Assembly Listing of the Operating System of the ZX81 ROM [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20source.txt](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ROMs/zx81%20version%202%20'improved'%20rom%20source.txt "An Assembly Listing of the Operating System of the ZX81 ROM")
+- Comments by Paul Farrow, www.fruitcake.plus.com
 
 User Manual: ZX81 Basic Programming [https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ZX81%20Basic%20Programming.pdf](https://k1.spdns.de/Vintage/Sinclair/80/Sinclair%20ZX81/ZX81%20Basic%20Programming.pdf "ZX81 Basic Programming")
 

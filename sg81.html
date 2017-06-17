@@ -57,7 +57,6 @@
 <br>;&nbsp;ZX-81&nbsp;MEMORY&nbsp;MAP
 <br>;&nbsp;<b>================</b>
 <br>
-<br>
 <br>;&nbsp;+<b>------------------</b>+--&nbsp;Top&nbsp;of&nbsp;memory
 <br>;&nbsp;|&nbsp;Reserved&nbsp;area&nbsp;&nbsp;&nbsp;&nbsp;|
 <br>;&nbsp;+<b>------------------</b>+--&nbsp;(<a href="#RAMTOP">RAMTOP</a>)
@@ -134,54 +133,235 @@
 <br>;
 <br>
 <br>
+<br>;&nbsp;<b>-------------------</b>
+<br>;&nbsp;THE&nbsp;&#39;CHARACTER&nbsp;SET&#39;
+<br>;&nbsp;<b>-------------------</b>
+<br>;
+<br>;&nbsp;<b>$00</b>&nbsp;<b>$01</b>&nbsp;<b>$02</b>&nbsp;<b>$03</b>&nbsp;<b>$04</b>&nbsp;<b>$05</b>&nbsp;<b>$06</b>&nbsp;<b>$07</b>&nbsp;<b>$08</b>&nbsp;<b>$09</b>&nbsp;<b>$0A</b>&nbsp;<b>$0B</b>&nbsp;<b>$0C</b>&nbsp;<b>$0D</b>&nbsp;<b>$0E</b>&nbsp;<b>$0F</b>
+<br>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;gra&nbsp;&nbsp;&quot;&nbsp;&nbsp;&nbsp;&Atilde;&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;?
+<br>;
+<br>;&nbsp;<b>$10</b>&nbsp;<b>$11</b>&nbsp;<b>$12</b>&nbsp;<b>$13</b>&nbsp;<b>$14</b>&nbsp;<b>$15</b>&nbsp;<b>$16</b>&nbsp;<b>$17</b>&nbsp;<b>$18</b>&nbsp;<b>$19</b>&nbsp;<b>$1A</b>&nbsp;<b>$1B</b>&nbsp;<b>$1C</b>&nbsp;<b>$1D</b>&nbsp;<b>$1E</b>&nbsp;<b>$1F</b>
+<br>;&nbsp;&nbsp;(&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&lt;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;3
+<br>;
+<br>;&nbsp;<b>$20</b>&nbsp;<b>$21</b>&nbsp;<b>$22</b>&nbsp;<b>$23</b>&nbsp;<b>$24</b>&nbsp;<b>$25</b>&nbsp;<b>$26</b>&nbsp;<b>$27</b>&nbsp;<b>$28</b>&nbsp;<b>$29</b>&nbsp;<b>$2A</b>&nbsp;<b>$2B</b>&nbsp;<b>$2C</b>&nbsp;<b>$2D</b>&nbsp;<b>$2E</b>&nbsp;<b>$2F</b>
+<br>;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;B&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;D&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;F&nbsp;&nbsp;&nbsp;G&nbsp;&nbsp;&nbsp;H&nbsp;&nbsp;&nbsp;I&nbsp;&nbsp;&nbsp;J
+<br>;
+<br>;&nbsp;<b>$30</b>&nbsp;<b>$31</b>&nbsp;<b>$32</b>&nbsp;<b>$33</b>&nbsp;<b>$34</b>&nbsp;<b>$35</b>&nbsp;<b>$36</b>&nbsp;<b>$37</b>&nbsp;<b>$38</b>&nbsp;<b>$39</b>&nbsp;<b>$3A</b>&nbsp;<b>$3B</b>&nbsp;<b>$3C</b>&nbsp;<b>$3D</b>&nbsp;<b>$3E</b>&nbsp;<b>$3F</b>
+<br>;&nbsp;&nbsp;K&nbsp;&nbsp;&nbsp;L&nbsp;&nbsp;&nbsp;M&nbsp;&nbsp;&nbsp;N&nbsp;&nbsp;&nbsp;O&nbsp;&nbsp;&nbsp;P&nbsp;&nbsp;&nbsp;Q&nbsp;&nbsp;&nbsp;R&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;U&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;W&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;Y&nbsp;&nbsp;&nbsp;Z
+<br>;
+<br>
+<br>
+<br>;&nbsp;<b>-------------------</b>
+<br>;&nbsp;THE&nbsp;&#39;ZX81&nbsp;<a href="#KEYBOARD">KEYBOARD</a>&#39;
+<br>;&nbsp;<b>-------------------</b>
+<br>;
+<br>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[]&nbsp;mosaic&nbsp;graphic
+<br>;
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;&nbsp;|&nbsp;EDIT|&nbsp;|&nbsp;&nbsp;AND|&nbsp;|&nbsp;THEN|&nbsp;|&nbsp;&nbsp;TO&nbsp;|&nbsp;|&nbsp;&nbsp;&lt;-&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;v&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;^&nbsp;|&nbsp;|&nbsp;&nbsp;-&gt;&nbsp;|&nbsp;|GRAPH|&nbsp;|&nbsp;RUB&nbsp;|
+<br>;&nbsp;|&nbsp;1&nbsp;[]|&nbsp;|&nbsp;2&nbsp;[]|&nbsp;|&nbsp;3&nbsp;[]|&nbsp;|&nbsp;4&nbsp;[]|&nbsp;|&nbsp;5&nbsp;[]|&nbsp;|&nbsp;6&nbsp;[]|&nbsp;|&nbsp;7&nbsp;[]|&nbsp;|&nbsp;8&nbsp;[]|&nbsp;|&nbsp;9&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;0&nbsp;&nbsp;&nbsp;|
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;
+<br>;&nbsp;&nbsp;<a href="#PLOT">PLOT</a>&nbsp;&nbsp;&nbsp;<a href="#UNPLOT">UNPLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#REM">REM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#RUN">RUN</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#RAND">RAND</a>&nbsp;&nbsp;<a href="#RETURN">RETURN</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#IF">IF</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#INPUT">INPUT</a>&nbsp;&nbsp;&nbsp;<a href="#POKE">POKE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT">PRINT</a>
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;&nbsp;|&nbsp;&nbsp;&quot;&quot;&nbsp;|&nbsp;|&nbsp;&nbsp;OR&nbsp;|&nbsp;|&nbsp;STEP|&nbsp;|&nbsp;&nbsp;&lt;=&nbsp;|&nbsp;|&nbsp;&nbsp;&lt;&gt;&nbsp;|&nbsp;|&nbsp;&nbsp;&gt;=&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;$&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;(&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;)&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&quot;&nbsp;|
+<br>;&nbsp;|&nbsp;Q&nbsp;[]|&nbsp;|&nbsp;W&nbsp;[]|&nbsp;|&nbsp;E&nbsp;[]|&nbsp;|&nbsp;R&nbsp;[]|&nbsp;|&nbsp;T&nbsp;[]|&nbsp;|&nbsp;Y&nbsp;[]|&nbsp;|&nbsp;U&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;I&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;O&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;P&nbsp;&nbsp;&nbsp;|
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;
+<br>;&nbsp;&nbsp;&nbsp;<a href="#NEW">NEW</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SAVE">SAVE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DIM">DIM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FOR">FOR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#GOTO">GOTO</a>&nbsp;&nbsp;&nbsp;<a href="#GOSUB">GOSUB</a>&nbsp;&nbsp;&nbsp;<a href="#LOAD">LOAD</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#LIST">LIST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#LET">LET</a>
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;&nbsp;|&nbsp;<a href="#STOP">STOP</a>|&nbsp;|LPRNT|&nbsp;|&nbsp;<a href="#SLOW">SLOW</a>|&nbsp;|&nbsp;<a href="#FAST">FAST</a>|&nbsp;|<a href="#LLIST">LLIST</a>|&nbsp;|&nbsp;&nbsp;**&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;-&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;+&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;=&nbsp;|&nbsp;|FUNCT|
+<br>;&nbsp;|&nbsp;A&nbsp;[]|&nbsp;|&nbsp;S&nbsp;[]|&nbsp;|&nbsp;D&nbsp;[]|&nbsp;|&nbsp;F&nbsp;[]|&nbsp;|&nbsp;G&nbsp;[]|&nbsp;|&nbsp;H&nbsp;[]|&nbsp;|&nbsp;J&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;K&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;L&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;N/L&nbsp;|
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;
+<br>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#COPY">COPY</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CLEAR">CLEAR</a>&nbsp;&nbsp;&nbsp;<a href="#CONT">CONT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CLS">CLS</a>&nbsp;&nbsp;&nbsp;<a href="#SCROLL">SCROLL</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#NEXT">NEXT</a>&nbsp;&nbsp;&nbsp;<a href="#PAUSE">PAUSE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BREAK
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;:&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;?&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;/&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;*&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&lt;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&gt;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;,&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;&Atilde;&nbsp;|
+<br>;&nbsp;|SHIFT|&nbsp;|&nbsp;Z&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;X&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;C&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;V&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;B&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;N&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;M&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;.&nbsp;&nbsp;&nbsp;|&nbsp;|SPACE|
+<br>;&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+&nbsp;+<b>-----</b>+
+<br>;
+<br>;
+<br>;&nbsp;Graphic&nbsp;Character&nbsp;Locations
+<br>;&nbsp;<b>---------------------------</b>
+<br>;
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|##|&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|##|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;|##|&nbsp;&nbsp;|##|&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;|##|&nbsp;&nbsp;|##|&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|#&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;#|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;&nbsp;&nbsp;|XX|&nbsp;&nbsp;|XX|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|xx|&nbsp;&nbsp;|##|&nbsp;&nbsp;&nbsp;&nbsp;|xx|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;|XX|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|XX|&nbsp;&nbsp;|##|&nbsp;&nbsp;|xx|&nbsp;&nbsp;&nbsp;&nbsp;|xx|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|&nbsp;&nbsp;|
+<br>;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+&nbsp;&nbsp;+--+
+<br>;
+<br>
 <br>;&nbsp;<b>======================</b>
 <br>;&nbsp;ZX-81&nbsp;SYSTEM&nbsp;VARIABLES
 <br>;&nbsp;<b>======================</b>
+<br>;&nbsp;X&nbsp;The&nbsp;variable&nbsp;should&nbsp;<a href="#not">not</a>&nbsp;be&nbsp;poked,&nbsp;because&nbsp;the&nbsp;system&nbsp;might&nbsp;crash.
+<br>;&nbsp;N&nbsp;Poking&nbsp;the&nbsp;variable&nbsp;will&nbsp;have&nbsp;no&nbsp;lasting&nbsp;effect.
+<br>;&nbsp;S&nbsp;The&nbsp;variable&nbsp;is&nbsp;saved&nbsp;by&nbsp;<a href="#SAVE">SAVE</a>.
+<br>;
+<br><a name="ERR_NR"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ERR_NR">ERR_NR</a>&nbsp;&nbsp;=&nbsp;<b>$4000</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;16384
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;less&nbsp;than&nbsp;the&nbsp;report&nbsp;<a href="#code">code</a>.&nbsp;Starts&nbsp;off
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;255&nbsp;(for&nbsp;-1),&nbsp;so&nbsp;PEEK&nbsp;16384,&nbsp;if&nbsp;it
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;works&nbsp;at&nbsp;all,&nbsp;gives&nbsp;255.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#POKE">POKE</a>&nbsp;16384,n&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;force&nbsp;an
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error&nbsp;halt:&nbsp;0&nbsp;&lt;=&nbsp;n&nbsp;&lt;=&nbsp;14&nbsp;gives&nbsp;one&nbsp;of
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;usual&nbsp;reports,&nbsp;15&nbsp;&lt;=&nbsp;n&nbsp;&lt;=&nbsp;34&nbsp;<a href="#or">or</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;99&nbsp;&lt;=&nbsp;n&nbsp;&lt;=&nbsp;127&nbsp;gives&nbsp;a&nbsp;nonstandard
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;report,&nbsp;and&nbsp;35&nbsp;&lt;=&nbsp;n&nbsp;&lt;=&nbsp;98&nbsp;is&nbsp;likely&nbsp;to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mess&nbsp;up&nbsp;the&nbsp;display&nbsp;file.
+<br><a name="FLAGS"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FLAGS">FLAGS</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4001</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;X1&nbsp;&nbsp;16385
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Various&nbsp;flags&nbsp;to&nbsp;control&nbsp;the&nbsp;BASIC&nbsp;system.
+<br><a name="ERR_SP"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ERR_SP">ERR_SP</a>&nbsp;&nbsp;=&nbsp;<b>$4002</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;X2&nbsp;&nbsp;16386
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;first&nbsp;item&nbsp;on&nbsp;machine&nbsp;stack
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(after&nbsp;<a href="#GOSUB">GOSUB</a>&nbsp;returns).
+<br><a name="RAMTOP"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#RAMTOP">RAMTOP</a>&nbsp;&nbsp;=&nbsp;<b>$4004</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;16388
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;first&nbsp;byte&nbsp;above&nbsp;BASIC&nbsp;system
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;area.&nbsp;You&nbsp;can&nbsp;poke&nbsp;this&nbsp;to&nbsp;make&nbsp;<a href="#NEW">NEW</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reserve&nbsp;space&nbsp;above&nbsp;that&nbsp;area&nbsp;(see
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chapter&nbsp;26)&nbsp;<a href="#or">or</a>&nbsp;to&nbsp;fool&nbsp;<a href="#CLS">CLS</a>&nbsp;into&nbsp;setting
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;up&nbsp;a&nbsp;minimal&nbsp;display&nbsp;file&nbsp;(Chapter&nbsp;27).
+<br><a name="MODE"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MODE">MODE</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4006</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;N1&nbsp;&nbsp;16390
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Specifies&nbsp;K,&nbsp;L,&nbsp;F&nbsp;<a href="#or">or</a>&nbsp;G&nbsp;cursor.
+<br><a name="PPC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PPC">PPC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4007</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;N2&nbsp;&nbsp;16391
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;of&nbsp;statement&nbsp;currently&nbsp;being
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;executed.&nbsp;Poking&nbsp;this&nbsp;has&nbsp;no&nbsp;lasting
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect&nbsp;except&nbsp;in&nbsp;the&nbsp;last&nbsp;line&nbsp;of&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program.
+<br><a name="VERSN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#VERSN">VERSN</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4009</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S1&nbsp;&nbsp;16393
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;identifies&nbsp;8K&nbsp;ROM&nbsp;in&nbsp;saved&nbsp;programs.
+<br><a name="E_PPC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#E_PPC">E_PPC</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$400A</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16394
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;current&nbsp;line&nbsp;(with&nbsp;program
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cursor).
+<br><a name="D_FILE"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#D_FILE">D_FILE</a>&nbsp;&nbsp;=&nbsp;<b>$400C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16396
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;display&nbsp;file&nbsp;is&nbsp;the&nbsp;memory&nbsp;copy&nbsp;of
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;television&nbsp;picture.&nbsp;It&nbsp;begins&nbsp;with&nbsp;a
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEWLINE&nbsp;character,&nbsp;&amp;&nbsp;then&nbsp;has&nbsp;the&nbsp;twenty
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;four&nbsp;lines&nbsp;of&nbsp;text,&nbsp;each&nbsp;finishing&nbsp;with
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;NEWLINE.
+<br><a name="DF_CC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DF_CC">DF_CC</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$400E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16398
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;<a href="#PRINT">PRINT</a>&nbsp;position&nbsp;in&nbsp;display
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.&nbsp;Can&nbsp;be&nbsp;poked&nbsp;so&nbsp;that&nbsp;<a href="#PRINT">PRINT</a>&nbsp;output
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;sent&nbsp;elsewhere.
+<br><a name="VARS"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#VARS">VARS</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4010</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16400
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;variables&nbsp;have&nbsp;different&nbsp;formats
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;according&nbsp;to&nbsp;their&nbsp;different&nbsp;natures.
+<br><a name="DEST"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DEST">DEST</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4012</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN2&nbsp;&nbsp;16402
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;variable&nbsp;in&nbsp;assignment.
+<br><a name="E_LINE"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#E_LINE">E_LINE</a>&nbsp;&nbsp;=&nbsp;<b>$4014</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16404
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contains&nbsp;the&nbsp;line&nbsp;being&nbsp;typed&nbsp;(as&nbsp;a
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;command,&nbsp;a&nbsp;program&nbsp;line,&nbsp;<a href="#or">or</a>&nbsp;<a href="#INPUT">INPUT</a>&nbsp;data)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;also&nbsp;some&nbsp;work&nbsp;space.
+<br><a name="CH_ADD"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CH_ADD">CH_ADD</a>&nbsp;&nbsp;=&nbsp;<b>$4016</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16406
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;the&nbsp;next&nbsp;character&nbsp;to&nbsp;be
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;interpreted:&nbsp;the&nbsp;character&nbsp;after&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argument&nbsp;of&nbsp;PEEK,&nbsp;<a href="#or">or</a>&nbsp;the&nbsp;<a href="#ENTER">ENTER</a>&nbsp;at&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;a&nbsp;<a href="#POKE">POKE</a>&nbsp;statement.
+<br><a name="X_PTR"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#X_PTR">X_PTR</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4018</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16408
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;the&nbsp;character&nbsp;preceding&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax&nbsp;error&nbsp;marker.
+<br><a name="STKBOT"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STKBOT">STKBOT</a>&nbsp;&nbsp;=&nbsp;<b>$401A</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16410
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculator&nbsp;stack&nbsp;start.&nbsp;The&nbsp;calculator
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack&nbsp;is&nbsp;the&nbsp;part&nbsp;of&nbsp;the&nbsp;BASIC&nbsp;system
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;deals&nbsp;with&nbsp;arithmetic,&nbsp;&amp;&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers&nbsp;on&nbsp;which&nbsp;it&nbsp;is&nbsp;operating&nbsp;are
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;held&nbsp;mostly&nbsp;in&nbsp;the&nbsp;calculator&nbsp;stack.
+<br><a name="STKEND"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STKEND">STKEND</a>&nbsp;&nbsp;=&nbsp;<b>$401C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16412
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculator&nbsp;stack&nbsp;end.
+<br><a name="BREG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#BREG">BREG</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$401E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN1&nbsp;&nbsp;16414
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculator&#39;s&nbsp;b&nbsp;register.
+<br><a name="MEM"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MEM">MEM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$401F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN2&nbsp;&nbsp;16415
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;area&nbsp;used&nbsp;for&nbsp;calculator&#39;s
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memory.&nbsp;(Usually&nbsp;<a href="#MEMBOT">MEMBOT</a>&nbsp;but&nbsp;<a href="#not">not</a>&nbsp;always.)
+<br><a name="SPARE1"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SPARE1">SPARE1</a>&nbsp;&nbsp;=&nbsp;<b>$4021</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S1&nbsp;&nbsp;16417
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not&nbsp;used.
+<br><a name="DF_SZ"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DF_SZ">DF_SZ</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4022</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX1&nbsp;&nbsp;16418
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;lines&nbsp;(including&nbsp;one&nbsp;blank
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line)&nbsp;in&nbsp;the&nbsp;lower&nbsp;part&nbsp;of&nbsp;the&nbsp;screen.
+<br><a name="S_TOP"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#S_TOP">S_TOP</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4023</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16419
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;the&nbsp;top&nbsp;program&nbsp;line&nbsp;in
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;automatic&nbsp;listings.
+<br><a name="LAST_K"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#LAST_K">LAST_K</a>&nbsp;&nbsp;=&nbsp;<b>$4025</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN2&nbsp;&nbsp;16421
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows&nbsp;which&nbsp;keys&nbsp;pressed.
+<br><a name="DB_ST"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DB_ST">DB_ST</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4027</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN1&nbsp;&nbsp;16423
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debounce&nbsp;status&nbsp;of&nbsp;keyboard.
+<br><a name="MARGIN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MARGIN">MARGIN</a>&nbsp;&nbsp;=&nbsp;<b>$4028</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN1&nbsp;&nbsp;16424
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;blank&nbsp;lines&nbsp;above&nbsp;<a href="#or">or</a>&nbsp;below
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;picture&nbsp;-&nbsp;31.
+<br><a name="NXTLIN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#NXTLIN">NXTLIN</a>&nbsp;&nbsp;=&nbsp;<b>$4029</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX2&nbsp;&nbsp;16425
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;next&nbsp;program&nbsp;line&nbsp;to&nbsp;be
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;executed.
+<br><a name="OLDPPC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OLDPPC">OLDPPC</a>&nbsp;&nbsp;=&nbsp;<b>$402B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16427
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;to&nbsp;which&nbsp;<a href="#CONT">CONT</a>&nbsp;jumps.
+<br><a name="FLAGX"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FLAGX">FLAGX</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$402D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN1&nbsp;&nbsp;16429
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Various&nbsp;flags.
+<br><a name="STRLEN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STRLEN">STRLEN</a>&nbsp;&nbsp;=&nbsp;<b>$402E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN2&nbsp;&nbsp;16430
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Length&nbsp;of&nbsp;string&nbsp;type&nbsp;designation&nbsp;in
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assignment.
+<br><a name="T_ADDR"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#T_ADDR">T_ADDR</a>&nbsp;&nbsp;=&nbsp;<b>$4030</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SN2&nbsp;&nbsp;16432
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;next&nbsp;item&nbsp;in&nbsp;syntax&nbsp;table
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(very&nbsp;unlikely&nbsp;to&nbsp;be&nbsp;useful).
+<br><a name="SEED"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SEED">SEED</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4032</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16434
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;seed&nbsp;for&nbsp;RND.&nbsp;This&nbsp;is&nbsp;the&nbsp;variable
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;is&nbsp;set&nbsp;by&nbsp;<a href="#RAND">RAND</a>.
+<br><a name="FRAMES"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FRAMES">FRAMES</a>&nbsp;&nbsp;=&nbsp;<b>$4034</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16436
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Counts&nbsp;the&nbsp;frames&nbsp;displayed&nbsp;on&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;television.&nbsp;Bit&nbsp;15&nbsp;is&nbsp;1.&nbsp;Bits&nbsp;0&nbsp;to&nbsp;14
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;decremented&nbsp;for&nbsp;each&nbsp;frame&nbsp;sent&nbsp;to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;television.&nbsp;This&nbsp;can&nbsp;be&nbsp;used&nbsp;for
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timing,&nbsp;but&nbsp;<a href="#PAUSE">PAUSE</a>&nbsp;also&nbsp;uses&nbsp;it.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PAUSE">PAUSE</a>&nbsp;resets&nbsp;bit&nbsp;15&nbsp;to&nbsp;0&nbsp;and&nbsp;puts&nbsp;in
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bits&nbsp;0&nbsp;to&nbsp;14&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;pause.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When&nbsp;these&nbsp;have&nbsp;been&nbsp;counted&nbsp;down&nbsp;to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zero,&nbsp;the&nbsp;pause&nbsp;stops.&nbsp;If&nbsp;the&nbsp;pause
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stops&nbsp;because&nbsp;of&nbsp;a&nbsp;key&nbsp;depression,&nbsp;bit
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;is&nbsp;set&nbsp;to&nbsp;1&nbsp;again.
+<br><a name="COORDS"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#COORDS">COORDS</a>&nbsp;&nbsp;=&nbsp;<b>$4036</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S1&nbsp;&nbsp;16438
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x-coordinate&nbsp;of&nbsp;last&nbsp;pointed&nbsp;PLOTted.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S1&nbsp;&nbsp;16439
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y-coordinate&nbsp;of&nbsp;last&nbsp;pointed&nbsp;PLOTted.
+<br><a name="PR_CC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PR_CC">PR_CC</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4038</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S1&nbsp;&nbsp;16440
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Less&nbsp;significant&nbsp;byte&nbsp;of&nbsp;address&nbsp;of&nbsp;next
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position&nbsp;for&nbsp;<a href="#LPRINT">LPRINT</a>&nbsp;to&nbsp;print&nbsp;at&nbsp;(in
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRBUFF">PRBUFF</a>).
+<br><a name="S_POSN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#S_POSN">S_POSN</a>&nbsp;&nbsp;=&nbsp;<b>$4039</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX1&nbsp;&nbsp;16441
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Column&nbsp;number&nbsp;for&nbsp;<a href="#PRINT">PRINT</a>&nbsp;position.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;SX1&nbsp;&nbsp;16442
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;for&nbsp;<a href="#PRINT">PRINT</a>&nbsp;position.
+<br><a name="CDFLAG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CDFLAG">CDFLAG</a>&nbsp;&nbsp;=&nbsp;<b>$403B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S1&nbsp;&nbsp;16443
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Various&nbsp;flags.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit&nbsp;7&nbsp;is&nbsp;1&nbsp;during&nbsp;compute&nbsp;and&nbsp;display
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode,&nbsp;0&nbsp;for&nbsp;fast&nbsp;mode.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit&nbsp;6&nbsp;is&nbsp;1&nbsp;to&nbsp;request&nbsp;slow&nbsp;mode,&nbsp;0&nbsp;to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request&nbsp;fast&nbsp;mode.&nbsp;If&nbsp;slow&nbsp;mode&nbsp;<a href="#not">not</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;available&nbsp;then&nbsp;bit&nbsp;6&nbsp;is&nbsp;set&nbsp;back&nbsp;to&nbsp;0.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;slow&nbsp;mode&nbsp;is&nbsp;available&nbsp;then&nbsp;bit&nbsp;7
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;will&nbsp;be&nbsp;set&nbsp;to&nbsp;1.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit&nbsp;0&nbsp;is&nbsp;set&nbsp;if&nbsp;key&nbsp;available.
+<br><a name="PRBUFF"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRBUFF">PRBUFF</a>&nbsp;&nbsp;=&nbsp;<b>$403C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;S33&nbsp;&nbsp;16444
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Printer&nbsp;buffer&nbsp;(33rd&nbsp;character&nbsp;is&nbsp;<a href="#ENTER">ENTER</a>).
+<br><a name="MEMBOT"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MEMBOT">MEMBOT</a>&nbsp;&nbsp;=&nbsp;<b>$405D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;SN30&nbsp;&nbsp;16477
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculator&#39;s&nbsp;memory&nbsp;area;&nbsp;used&nbsp;to&nbsp;store
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers&nbsp;that&nbsp;cannot&nbsp;conveniently&nbsp;be&nbsp;put
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on&nbsp;the&nbsp;calculator&nbsp;stack.
+<br><a name="SPARE2"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SPARE2">SPARE2</a>&nbsp;&nbsp;=&nbsp;<b>$407B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16507
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not&nbsp;used.
 <br>
-<br><a name="ERR_NR"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ERR_NR">ERR_NR</a>&nbsp;&nbsp;=&nbsp;<b>$4000</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Current&nbsp;report&nbsp;<a href="#code">code</a>&nbsp;minus&nbsp;one
-<br><a name="FLAGS"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FLAGS">FLAGS</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4001</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Various&nbsp;flags
-<br><a name="ERR_SP"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ERR_SP">ERR_SP</a>&nbsp;&nbsp;=&nbsp;<b>$4002</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;top&nbsp;of&nbsp;<a href="#GOSUB">GOSUB</a>&nbsp;stack
-<br><a name="RAMTOP"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#RAMTOP">RAMTOP</a>&nbsp;&nbsp;=&nbsp;<b>$4004</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;reserved&nbsp;area&nbsp;(<a href="#not">not</a>&nbsp;wiped&nbsp;out&nbsp;by&nbsp;<a href="#NEW">NEW</a>)
-<br><a name="MODE"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MODE">MODE</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4006</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Current&nbsp;cursor&nbsp;mode
-<br><a name="PPC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PPC">PPC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4007</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;of&nbsp;line&nbsp;being&nbsp;executed
-<br><a name="VERSN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#VERSN">VERSN</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4009</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;First&nbsp;system&nbsp;variable&nbsp;to&nbsp;be&nbsp;SAVEd
-<br><a name="E_PPC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#E_PPC">E_PPC</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$400A</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;of&nbsp;line&nbsp;with&nbsp;cursor
-<br><a name="D_FILE"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#D_FILE">D_FILE</a>&nbsp;&nbsp;=&nbsp;<b>$400C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;start&nbsp;of&nbsp;display&nbsp;file
-<br><a name="DF_CC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DF_CC">DF_CC</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$400E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;print&nbsp;position&nbsp;within&nbsp;display&nbsp;file
-<br><a name="VARS"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#VARS">VARS</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4010</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;start&nbsp;of&nbsp;variables&nbsp;area
-<br><a name="DEST"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DEST">DEST</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4012</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;variable&nbsp;being&nbsp;assigned
-<br><a name="E_LINE"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#E_LINE">E_LINE</a>&nbsp;&nbsp;=&nbsp;<b>$4014</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;start&nbsp;of&nbsp;edit&nbsp;line
-<br><a name="CH_ADD"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CH_ADD">CH_ADD</a>&nbsp;&nbsp;=&nbsp;<b>$4016</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;the&nbsp;next&nbsp;character&nbsp;to&nbsp;interpret
-<br><a name="X_PTR"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#X_PTR">X_PTR</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4018</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;char.&nbsp;preceding&nbsp;syntax&nbsp;error&nbsp;marker
-<br><a name="STKBOT"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STKBOT">STKBOT</a>&nbsp;&nbsp;=&nbsp;<b>$401A</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;calculator&nbsp;stack
-<br><a name="STKEND"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STKEND">STKEND</a>&nbsp;&nbsp;=&nbsp;<b>$401C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;end&nbsp;of&nbsp;calculator&nbsp;stack
-<br><a name="BREG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#BREG">BREG</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$401E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Used&nbsp;by&nbsp;floating&nbsp;point&nbsp;calculator
-<br><a name="MEM"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MEM">MEM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$401F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;start&nbsp;of&nbsp;calculator&#39;s&nbsp;memory&nbsp;area
-<br><a name="SPARE1"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SPARE1">SPARE1</a>&nbsp;&nbsp;=&nbsp;<b>$4021</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;One&nbsp;spare&nbsp;byte
-<br><a name="DF_SZ"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DF_SZ">DF_SZ</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4022</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;lines&nbsp;in&nbsp;lower&nbsp;part&nbsp;of&nbsp;screen
-<br><a name="S_TOP"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#S_TOP">S_TOP</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4023</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;of&nbsp;line&nbsp;at&nbsp;top&nbsp;of&nbsp;screen
-<br><a name="LAST_K"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#LAST_K">LAST_K</a>&nbsp;&nbsp;=&nbsp;<b>$4025</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Keyboard&nbsp;scan&nbsp;taken&nbsp;after&nbsp;the&nbsp;last&nbsp;TV&nbsp;frame
-<br><a name="DB_ST"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DB_ST">DB_ST</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4027</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Debounce&nbsp;status&nbsp;of&nbsp;keyboard
-<br><a name="MARGIN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MARGIN">MARGIN</a>&nbsp;&nbsp;=&nbsp;<b>$4028</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;blank&nbsp;lines&nbsp;above&nbsp;<a href="#or">or</a>&nbsp;below&nbsp;picture
-<br><a name="NXTLIN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#NXTLIN">NXTLIN</a>&nbsp;&nbsp;=&nbsp;<b>$4029</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;next&nbsp;program&nbsp;line&nbsp;to&nbsp;be&nbsp;executed
-<br><a name="OLDPPC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OLDPPC">OLDPPC</a>&nbsp;&nbsp;=&nbsp;<b>$402B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Line&nbsp;number&nbsp;to&nbsp;which&nbsp;<a href="#CONT">CONT</a>/<a href="#CONTINUE">CONTINUE</a>&nbsp;jumps
-<br><a name="FLAGX"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FLAGX">FLAGX</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$402D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Various&nbsp;flags
-<br><a name="STRLEN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STRLEN">STRLEN</a>&nbsp;&nbsp;=&nbsp;<b>$402E</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Information&nbsp;concerning&nbsp;assigning&nbsp;of&nbsp;strings
-<br><a name="T_ADDR"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#T_ADDR">T_ADDR</a>&nbsp;&nbsp;=&nbsp;<b>$4030</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;next&nbsp;item&nbsp;in&nbsp;syntax&nbsp;table
-<br><a name="SEED"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SEED">SEED</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4032</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Seed&nbsp;for&nbsp;random&nbsp;number&nbsp;generator
-<br><a name="FRAMES"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FRAMES">FRAMES</a>&nbsp;&nbsp;=&nbsp;<b>$4034</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Updated&nbsp;once&nbsp;for&nbsp;every&nbsp;TV&nbsp;frame&nbsp;displayed
-<br><a name="COORDS"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#COORDS">COORDS</a>&nbsp;&nbsp;=&nbsp;<b>$4036</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Coordinates&nbsp;of&nbsp;last&nbsp;point&nbsp;PLOTed
-<br><a name="PR_CC"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PR_CC">PR_CC</a>&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4038</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Address&nbsp;of&nbsp;<a href="#LPRINT">LPRINT</a>&nbsp;position&nbsp;(high&nbsp;part&nbsp;assumed&nbsp;<b>$40</b>)
-<br><a name="S_POSN"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#S_POSN">S_POSN</a>&nbsp;&nbsp;=&nbsp;<b>$4039</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Coordinates&nbsp;of&nbsp;print&nbsp;position
-<br><a name="CDFLAG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CDFLAG">CDFLAG</a>&nbsp;&nbsp;=&nbsp;<b>$403B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1&nbsp;&nbsp;&nbsp;Flags&nbsp;relating&nbsp;to&nbsp;<a href="#FAST">FAST</a>/<a href="#SLOW">SLOW</a>&nbsp;mode
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit&nbsp;7:&nbsp;if&nbsp;<a href="#SLOW">SLOW</a>&nbsp;mode,&nbsp;clear&nbsp;if&nbsp;<a href="#FAST">FAST</a>&nbsp;mode&nbsp;(ZX80&nbsp;cannot&nbsp;do&nbsp;<a href="#SLOW">SLOW</a>)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit&nbsp;6:&nbsp;set&nbsp;if&nbsp;<a href="#SLOW">SLOW</a>&nbsp;mode&nbsp;requested,&nbsp;cleat&nbsp;if&nbsp;<a href="#FAST">FAST</a>&nbsp;mode&nbsp;requested
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit&nbsp;0:&nbsp;set&nbsp;if&nbsp;key&nbsp;available
-<br><a name="PRBUFF"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRBUFF">PRBUFF</a>&nbsp;&nbsp;=&nbsp;<b>$403C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N21h&nbsp;Buffer&nbsp;to&nbsp;store&nbsp;<a href="#LPRINT">LPRINT</a>&nbsp;output
-<br><a name="MEMBOT"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MEMBOT">MEMBOT</a>&nbsp;&nbsp;=&nbsp;<b>$405D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N1E&nbsp;&nbsp;Area&nbsp;which&nbsp;may&nbsp;be&nbsp;used&nbsp;for&nbsp;calculator&nbsp;memory
-<br><a name="SPARE2"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SPARE2">SPARE2</a>&nbsp;&nbsp;=&nbsp;<b>$407B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;N2&nbsp;&nbsp;&nbsp;Two&nbsp;spare&nbsp;bytes
+<br><a name="PROG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16509
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start&nbsp;of&nbsp;BASIC&nbsp;program
 <br>
-<br><a name="PROG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Start&nbsp;of&nbsp;BASIC&nbsp;program
 <br><a name="MAXRAM"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;=&nbsp;<b>$7FFF</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Maximum&nbsp;value&nbsp;of&nbsp;<a href="#RAMTOP">RAMTOP</a>
 <br>
 <br><a name="IY0"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#IY0">IY0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<a href="#ERR_NR">ERR_NR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Base&nbsp;of&nbsp;system&nbsp;variables
@@ -2916,8 +3096,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#WRONG_VAL">WRONG_VAL</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;WRONG-VAL
 <br>
 <br><a name="TEST_VAL"></a><a href="#TEST_VAL">TEST_VAL</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(iy+<a href="#DF_SZ">DF_SZ</a>-<a href="#IY0">IY0</a>)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;<a href="#DF_SZ">DF_SZ</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(iy+<a href="#DF_SZ">DF_SZ</a>-<a href="#IY0">IY0</a>)&nbsp;&nbsp;;&nbsp;sv&nbsp;<a href="#DF_SZ">DF_SZ</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#REPORT_5">REPORT_5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#REPORT">REPORT</a>-5
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
@@ -3643,73 +3822,120 @@
 <br>;&nbsp;THE&nbsp;&#39;<a href="#PLOT">PLOT</a>&nbsp;AND&nbsp;<a href="#UNPLOT">UNPLOT</a>&#39;&nbsp;COMMAND&nbsp;ROUTINES
 <br>;&nbsp;<b>--------------------------------------</b>
 <br>;
+<br>;&nbsp;The&nbsp;graphic&nbsp;character&nbsp;codes&nbsp;used&nbsp;by&nbsp;<a href="#PLOT">PLOT</a>&nbsp;are&nbsp;formed&nbsp;by&nbsp;assigning&nbsp;values&nbsp;as&nbsp;follows:
 <br>;
+<br>;&nbsp;+---+---+
+<br>;&nbsp;|&nbsp;1&nbsp;|&nbsp;2&nbsp;|
+<br>;&nbsp;+---+---+
+<br>;&nbsp;|&nbsp;4&nbsp;|&nbsp;&nbsp;&nbsp;|
+<br>;&nbsp;+---+---+
+<br>;
+<br>;&nbsp;This&nbsp;yields&nbsp;codes&nbsp;<b>$00</b>&nbsp;to&nbsp;<b>$07</b>:
+<br>;
+<br>;&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+
+<br>;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|###|###|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|###|###|
+<br>;&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+
+<br>;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|###|&nbsp;&nbsp;&nbsp;|
+<br>;&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+
+<br>;&nbsp;&nbsp;&nbsp;&nbsp;<b>$00</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$01</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$02</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$03</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$04</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$05</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$06</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$07</b>
+<br>;
+<br>;&nbsp;The&nbsp;inverse&nbsp;characters&nbsp;are&nbsp;therefore&nbsp;available&nbsp;via&nbsp;codes&nbsp;<b>$80</b>&nbsp;to&nbsp;<b>$87</b>:
+<br>;
+<br>;&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+
+<br>;&nbsp;|###|###|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|###|###|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|###|&nbsp;&nbsp;&nbsp;|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;|
+<br>;&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+
+<br>;&nbsp;|###|###|&nbsp;|###|###|&nbsp;|###|###|&nbsp;|###|###|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|&nbsp;&nbsp;&nbsp;|###|&nbsp;|&nbsp;&nbsp;&nbsp;|###|
+<br>;&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+&nbsp;+---+---+
+<br>;&nbsp;&nbsp;&nbsp;&nbsp;<b>$80</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$81</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$82</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$83</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$84</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$85</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$86</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$87</b>
 <br>
 <br><a name="PLOT_UNPLOT"></a><a href="#PLOT_UNPLOT">PLOT_UNPLOT</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STK_TO_BC">STK_TO_BC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;STK-TO-BC
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#COORDS">COORDS</a>),&nbsp;bc&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;COORDS_x
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$2B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#STK_TO_BC">STK_TO_BC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;routine&nbsp;STK-TO-BC&nbsp;to&nbsp;fetch&nbsp;the&nbsp;x&nbsp;coordinate
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;C&nbsp;and&nbsp;the&nbsp;y&nbsp;coordinate&nbsp;to&nbsp;B.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#COORDS">COORDS</a>),&nbsp;bc&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Store&nbsp;the&nbsp;coordinates&nbsp;in&nbsp;system&nbsp;variable&nbsp;<a href="#COORDS">COORDS</a>.
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Is&nbsp;the&nbsp;specified&nbsp;y&nbsp;coordinate&nbsp;out&nbsp;of&nbsp;range,&nbsp;i.e.&nbsp;greater&nbsp;than&nbsp;43?
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#REPORT_B">REPORT_B</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#REPORT">REPORT</a>-B
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#REPORT_B">REPORT_B</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;so&nbsp;to&nbsp;produce&nbsp;an&nbsp;error&nbsp;(<a href="#REPORT">REPORT</a>-B).
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$01</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#COLUMNS">COLUMNS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#COLUMNS">COLUMNS</a>
+<br>;&nbsp;The&nbsp;y&nbsp;coordinate&nbsp;is&nbsp;within&nbsp;range&nbsp;and&nbsp;has&nbsp;been&nbsp;negated.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$04</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Store&nbsp;43-y&nbsp;in&nbsp;B.
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$01</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Assume&nbsp;it&nbsp;is&nbsp;a&nbsp;point&nbsp;with&nbsp;even&nbsp;x&nbsp;and&nbsp;y&nbsp;coordinates.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Test&nbsp;whether&nbsp;an&nbsp;even&nbsp;<a href="#or">or</a>&nbsp;odd&nbsp;y&nbsp;coordinate&nbsp;by&nbsp;dividing&nbsp;B&nbsp;by&nbsp;2.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#COLUMNS">COLUMNS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;an&nbsp;even&nbsp;coordinate&nbsp;to&nbsp;<a href="#COLUMNS">COLUMNS</a>.
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$04</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;It&nbsp;is&nbsp;an&nbsp;odd&nbsp;y&nbsp;coordinate,&nbsp;but&nbsp;still&nbsp;assume&nbsp;an&nbsp;even&nbsp;x&nbsp;coordinate.
 <br>
 <br><a name="COLUMNS"></a><a href="#COLUMNS">COLUMNS</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#FIND_ADDR">FIND_ADDR</a>&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;FIND-ADDR
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Test&nbsp;whether&nbsp;an&nbsp;even&nbsp;<a href="#or">or</a>&nbsp;odd&nbsp;x&nbsp;coordinate&nbsp;by&nbsp;dividing&nbsp;C&nbsp;by&nbsp;2.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#FIND_ADDR">FIND_ADDR</a>&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;an&nbsp;even&nbsp;coordinate&nbsp;to&nbsp;FIND-ADDR.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rlca&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rlca&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;It&nbsp;is&nbsp;an&nbsp;odd&nbsp;x&nbsp;coordinate&nbsp;so&nbsp;multiple&nbsp;by&nbsp;2,&nbsp;i.e.&nbsp;A&nbsp;holds
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<b>$02</b>&nbsp;(even&nbsp;y&nbsp;coordinate)&nbsp;<a href="#or">or</a>&nbsp;<b>$08</b>&nbsp;(odd&nbsp;y&nbsp;coordinate).
+<br>
+<br>;&nbsp;By&nbsp;here&nbsp;the&nbsp;A&nbsp;register&nbsp;holds&nbsp;either&nbsp;<b>$01</b>&nbsp;(even&nbsp;y,&nbsp;even&nbsp;x),&nbsp;<b>$02</b>&nbsp;(even&nbsp;y,&nbsp;odd&nbsp;x),
+<br>;&nbsp;<b>$04</b>&nbsp;(odd&nbsp;y,&nbsp;even&nbsp;x)&nbsp;<a href="#or">or</a>&nbsp;<b>$08</b>&nbsp;(odd&nbsp;y,&nbsp;odd&nbsp;x),
+<br>;&nbsp;and&nbsp;B&nbsp;holds&nbsp;the&nbsp;row&nbsp;position&nbsp;and&nbsp;C&nbsp;the&nbsp;column&nbsp;position.
 <br>
 <br><a name="FIND_ADDR"></a><a href="#FIND_ADDR">FIND_ADDR</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_AT">PRINT_AT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;<a href="#PRINT">PRINT</a>-AT
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rlca&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$10</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#TABLE_PTR">TABLE_PTR</a>&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;TABLE-PTR
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Save&nbsp;the&nbsp;generated&nbsp;plot&nbsp;<a href="#code">code</a>.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_AT">PRINT_AT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;routine&nbsp;<a href="#PRINT">PRINT</a>-AT&nbsp;to&nbsp;find&nbsp;the&nbsp;location&nbsp;within&nbsp;the&nbsp;display&nbsp;file.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Fetch&nbsp;the&nbsp;current&nbsp;character&nbsp;at&nbsp;the&nbsp;display&nbsp;file&nbsp;location.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rlca&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Shift&nbsp;such&nbsp;that&nbsp;the&nbsp;&#39;invert&#39;&nbsp;flags&nbsp;goes&nbsp;into&nbsp;bit&nbsp;0.&nbsp;The&nbsp;low
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;4&nbsp;bits&nbsp;uniquely&nbsp;identifies&nbsp;all&nbsp;graphic&nbsp;plot&nbsp;characters.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$10</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Did&nbsp;the&nbsp;location&nbsp;hold&nbsp;a&nbsp;graphic&nbsp;plot&nbsp;character&nbsp;(<a href="#code">code</a>&nbsp;<b>$00</b>&nbsp;to&nbsp;<b>$0F</b>)?
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#TABLE_PTR">TABLE_PTR</a>&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;<a href="#not">not</a>&nbsp;to&nbsp;TABLE-PTR.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rrca&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#SQ_SAVED">SQ_SAVED</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;SQ-SAVED
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rrca&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Shift&nbsp;to&nbsp;restore&nbsp;the&nbsp;&#39;invert&#39;&nbsp;flag,&nbsp;testing&nbsp;it&nbsp;in&nbsp;the&nbsp;process.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#SQ_SAVED">SQ_SAVED</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;the&nbsp;&#39;invert&#39;&nbsp;flag&nbsp;is&nbsp;reset&nbsp;(i.e.&nbsp;a&nbsp;non-inverted
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;character)&nbsp;to&nbsp;SQ-SAVED.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$8F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$8F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;The&nbsp;existing&nbsp;character&nbsp;<a href="#code">code</a>&nbsp;is&nbsp;inverted&nbsp;so&nbsp;un-invert&nbsp;it.
 <br>
 <br><a name="SQ_SAVED"></a><a href="#SQ_SAVED">SQ_SAVED</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Store&nbsp;the&nbsp;non-inverted&nbsp;character&nbsp;<a href="#code">code</a>&nbsp;of&nbsp;the&nbsp;existing
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;graphic&nbsp;character.
+<br>
+<br>;&nbsp;Now&nbsp;determine&nbsp;whether&nbsp;plotting&nbsp;<a href="#or">or</a>&nbsp;unplotting.
 <br>
 <br><a name="TABLE_PTR"></a><a href="#TABLE_PTR">TABLE_PTR</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;<a href="#P_UNPLOT">P_UNPLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Address:&nbsp;P-<a href="#UNPLOT">UNPLOT</a>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;(<a href="#T_ADDR">T_ADDR</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;sv&nbsp;T_ADDR_lo
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m,&nbsp;<a href="#PLOT">PLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#PLOT">PLOT</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m,&nbsp;<a href="#PLOT">PLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;plotting&nbsp;to&nbsp;<a href="#PLOT">PLOT</a>.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cpl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#UNPLOT">UNPLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#UNPLOT">UNPLOT</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Fetch&nbsp;the&nbsp;plot&nbsp;<a href="#code">code</a>.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cpl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Invert&nbsp;it&nbsp;and
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;mask&nbsp;out&nbsp;the&nbsp;point&nbsp;in&nbsp;the&nbsp;existing&nbsp;character&nbsp;<a href="#code">code</a>.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#UNPLOT">UNPLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;ahead&nbsp;to&nbsp;<a href="#UNPLOT">UNPLOT</a>.
 <br>
 <br>;&nbsp;---
 <br>
 <br><a name="PLOT"></a><a href="#PLOT">PLOT</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#or">or</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Fetch&nbsp;the&nbsp;plot&nbsp;<a href="#code">code</a>&nbsp;and
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#or">or</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;the&nbsp;point&nbsp;in&nbsp;the&nbsp;existing&nbsp;character&nbsp;<a href="#code">code</a>.
+<br>
+<br>;&nbsp;Plot&nbsp;and&nbsp;unplot&nbsp;join&nbsp;here.&nbsp;If&nbsp;the&nbsp;new&nbsp;generated&nbsp;graphic&nbsp;<a href="#code">code</a>&nbsp;is&nbsp;above&nbsp;<b>$07</b>&nbsp;then&nbsp;it&nbsp;needs&nbsp;to
+<br>;&nbsp;be&nbsp;represented&nbsp;by&nbsp;an&nbsp;inverse&nbsp;character&nbsp;<a href="#code">code</a>.
 <br>
 <br><a name="UNPLOT"></a><a href="#UNPLOT">UNPLOT</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$08</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#PLOT_END">PLOT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;<a href="#PLOT">PLOT</a>-END
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$08</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;If&nbsp;the&nbsp;new&nbsp;graphic&nbsp;<a href="#code">code</a>&nbsp;below&nbsp;<b>$08</b>?
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;<a href="#PLOT_END">PLOT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;if&nbsp;so&nbsp;to&nbsp;<a href="#PLOT">PLOT</a>-END.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$8F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>$8F</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Invert&nbsp;the&nbsp;graphic&nbsp;<a href="#code">code</a>&nbsp;to&nbsp;form&nbsp;the&nbsp;appropriate
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;inverse&nbsp;character&nbsp;<a href="#code">code</a>.
+<br>
+<br>;&nbsp;The&nbsp;character&nbsp;<a href="#code">code</a>&nbsp;to&nbsp;display&nbsp;has&nbsp;been&nbsp;constructed.
 <br>
 <br><a name="PLOT_END"></a><a href="#PLOT_END">PLOT_END</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Preserve&nbsp;the&nbsp;main&nbsp;registers.
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_A">PRINT_A</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#PRINT">PRINT</a>-A
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_A">PRINT_A</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Call&nbsp;<a href="#PRINT">PRINT</a>-A&nbsp;to&nbsp;update&nbsp;the&nbsp;display&nbsp;file&nbsp;location&nbsp;with
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;the&nbsp;new&nbsp;character&nbsp;<a href="#code">code</a>.
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Restore&nbsp;the&nbsp;main&nbsp;registers.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret
 <br>
 <br>;&nbsp;<b>----------------------------</b>
 <br>;&nbsp;THE&nbsp;&#39;STACK-TO-BC&#39;&nbsp;SUBROUTINE
@@ -5839,8 +6065,7 @@
 <br>;&nbsp;writing&nbsp;and&nbsp;the&nbsp;greater&nbsp;program&nbsp;readability&nbsp;from&nbsp;using&nbsp;such&nbsp;toolkit&nbsp;routines.
 <br>
 <br><a name="GET_DE_FROM_DE_PLUS_1"></a><a href="#GET_DE_FROM_DE_PLUS_1">GET_DE_FROM_DE_PLUS_1</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;hl
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;move&nbsp;index&nbsp;address&nbsp;into&nbsp;HL.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de,&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;move&nbsp;index&nbsp;address&nbsp;into&nbsp;HL.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;increment&nbsp;to&nbsp;address&nbsp;word.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e,&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;pick&nbsp;up&nbsp;word&nbsp;low-order&nbsp;byte.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;index&nbsp;high-order&nbsp;byte&nbsp;and
@@ -8285,7 +8510,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;de&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;now&nbsp;the&nbsp;address&nbsp;of&nbsp;routine&nbsp;is&nbsp;stacked.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;back&nbsp;to&nbsp;main&nbsp;set
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;avoid&nbsp;using&nbsp;IY&nbsp;register.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;(<a href="#STKEND">STKEND</a>+1)&nbsp;&nbsp;;&nbsp;STKEND_hi
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;(<a href="#BREG">BREG</a>-1)&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;STKEND_hi
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;nothing&nbsp;much&nbsp;goes&nbsp;to&nbsp;C&nbsp;but&nbsp;<a href="#BREG">BREG</a>&nbsp;to&nbsp;B
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;and&nbsp;continue&nbsp;into&nbsp;next&nbsp;ret&nbsp;instruction
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;which&nbsp;has&nbsp;a&nbsp;dual&nbsp;identity
