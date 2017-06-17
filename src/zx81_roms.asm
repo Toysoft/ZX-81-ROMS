@@ -2,10 +2,11 @@
 ; *****************************************************************************
 ; This sorce file is used to generate different ZX81-ROMS by filepp, with
 ; input constants defining which ROM to generate.
-; 
+;
 ; Constants:
-;       ROM_zx81	ZX-81 version 2 (improved) ROM
-; 		ROM_tk85	TK-85 ROM
+;       ROM_zx81    ZX-81 version 2 (improved) ROM
+;       ROM_tk85    TK-85 ROM
+;       ROM_sg81    ZX-81 "Shoulder of Giants" ROM
 ; *****************************************************************************
 
 #endif
@@ -18,6 +19,35 @@
 ; ===========================================================
 ; An Assembly Listing of the Operating System of the TK85 ROM
 ; ===========================================================
+#endif
+#ifdef ROM_sg81
+; =========================================================
+; An Assembly Listing of the "Shoulders of Giants" ZX81 ROM
+; =========================================================
+;
+;   The "Shoulders of Giants" ZX81 ROM.
+;   This file shows the altered sections of the ZX81/TS1000 ROM that produced
+;   the customized sg81.rom.
+;   The main feature is the inclusion of Newton Raphson square roots.
+;   The square roots are executed 3 times faster than those in the
+;   standard ROM. They are more accurate also and
+;
+;   PRINT SQR 100 = INT SQR 100 gives the result 1 (true) not 0 (false)
+;
+;   The input and storage of fractional numbers is improved
+;
+;   PRINT 1/2 = .5 gives the result 1 (true) and not 0 (false)
+;
+;   The output of fractional numbers to the ZX Printer is corrected
+;
+;   LPRINT .00001 gives the output .00001 and not .0XYZ1
+;
+;   Other alterations have been made to create the space required by the
+;   new square root routine and some are obscure and would not otherwise have
+;   been made.
+;   Using uncompressed constants rectifies a logic error and improves speed.
+;
+;
 #endif
 ;
 ; Work in progress.
@@ -34,10 +64,6 @@
 ; some from the more elusive Complete ZX81 ROM Disassembly
 ; by the same publishers, Melbourne House.
 
-
-;#define DEFB .BYTE      ; TASM cross-assembler definitions
-;#define DEFW .WORD
-;#define EQU  .EQU
 
 ; ================
 ; ZX-81 MEMORY MAP
@@ -141,7 +167,7 @@ defc    CH_ADD  = $4016         ; N2   Address of the next character to interpre
 defc    X_PTR   = $4018         ; N2   Address of char. preceding syntax error marker
 defc    STKBOT  = $401A         ; N2   Address of calculator stack
 defc    STKEND  = $401C         ; N2   Address of end of calculator stack
-defc    BERG    = $401E         ; N1   Used by floating point calculator
+defc    BREG    = $401E         ; N1   Used by floating point calculator
 defc    MEM     = $401F         ; N2   Address of start of calculator's memory area
 defc    SPARE1  = $4021         ; N1   One spare byte
 defc    DF_SZ   = $4022         ; N2   Number of lines in lower part of screen
@@ -387,6 +413,7 @@ ERROR_1:
 ; register set so there is no requirement to save the main registers.
 ; There is sufficient room available to separate a space (zero) from other
 ; characters as leading spaces need not be considered with a space.
+; Note. the accumulator is preserved only when printing to the screen.
 
 PRINT_A:
         and     a               ; test for zero - space.
@@ -400,8 +427,12 @@ PRINT_A:
 ; Signature
         defb    'T' - 27        ; fill remaining space
 #else
+#ifdef ROM_sg81
+        defb    $01             ;+ unused location. Version. PRINT PEEK 23
+#else
         defs    PRINT_A + 8 - ASMPC, $FF
                                 ; fill remaining space
+#endif
 #endif
 
 ; ---------------------------------
@@ -459,7 +490,7 @@ FP_CALC:
 
 ; ---
 
-fp_end_calc:
+end_calc:
         pop     af              ; drop the calculator return address RE-ENTRY
         exx                     ; switch to the other set.
 
@@ -521,7 +552,7 @@ BC_SPACES:
 
 INTERRUPT:
         dec     c               ; (4)  decrement C - the scan line counter.
-        jp      nz, SCAN_LINE   ; (10/10) JUMP forward if not zero to SCAN-LINE
+        jp      nz, SCAN_LINE   ; (10/10) jump forward if not zero to SCAN-LINE
 
         pop     hl              ; (10) point to start of next row in display
                                 ;      file.
@@ -720,309 +751,8 @@ NMI_CONT:
 
         jp      (ix)            ; (8) forward to L0281 (after top) or L028F
 
-; ****************
-; ** KEY TABLES **
-; ****************
 
-; -------------------------------
-; THE 'UNSHIFTED' CHARACTER CODES
-; -------------------------------
-
-K_UNSHIFT:
-        defb    $3F             ; Z
-        defb    $3D             ; X
-        defb    $28             ; C
-        defb    $3B             ; V
-        defb    $26             ; A
-        defb    $38             ; S
-        defb    $29             ; D
-        defb    $2B             ; F
-        defb    $2C             ; G
-        defb    $36             ; Q
-        defb    $3C             ; W
-        defb    $2A             ; E
-        defb    $37             ; R
-        defb    $39             ; T
-        defb    $1D             ; 1
-        defb    $1E             ; 2
-        defb    $1F             ; 3
-        defb    $20             ; 4
-        defb    $21             ; 5
-        defb    $1C             ; 0
-        defb    $25             ; 9
-        defb    $24             ; 8
-        defb    $23             ; 7
-        defb    $22             ; 6
-        defb    $35             ; P
-        defb    $34             ; O
-        defb    $2E             ; I
-        defb    $3A             ; U
-        defb    $3E             ; Y
-        defb    $76             ; NEWLINE
-        defb    $31             ; L
-        defb    $30             ; K
-        defb    $2F             ; J
-        defb    $2D             ; H
-        defb    $00             ; SPACE
-        defb    $1B             ; .
-        defb    $32             ; M
-        defb    $33             ; N
-        defb    $27             ; B
-
-; -----------------------------
-; THE 'SHIFTED' CHARACTER CODES
-; -----------------------------
-
-K_SHIFT:
-        defb    $0E             ; :
-        defb    $19             ; ;
-        defb    $0F             ; ?
-        defb    $18             ; /
-        defb    $E3             ; STOP
-        defb    $E1             ; LPRINT
-        defb    $E4             ; SLOW
-        defb    $E5             ; FAST
-        defb    $E2             ; LLIST
-        defb    $C0             ; ""
-        defb    $D9             ; OR
-        defb    $E0             ; STEP
-        defb    $DB             ; <=
-        defb    $DD             ; <>
-        defb    $75             ; EDIT
-        defb    $DA             ; AND
-        defb    $de             ; THEN
-        defb    $DF             ; TO
-        defb    $72             ; cursor-left
-        defb    $77             ; RUBOUT
-        defb    $74             ; GRAPHICS
-        defb    $73             ; cursor-right
-        defb    $70             ; cursor-up
-        defb    $71             ; cursor-down
-        defb    $0B             ; "
-        defb    $11             ; )
-        defb    $10             ; (
-        defb    $0D             ; $
-        defb    $DC             ; >=
-        defb    $79             ; FUNCTION
-        defb    $14             ; =
-        defb    $15             ; +
-        defb    $16             ; -
-        defb    $D8             ; **
-        defb    $0C             ; ukp
-        defb    $1A             ; ,
-        defb    $12             ; >
-        defb    $13             ; <
-        defb    $17             ; *
-
-; ------------------------------
-; THE 'FUNCTION' CHARACTER CODES
-; ------------------------------
-
-K_FUNCT:
-        defb    $CD             ; LN
-        defb    $CE             ; EXP
-        defb    $C1             ; AT
-        defb    $78             ; KL
-        defb    $CA             ; ASN
-        defb    $CB             ; ACS
-        defb    $CC             ; ATN
-        defb    $D1             ; SGN
-        defb    $D2             ; ABS
-        defb    $C7             ; SIN
-        defb    $C8             ; COS
-        defb    $C9             ; TAN
-        defb    $CF             ; INT
-        defb    $40             ; RND
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $C2             ; TAB
-        defb    $D3             ; PEEK
-        defb    $C4             ; CODE
-        defb    $D6             ; CHR$
-        defb    $D5             ; STR$
-        defb    $78             ; KL
-        defb    $D4             ; USR
-        defb    $C6             ; LEN
-        defb    $C5             ; VAL
-        defb    $D0             ; SQR
-        defb    $78             ; KL
-        defb    $78             ; KL
-        defb    $42             ; PI
-        defb    $D7             ; NOT
-        defb    $41             ; INKEY$
-
-; -----------------------------
-; THE 'GRAPHIC' CHARACTER CODES
-; -----------------------------
-
-K_GRAPH:
-        defb    $08             ; graphic
-        defb    $0A             ; graphic
-        defb    $09             ; graphic
-        defb    $8A             ; graphic
-        defb    $89             ; graphic
-        defb    $81             ; graphic
-        defb    $82             ; graphic
-        defb    $07             ; graphic
-        defb    $84             ; graphic
-        defb    $06             ; graphic
-        defb    $01             ; graphic
-        defb    $02             ; graphic
-        defb    $87             ; graphic
-        defb    $04             ; graphic
-        defb    $05             ; graphic
-        defb    $77             ; RUBOUT
-        defb    $78             ; KL
-        defb    $85             ; graphic
-        defb    $03             ; graphic
-        defb    $83             ; graphic
-        defb    $8B             ; graphic
-        defb    $91             ; inverse )
-        defb    $90             ; inverse (
-        defb    $8D             ; inverse $
-        defb    $86             ; graphic
-        defb    $78             ; KL
-        defb    $92             ; inverse >
-        defb    $95             ; inverse +
-        defb    $96             ; inverse -
-        defb    $88             ; graphic
-
-; ------------------
-; THE 'TOKEN' TABLES
-; ------------------
-
-TOKENS_TAB:
-        defb    $0F+$80         ; '?'+$80
-        defb    $0B, $0B+$80    ; ""
-        defb    $26, $39+$80    ; AT
-        defb    $39, $26, $27+$80
-                                ; TAB
-        defb    $0F+$80         ; '?'+$80
-        defb    $28, $34, $29, $2A+$80
-                                ; CODE
-        defb    $3B, $26, $31+$80
-                                ; VAL
-        defb    $31, $2A, $33+$80
-                                ; LEN
-        defb    $38, $2E, $33+$80
-                                ; SIN
-        defb    $28, $34, $38+$80
-                                ; COS
-        defb    $39, $26, $33+$80
-                                ; TAN
-        defb    $26, $38, $33+$80
-                                ; ASN
-        defb    $26, $28, $38+$80
-                                ; ACS
-        defb    $26, $39, $33+$80
-                                ; ATN
-        defb    $31, $33+$80    ; LN
-        defb    $2A, $3D, $35+$80
-                                ; EXP
-        defb    $2E, $33, $39+$80
-                                ; INT
-        defb    $38, $36, $37+$80
-                                ; SQR
-        defb    $38, $2C, $33+$80
-                                ; SGN
-        defb    $26, $27, $38+$80
-                                ; ABS
-        defb    $35, $2A, $2A, $30+$80
-                                ; PEEK
-        defb    $3A, $38, $37+$80
-                                ; USR
-        defb    $38, $39, $37, $0D+$80
-                                ; STR$
-        defb    $28, $2D, $37, $0D+$80
-                                ; CHR$
-        defb    $33, $34, $39+$80
-                                ; NOT
-        defb    $17, $17+$80    ; **
-        defb    $34, $37+$80    ; OR
-        defb    $26, $33, $29+$80
-                                ; AND
-        defb    $13, $14+$80    ; <=
-        defb    $12, $14+$80    ; >=
-        defb    $13, $12+$80    ; <>
-        defb    $39, $2D, $2A, $33+$80
-                                ; THEN
-        defb    $39, $34+$80    ; TO
-        defb    $38, $39, $2A, $35+$80
-                                ; STEP
-        defb    $31, $35, $37, $2E, $33, $39+$80
-                                ; LPRINT
-        defb    $31, $31, $2E, $38, $39+$80
-                                ; LLIST
-        defb    $38, $39, $34, $35+$80
-                                ; STOP
-        defb    $38, $31, $34, $3C+$80
-                                ; SLOW
-        defb    $2B, $26, $38, $39+$80
-                                ; FAST
-        defb    $33, $2A, $3C+$80
-                                ; NEW
-        defb    $38, $28, $37, $34, $31, $31+$80
-                                ; SCROLL
-        defb    $28, $34, $33, $39+$80
-                                ; CONT
-        defb    $29, $2E, $32+$80
-                                ; DIM
-        defb    $37, $2A, $32+$80
-                                ; REM
-        defb    $2B, $34, $37+$80
-                                ; FOR
-        defb    $2C, $34, $39, $34+$80
-                                ; GOTO
-        defb    $2C, $34, $38, $3A, $27+$80
-                                ; GOSUB
-        defb    $2E, $33, $35, $3A, $39+$80
-                                ; INPUT
-        defb    $31, $34, $26, $29+$80
-                                ; LOAD
-        defb    $31, $2E, $38, $39+$80
-                                ; LIST
-        defb    $31, $2A, $39+$80
-                                ; LET
-        defb    $35, $26, $3A, $38, $2A+$80
-                                ; PAUSE
-        defb    $33, $2A, $3D, $39+$80
-                                ; NEXT
-        defb    $35, $34, $30, $2A+$80
-                                ; POKE
-        defb    $35, $37, $2E, $33, $39+$80
-                                ; PRINT
-        defb    $35, $31, $34, $39+$80
-                                ; PLOT
-        defb    $37, $3A, $33+$80
-                                ; RUN
-        defb    $38, $26, $3B, $2A+$80
-                                ; SAVE
-        defb    $37, $26, $33, $29+$80
-                                ; RAND
-        defb    $2E, $2B+$80    ; IF
-        defb    $28, $31, $38+$80
-                                ; CLS
-        defb    $3A, $33, $35, $31, $34, $39+$80
-                                ; UNPLOT
-        defb    $28, $31, $2A, $26, $37+$80
-                                ; CLEAR
-        defb    $37, $2A, $39, $3A, $37, $33+$80
-                                ; RETURN
-        defb    $28, $34, $35, $3E+$80
-                                ; COPY
-        defb    $37, $33, $29+$80
-                                ; RND
-        defb    $2E, $33, $30, $2A, $3E, $0D+$80
-                                ; INKEY$
-        defb    $35, $2E+$80    ; PI
+#include "zx81_key_tables.asm"
 
 ; ------------------------------
 ; THE 'LOAD-SAVE UPDATE' ROUTINE
@@ -1217,7 +947,7 @@ DISPLAY_5_RET:
 ; ---
 
 R_IX_2:
-        jp      DISPLAY_1       ; JUMP back to DISPLAY-1
+        jp      DISPLAY_1       ; jump back to DISPLAY-1
 
 ; ---------------------------------
 ; THE 'DISPLAY BLANK LINES' ROUTINE
@@ -1770,7 +1500,7 @@ ADDR_TOP:
 
 LIST_TOP:
         call    LIST_PROG       ; routine LIST-PROG
-        dec     (iy+BERG-IY0)   ; sv BERG
+        dec     (iy+BREG-IY0)   ; sv BREG
         jr      nz, LOWER       ; to LOWER
 
         ld      hl, (E_PPC)     ; sv E_PPC_lo
@@ -2515,8 +2245,8 @@ OUT_LINE:
         rl      e               ;
 
 TEST_END:
-        ld      (iy+BERG-IY0), e
-                                ; sv BERG
+        ld      (iy+BREG-IY0), e
+                                ; sv BREG
         ld      a, (hl)         ;
         cp      $40             ;
         pop     bc              ;
@@ -5150,7 +4880,7 @@ S_LTR_DGT:
 
         inc     hl              ; address numeric contents of variable.
         ld      de, (STKEND)    ; set destination to STKEND
-        call    duplicate       ; routine MOVE-FP stacks the five bytes
+        call    duplicate       ; routine MOVE-FP/duplicate stacks the five bytes
         ex      de, hl          ; transfer new free location from DE to HL.
         ld      (STKEND), hl    ; update STKEND system variable.
         jr      S_CONT_2        ; forward to S-CONT-2
@@ -5206,7 +4936,7 @@ S_STK_DEC:
 
         inc     hl              ; point to first of five hidden bytes.
         ld      de, (STKEND)    ; set destination from STKEND system variable
-        call    duplicate       ; routine MOVE-FP stacks the number.
+        call    duplicate       ; routine MOVE-FP/duplicate stacks the number.
         ld      (STKEND), de    ; update system variable STKEND.
         ld      (CH_ADD), hl    ; update system variable CH_ADD.
 
@@ -6116,21 +5846,28 @@ L_IN_WS:
         pop     de              ;
         pop     hl              ;
 
+
 ; ------------------------
 ; THE 'L-ENTER' SUBROUTINE
 ; ------------------------
-;
+;   Part of the LET command contains a natural subroutine which is a
+;   conditional LDIR. The copy only occurs of BC is non-zero.
 
 L_ENTER:
         ex      de, hl          ;
+
+
+COND_MV:
         ld      a, b            ;
         or      c               ;
         ret     z               ;
 
         push    de              ;
+
         ldir                    ; Copy Bytes
+
         pop     hl              ;
-        ret                     ; return.
+        ret                     ; Return.
 
 ; ---
 
@@ -6478,6 +6215,15 @@ DEC_TO_FP:
         defb    $34             ;;end-calc
 
 
+; ---------------------
+; THE 'NEXT DIGIT' LOOP
+; ---------------------
+#ifdef ROM_sg81
+;   Within the 'DECIMAL TO FLOATING POINT' routine, swapping the multiply and
+;   divide literals preserves accuracy and ensures that .5 is evaluated
+;   as 5/10 and not as .1 * 5.
+#endif
+
 NXT_DGT_1:
         rst     NEXT_CHAR       ; NEXT-CHAR
         call    STK_DIGIT       ; routine STK-DIGIT
@@ -6487,9 +6233,15 @@ NXT_DGT_1:
         rst     FP_CALC         ;; FP-CALC
         defb    $E0             ;;get-mem-0
         defb    $A4             ;;stk-ten
+#ifdef ROM_sg81
+        defb    $04             ;;multiply
+        defb    $C0             ;;st-mem-0
+        defb    $05             ;;division
+#else
         defb    $05             ;;division
         defb    $C0             ;;st-mem-0
         defb    $04             ;;multiply
+#endif
         defb    $0F             ;;addition
         defb    $34             ;;end-calc
 
@@ -7161,8 +6913,19 @@ PF_E_LOW:
 
 ; ---
 
-; this branch deals with zeros after decimal point.
+; -------------------------------------
+; THE 'FLOATING POINT PRINT ZEROS' LOOP
+; -------------------------------------
+
+; This branch deals with zeros after decimal point.
 ; e.g.      .01 or .0000999
+; Note. that printing to the ZX Printer destroys A and that A should be
+; initialized to '0' at each stage of the loop.
+#ifdef ROM_sg81
+; Originally LPRINT .00001 printed as .0XYZ1
+#else
+; LPRINT .00001 prints as .0XYZ1
+#endif
 
 PF_ZEROS:
         neg                     ; negate makes number positive 1 to 4.
@@ -7171,11 +6934,20 @@ PF_ZEROS:
         ld      a, $1B          ; prepare character '.'
         rst     PRINT_A         ; PRINT-A
 
+#ifdef ROM_sg81
+PF_ZRO_LP:
+        ld      a, $1C          ; prepare a '0' in the accumulator each time.
+
+#else
         ld      a, $1C          ; prepare a '0'
 
 PF_ZRO_LP:
+#endif
         rst     PRINT_A         ; PRINT-A
+
         djnz    PF_ZRO_LP       ; loop back to PF-ZRO-LP
+
+;   and continue with trailing fractional digits...
 
         jr      PF_FRAC_LP      ; forward to PF-FRAC-LP
 
@@ -8102,6 +7874,16 @@ IX_END:
         ret                     ; return.
 
 
+
+#ifdef ROM_sg81
+;   Up to this point all routine addresses have been maintained so that the
+;   modified ROM is compatible with any machine-code software that uses ROM
+;   routines.
+;   The final section does not maintain address entry points as the routines
+;   within are not generally called directly.
+
+#endif
+
 ;********************************
 ;**  FLOATING-POINT CALCULATOR **
 ;********************************
@@ -8118,42 +7900,73 @@ IX_END:
 ; ------------------------
 ; The ZX81 has only floating-point number representation.
 ; Both the ZX80 and the ZX Spectrum have integer numbers in some form.
+#ifdef ROM_sg81
+; This table has been modified so that the constants are held in their
+; uncompressed, ready-to-party, 5-byte form.
 
+TAB_CNST:
+        defb    $00             ; the value zero.
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+
+        defb    $81             ; the floating point value 1.
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+
+        defb    $80             ; the floating point value 1/2.
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+
+        defb    $81             ; the floating point value pi/2.
+        defb    $49             ;
+        defb    $0F             ;
+        defb    $DA             ;
+        defb    $A2             ;
+
+        defb    $84             ; the floating point value ten.
+        defb    $20             ;
+        defb    $00             ;
+        defb    $00             ;
+        defb    $00             ;
+#else
+
+TAB_CNST:
 ;; stk-zero                                                 00 00 00 00 00
-L1915:
         defb    $00             ;;Bytes: 1
         defb    $B0             ;;Exponent $00
         defb    $00             ;;(+00,+00,+00)
 
 ;; stk-one                                                  81 00 00 00 00
-L1918:
         defb    $31             ;;Exponent $81, Bytes: 1
         defb    $00             ;;(+00,+00,+00)
 
 
 ;; stk-half                                                 80 00 00 00 00
-L191A:
         defb    $30             ;;Exponent: $80, Bytes: 1
         defb    $00             ;;(+00,+00,+00)
 
 
 ;; stk-pi/2                                                 81 49 0F DA A2
-L191C:
         defb    $F1             ;;Exponent: $81, Bytes: 4
         defb    $49, $0F, $DA, $A2
                                 ;;
 
 ;; stk-ten                                                  84 20 00 00 00
-L1921:
         defb    $34             ;;Exponent: $84, Bytes: 1
         defb    $20             ;;(+00,+00,+00)
-
+#endif
 
 ; ------------------------
 ; THE 'TABLE OF ADDRESSES'
 ; ------------------------
 ;
-; starts with binary operations which have two operands and one result.
+; Starts with binary operations which have two operands and one result.
 ; three pseudo binary operations first.
 
 tbl_addrs:
@@ -8201,7 +8014,7 @@ tbl_addrs:
         defw    acs             ; $20 Address: $1DD4 - acs
         defw    atn             ; $21 Address: $1D76 - atn
         defw    ln              ; $22 Address: $1CA9 - ln
-        defw    EXP             ; $23 Address: $1C5B - exp
+        defw    exp             ; $23 Address: $1C5B - exp
         defw    int             ; $24 Address: $1C46 - int
         defw    sqr             ; $25 Address: $1DDB - sqr
         defw    sgn             ; $26 Address: $1AAF - sgn
@@ -8209,7 +8022,7 @@ tbl_addrs:
         defw    peek            ; $28 Address: $1A1B - peek
         defw    usr_no          ; $29 Address: $1AC5 - usr-no
         defw    str_dollar      ; $2A Address: $1BD5 - str$
-        defw    chrs            ; $2B Address: $1B8F - chrs
+        defw    chr_dollar      ; $2B Address: $1B8F - chr$
         defw    not             ; $2C Address: $1AD5 - not
 
 ; end of true unary
@@ -8217,13 +8030,13 @@ tbl_addrs:
         defw    duplicate       ; $2D Address: $19F6 - duplicate
         defw    n_mod_m         ; $2E Address: $1C37 - n-mod-m
 
-        defw    JUMP            ; $2F Address: $1C23 - jump
-        defw    STK_DATA        ; $30 Address: $19FC - stk-data
+        defw    jump            ; $2F Address: $1C23 - jump
+        defw    stk_data        ; $30 Address: $19FC - stk-data
 
         defw    dec_jr_nz       ; $31 Address: $1C17 - dec-jr-nz
         defw    less_0          ; $32 Address: $1ADB - less-0
         defw    greater_0       ; $33 Address: $1ACE - greater-0
-        defw    fp_end_calc     ; $34 Address: $002B - end-calc
+        defw    end_calc        ; $34 Address: $002B - end-calc
         defw    get_argt        ; $35 Address: $1D18 - get-argt
         defw    truncate        ; $36 Address: $18E4 - truncate
         defw    fp_calc_2       ; $37 Address: $19E4 - fp-calc-2
@@ -8232,10 +8045,10 @@ tbl_addrs:
 ; the following are just the next available slots for the 128 compound literals
 ; which are in range $80 - $FF.
 
-        defw    series_xx       ; $39 Address: $1A7F - series-xx    $80 - $9F.
-        defw    stk_const_xx    ; $3A Address: $1A51 - stk-const-xx $A0 - $BF.
-        defw    st_mem_xx       ; $3B Address: $1A63 - st-mem-xx    $C0 - $DF.
-        defw    get_mem_xx      ; $3C Address: $1A45 - get-mem-xx   $E0 - $FF.
+        defw    seriesg_x       ; $39 Address: $1A7F - series-xx    $80 - $9F.
+        defw    stk_con_x       ; $3A Address: $1A51 - stk-const-xx $A0 - $BF.
+        defw    sto_mem_x       ; $3B Address: $1A63 - st-mem-xx    $C0 - $DF.
+        defw    get_mem_x       ; $3C Address: $1A45 - get-mem-xx   $E0 - $FF.
 
 ; Aside: 3D - 7F are therefore unused calculator literals.
 ;        39 - 7B would be available for expansion.
@@ -8256,7 +8069,7 @@ CALCULATE:
 
 GEN_ENT_1:
         ld      a, b            ; fetch the Z80 B register to A
-        ld      (BERG), a       ; and store value in system variable BREG.
+        ld      (BREG), a       ; and store value in system variable BREG.
                                 ; this will be the counter for dec-jr-nz
                                 ; or if used from fp-calc2 the calculator
                                 ; instruction.
@@ -8289,7 +8102,7 @@ SCAN_ENT:
                                 ; anything with bit 7 set will be one of
                                 ; 128 compound literals.
 
-; compound literals have the following format.
+; Compound literals have the following format.
 ; bit 7 set indicates compound.
 ; bits 6-5 the subgroup 0-3.
 ; bits 4-0 the embedded parameter $00 - $1F.
@@ -8356,7 +8169,7 @@ ENT_TABLE:
 ; -----------------------
 ; THE 'DELETE' SUBROUTINE
 ; -----------------------
-; offset $02: 'delete'
+; (offset $02: 'delete')
 ; A simple return but when used as a calculator literal this
 ; deletes the last value from the calculator stack.
 ; On entry, as always with binary operations,
@@ -8370,13 +8183,13 @@ delete:
 ; ---------------------------------
 ; THE 'SINGLE OPERATION' SUBROUTINE
 ; ---------------------------------
-; offset $37: 'fp-calc-2'
+; (offset $37: 'fp-calc-2')
 ; this single operation is used, in the first instance, to evaluate most
 ; of the mathematical and string functions found in BASIC expressions.
 
 fp_calc_2:
         pop     af              ; drop return address.
-        ld      a, (BERG)       ; load accumulator from system variable BREG
+        ld      a, (BREG)       ; load accumulator from system variable BREG
                                 ; value will be literal eg. 'tan'
         exx                     ; switch to alt
         jr      SCAN_ENT        ; back to SCAN-ENT
@@ -8385,7 +8198,7 @@ fp_calc_2:
 ; ------------------------------
 ; THE 'TEST 5 SPACES' SUBROUTINE
 ; ------------------------------
-; This routine is called from MOVE-FP, STK-CONST and STK-STORE to
+; This routine is called from MOVE-FP/duplicate, STK-CONST and STK-STORE to
 ; test that there is enough space between the calculator stack and the
 ; machine stack for another five-byte value. It returns with BC holding
 ; the value 5 ready for any subsequent LDIR.
@@ -8404,7 +8217,7 @@ TEST_5_SP:
 ; ---------------------------------------------
 ; THE 'MOVE A FLOATING POINT NUMBER' SUBROUTINE
 ; ---------------------------------------------
-; offset $2D: 'duplicate'
+; (offset $2D: 'duplicate')
 ; This simple routine is a 5-byte LDIR instruction
 ; that incorporates a memory check.
 ; When used as a calculator literal it duplicates the last value on the
@@ -8421,13 +8234,13 @@ duplicate:
 ; -------------------------------
 ; THE 'STACK LITERALS' SUBROUTINE
 ; -------------------------------
-; offset $30: 'stk-data'
+; (offset $30: 'stk-data')
 ; When a calculator subroutine needs to put a value on the calculator
 ; stack that is not a regular constant this routine is called with a
 ; variable number of following data bytes that convey to the routine
 ; the floating point form as succinctly as is possible.
 
-STK_DATA:
+stk_data:
         ld      h, d            ; transfer STKEND
         ld      l, e            ; to HL for result.
 
@@ -8440,8 +8253,9 @@ STK_CONST:
         exx                     ; switch back to main set
 
         ex      (sp), hl        ; pointer to HL, destination to stack.
-
-        push    bc              ; save BC - value 5 from test room ??.
+#ifndef ROM_sg81
+        push    bc              ; save BC - value 5 from test room. No need.
+#endif
 
         ld      a, (hl)         ; fetch the byte following 'stk-data'
         and     $C0             ; isolate bits 7 and 6
@@ -8468,10 +8282,14 @@ FORM_EXP:
                                 ; zeros plus one.
         inc     hl              ; increment source
         inc     de              ; increment destination
-        ld      b, $00          ; prepare to copy
+#ifndef ROM_sg81
+        ld      b, $00          ; prepare to copy. Note. B is zero.
+#endif
         ldir                    ; copy C bytes
 
-        pop     bc              ; restore 5 counter to BC ??.
+#ifndef ROM_sg81
+        pop     bc              ; restore 5 counter to BC.
+#endif
 
         ex      (sp), hl        ; put HL on stack as next literal pointer
                                 ; and the stack value - result pointer -
@@ -8498,6 +8316,14 @@ STK_ZEROS:
 ; -------------------------------
 ; THE 'SKIP CONSTANTS' SUBROUTINE
 ; -------------------------------
+#ifdef ROM_sg81
+; This routine traversed variable-length entries in the table of constants,
+; stacking intermediate, unwanted constants onto a dummy calculator stack,
+; in the first five bytes of the ZX81 ROM.
+; Since the table now uses uncompressed values, some extra ROM space is
+; required for the table but much more is released by getting rid of routines
+; like this.
+#else
 ; This routine traverses variable-length entries in the table of constants,
 ; stacking intermediate, unwanted constants onto a dummy calculator stack,
 ; in the first five bytes of the ZX81 ROM.
@@ -8522,6 +8348,7 @@ SKIP_NEXT:
         pop     af              ; restore count
         dec     a               ; decrease
         jr      SKIP_NEXT       ; loop back to SKIP-NEXT
+#endif
 
 ; --------------------------------
 ; THE 'MEMORY LOCATION' SUBROUTINE
@@ -8549,12 +8376,23 @@ LOC_MEM:
 ; offsets $E0 to $FF: 'get-mem-0', 'get-mem-1' etc.
 ; A holds $00-$1F offset.
 ; The calculator stack increases by 5 bytes.
+#ifdef ROM_sg81
+; Note. first two instructions have been swapped to create a subroutine.
 
-get_mem_xx:
+get_mem_x:
+        ld      hl, (MEM)       ; MEM is base address of the memory cells.
+
+INDEX_5:
+        push    de              ; save STKEND
+#else
+
+get_mem_x:
         push    de              ; save STKEND
         ld      hl, (MEM)       ; MEM is base address of the memory cells.
+#endif
+
         call    LOC_MEM         ; routine LOC-MEM so that HL = first byte
-        call    duplicate       ; routine MOVE-FP moves 5 bytes with memory
+        call    duplicate       ; routine MOVE-FP/duplicate moves 5 bytes with memory
                                 ; check.
                                 ; DE now points to new STKEND.
         pop     hl              ; the original STKEND is now RESULT pointer.
@@ -8563,24 +8401,35 @@ get_mem_xx:
 ; ---------------------------------
 ; THE 'STACK A CONSTANT' SUBROUTINE
 ; ---------------------------------
-; offset $A0: 'stk-zero'
-; offset $A1: 'stk-one'
-; offset $A2: 'stk-half'
-; offset $A3: 'stk-pi/2'
-; offset $A4: 'stk-ten'
+; (offset $A0: 'stk-zero')
+; (offset $A1: 'stk-one')
+; (offset $A2: 'stk-half')
+; (offset $A3: 'stk-pi/2')
+; (offset $A4: 'stk-ten')
 ; This routine allows a one-byte instruction to stack up to 32 constants
 ; held in short form in a table of constants. In fact only 5 constants are
 ; required. On entry the A register holds the literal ANDed with $1F.
+;
+#ifdef ROM_sg81
+; It wasn't very efficient and it is better to hold the
+; numbers in full, five byte form and stack them in a similar manner
+; to that which which is used by the above routine.
+
+stk_con_x:
+        ld      hl, TAB_CNST    ; Address: Table of constants.
+
+        jr      INDEX_5         ; and join subsroutine above.
+#else
 ; It isn't very efficient and it would have been better to hold the
 ; numbers in full, five byte form and stack them in a similar manner
 ; to that which would be used later for semi-tone table values.
 
-stk_const_xx:
+stk_con_x:
         ld      h, d            ; save STKEND - required for result
         ld      l, e            ;
         exx                     ; swap
         push    hl              ; save pointer to next literal
-        ld      hl, L1915       ; Address: stk-zero - start of table of
+        ld      hl, TAB_CNST    ; Address: stk-zero - start of table of
                                 ; constants
         exx                     ;
         call    SKIP_CONS       ; routine SKIP-CONS
@@ -8589,6 +8438,9 @@ stk_const_xx:
         pop     hl              ; restore pointer to next literal.
         exx                     ;
         ret                     ; return.
+#endif
+
+; ---
 
 ; ---------------------------------------
 ; THE 'STORE IN A MEMORY AREA' SUBROUTINE
@@ -8603,16 +8455,24 @@ stk_const_xx:
 ; A holds derived offset $00-$1F.
 ; Unary so on entry HL points to last value, DE to STKEND.
 
-st_mem_xx:
+sto_mem_x:
         push    hl              ; save the result pointer.
         ex      de, hl          ; transfer to DE.
         ld      hl, (MEM)       ; fetch MEM the base of memory area.
         call    LOC_MEM         ; routine LOC-MEM sets HL to the destination.
         ex      de, hl          ; swap - HL is start, DE is destination.
-        call    duplicate       ; routine MOVE-FP.
+
+#ifdef ROM_sg81
+        ld      c, $05          ; do not call routine MOVE-FP/duplicate.
+        ldir                    ; one extra byte but
+                                ; faster and no memory check.
+#else
+        call    duplicate       ; routine MOVE-FP/duplicate.
                                 ; note. a short ld bc,5; ldir
                                 ; the embedded memory check is not required
                                 ; so these instructions would be faster!
+#endif
+
         ex      de, hl          ; DE = STKEND
         pop     hl              ; restore original result pointer
         ret                     ; return.
@@ -8620,7 +8480,7 @@ st_mem_xx:
 ; -------------------------
 ; THE 'EXCHANGE' SUBROUTINE
 ; -------------------------
-; offset $01: 'exchange'
+; (offset $01: 'exchange')
 ; This routine exchanges the last two values on the calculator stack
 ; On entry, as always with binary operations,
 ; HL=first number, DE=second number
@@ -8632,25 +8492,35 @@ exchange:
 ; start of loop.
 
 SWAP_BYTE:
+#ifdef ROM_sg81
+        ld      a, (de)         ; each byte of second
+        ld      c, a            ; to C
+        ld      a, (hl)         ; each byte of first
+        ld      (de), a         ; store each byte of second
+        ld      (hl), c         ; store each byte of first
+#else
         ld      a, (de)         ; each byte of second
         ld      c, (hl)         ; each byte of first
         ex      de, hl          ; swap pointers
         ld      (de), a         ; store each byte of first
         ld      (hl), c         ; store each byte of second
+#endif
         inc     hl              ; advance both
         inc     de              ; pointers.
         djnz    SWAP_BYTE       ; loop back to SWAP-BYTE until all 5 done.
 
+#ifndef ROM_sg81
         ex      de, hl          ; even up the exchanges
                                 ; so that DE addresses STKEND.
+#endif
         ret                     ; return.
 
 ; ---------------------------------
 ; THE 'SERIES GENERATOR' SUBROUTINE
 ; ---------------------------------
-; offset $86: 'series-06'
-; offset $88: 'series-08'
-; offset $8C: 'series-0C'
+; (offset $86: 'series-06')
+; (offset $88: 'series-08')
+; (offset $8C: 'series-0C')
 ; The ZX81 uses Chebyshev polynomials to generate approximations for
 ; SIN, ATN, LN and EXP. These are named after the Russian mathematician
 ; Pafnuty Chebyshev, born in 1821, who did much pioneering work on numerical
@@ -8662,7 +8532,7 @@ SWAP_BYTE:
 ; Sinclair BASIC see "The Complete Spectrum ROM Disassembly" by Dr Ian Logan
 ; and Dr Frank O'Hara, published 1983 by Melbourne House.
 
-series_xx:
+seriesg_x:
         ld      b, a            ; parameter $00 - $1F to B counter
         call    GEN_ENT_1       ; routine GEN-ENT-1 is called.
                                 ; A recursive call to a special entry point
@@ -8698,7 +8568,7 @@ G_LOOP:
 ; the previous pointer is fetched from the machine stack to H'L' where it
 ; addresses one of the numbers of the series following the series literal.
 
-        call    STK_DATA        ; routine STK-DATA is called directly to
+        call    stk_data        ; routine STK-DATA is called directly to
                                 ; push a value and advance H'L'.
         call    GEN_ENT_2       ; routine GEN-ENT-2 recursively re-enters
                                 ; the calculator without disturbing
@@ -8712,7 +8582,7 @@ G_LOOP:
         defb    $02             ;;delete
 
         defb    $31             ;;dec-jr-nz
-        defb    $EE             ;;back to L1A89, G-LOOP
+        defb    G_LOOP - ASMPC  ;;back to L1A89, G-LOOP
 
 ; when the counted loop is complete the final subtraction yields the result
 ; for example SIN X.
@@ -8758,8 +8628,8 @@ abs:
 ; Signum (26)
 ; -----------
 ; This routine replaces the last value on the calculator stack,
-; which is in floating point form, with one if positive and with -minus one
-; if negative. If it is zero then it is left as such.
+; which is in floating point form, with one if positive and with minus one
+; if it is negative. If it is zero then it is left unchanged.
 
 sgn:
         inc     hl              ; point to first byte of 4-byte mantissa.
@@ -8768,16 +8638,16 @@ sgn:
         dec     (hl)            ; test the exponent for
         inc     (hl)            ; the value zero.
 
-        scf                     ; set the carry flag.
-        call    nz, FP_0_OR_1   ; routine FP-0/1  replaces last value with one
+        scf                     ; Set the carry flag.
+        call    nz, FP_0_1      ; Routine FP-0/1  replaces last value with one
                                 ; if exponent indicates the value is non-zero.
-                                ; in either case mantissa is now four zeros.
+                                ; In either case mantissa is now four zeros.
 
-        inc     hl              ; point to first byte of 4-byte mantissa.
-        rlca                    ; rotate original sign bit to carry.
-        rr      (hl)            ; rotate the carry into sign.
-        dec     hl              ; point to last value.
-        ret                     ; return.
+        inc     hl              ; Point to first byte of 4-byte mantissa.
+        rlca                    ; Rotate original sign bit to carry.
+        rr      (hl)            ; Rotate the carry into sign.
+        dec     hl              ; Point to last value.
+        ret                     ; Return.
 
 
 ; -------------------------
@@ -8812,7 +8682,7 @@ usr_no:
         push    bc              ; then the address of the machine code
                                 ; routine.
 
-        ret                     ; make an indirect jump to the routine
+        ret                     ; make an indirect jump to the user's routine
                                 ; and, hopefully, to STACK-BC also.
 
 
@@ -8851,7 +8721,7 @@ not:
         ld      a, (hl)         ; get exponent byte.
         neg                     ; negate - sets carry if non-zero.
         ccf                     ; complement so carry set if zero, else reset.
-        jr      FP_0_OR_1       ; forward to FP-0/1.
+        jr      FP_0_1          ; forward to FP-0/1.
 
 ; -------------------
 ; Less than zero (32)
@@ -8878,7 +8748,7 @@ SIGN_TO_C:
 ; of calculator stack or MEM area. The value one is written if carry is set on
 ; entry else zero.
 
-FP_0_OR_1:
+FP_0_1:
         push    hl              ; save pointer to the first byte
         ld      b, $05          ; five bytes to do.
 
@@ -8914,7 +8784,7 @@ or:
         ret     z               ; return if zero.
 
         scf                     ; set carry flag
-        jr      FP_0_OR_1       ; back to FP-0/1 to overwrite the first operand
+        jr      FP_0_1          ; back to FP-0/1 to overwrite the first operand
                                 ; with the value 1.
 
 
@@ -8935,7 +8805,7 @@ no_and_no:
         and     a               ; test it.
         ret     nz              ; return if not zero.
 
-        jr      FP_0_OR_1       ; back to FP-0/1 to overwrite the first operand
+        jr      FP_0_1          ; back to FP-0/1 to overwrite the first operand
                                 ; with zero for return value.
 
 ; -----------------------------
@@ -8965,9 +8835,9 @@ str_and_no:
         pop     de              ; restore pointer - new STKEND.
         ret                     ; return.
 
-; -----------------------------------
+; -------------------------------------
 ; Perform comparison ($09-$0E, $11-$16)
-; -----------------------------------
+; -------------------------------------
 ; True binary operations.
 ;
 ; A single entry point is used to evaluate six numeric and six string
@@ -9022,7 +8892,9 @@ str_and_no:
 
 no_l_eql:
         ld      a, b            ; transfer literal to accumulator.
+#ifndef ROM_sg81
         sub     $08             ; subtract eight - which is not useful.
+#endif
 
         bit     2, a            ; isolate '>', '<', '='.
 
@@ -9052,23 +8924,30 @@ EX_OR_NOT:
 ; at the beginning we wouldn't have to alter which bit we test.
 
 NU_OR_STR:
+#ifdef ROM_sg81
+        rrca                    ; causes 'eql/neql' to set carry.
+        push    af              ; save the carry flag.
+#endif
         bit     2, a            ; test if a string comparison.
         jr      nz, STRINGS     ; forward to STRINGS if so.
 
 ; continue with numeric comparisons.
 
+#ifndef ROM_sg81
         rrca                    ; 2nd RRCA causes eql/neql to set carry.
         push    af              ; save A and carry
-
+#endif
         call    subtract        ; routine subtract leaves result on stack.
         jr      END_TESTS       ; forward to END-TESTS
 
 ; ---
 
 STRINGS:
+#ifndef ROM_sg81
         rrca                    ; 2nd RRCA causes eql/neql to set carry.
         push    af              ; save A and carry.
 
+#endif
         call    STK_FETCH       ; routine STK-FETCH gets 2nd string params
         push    de              ; save start2 *.
         push    bc              ; and the length.
@@ -9175,9 +9054,10 @@ END_TESTS:
         call    nc, not         ; apply a terminal NOT if so.
         ret                     ; return.
 
-; -------------------------
-; String concatenation ($17)
-; -------------------------
+; -----------------------------------
+; THE 'STRING CONCATENATION' OPERATOR
+; -----------------------------------
+; (offset $17: 'strs_add')
 ;   This literal combines two strings into one e.g. LET A$ = B$ + C$
 ;   The two parameters of the two strings to be combined are on the stack.
 
@@ -9204,28 +9084,38 @@ strs_add:
 
         pop     bc              ; length of first
         pop     hl              ; address of start
+
+#ifdef ROM_sg81
+        call    COND_MV         ; a conditional (NZ) ldir routine.
+#else
         ld      a, b            ; test for
         or      c               ; zero length.
         jr      z, OTHER_STR    ; to OTHER-STR if null string
 
         ldir                    ; copy string to workspace.
+#endif
 
 OTHER_STR:
         pop     bc              ; now second length
         pop     hl              ; and start of string
+
+#ifdef ROM_sg81
+        call    COND_MV         ; a conditional (NZ) ldir routine.
+#else
         ld      a, b            ; test this one
         or      c               ; for zero length
         jr      z, STK_PNTRS    ; skip forward to STK-PNTRS if so as complete.
 
         ldir                    ; else copy the bytes.
-                                ; and continue into next routine which
-                                ; sets the calculator stack pointers.
+#endif
 
-; --------------------
-; Check stack pointers
-; --------------------
+; Continue into next routine which sets the calculator stack pointers.
+
+; ----------------------------
+; THE 'STACK POINTERS' ROUTINE
+; ----------------------------
 ;   Register DE is set to STKEND and HL, the result pointer, is set to five
-;   locations below this.
+;   locations below this - the 'last value'.
 ;   This routine is used when it is inconvenient to save these values at the
 ;   time the calculator stack is manipulated due to other activity on the
 ;   machine stack.
@@ -9243,32 +9133,41 @@ STK_PNTRS:
         pop     de              ; pop STKEND to DE.
         ret                     ; return.
 
-; ----------------
-; Handle CHR$ (2B)
-; ----------------
+; -------------------
+; THE 'CHR$' FUNCTION
+; -------------------
+; (offset $2B: 'chr$')
 ;   This function returns a single character string that is a result of
 ;   converting a number in the range 0-255 to a string e.g. CHR$ 38 = "A".
 ;   Note. the ZX81 does not have an ASCII character set.
 
-chrs:
+chr_dollar:
         call    FP_TO_A         ; routine FP-TO-A puts the number in A.
 
         jr      c, REPORT_Bd    ; forward to REPORT-Bd if overflow
         jr      nz, REPORT_Bd   ; forward to REPORT-Bd if negative
 
+#ifndef ROM_sg81
         push    af              ; save the argument.
 
+#endif
         ld      bc, $0001       ; one space required.
         rst     BC_SPACES       ; BC-SPACES makes DE point to start
 
+#ifndef ROM_sg81
         pop     af              ; restore the number.
 
+#endif
         ld      (de), a         ; and store in workspace
 
+#ifdef ROM_sg81
+        jr      str_STK         ; relative jump to similar sequence in str$.
+#else
         call    STK_STO_DOLLAR  ; routine STK-STO-$ stacks descriptor.
 
         ex      de, hl          ; make HL point to result and DE to STKEND.
         ret                     ; return.
+#endif
 
 ; ---
 
@@ -9277,14 +9176,20 @@ REPORT_Bd:
         defb    ERR_B_INT_OVERFLOW
                                 ; Error Report: Integer out of range
 
-; ----------------------------
-; Handle VAL ($1A)
-; ----------------------------
+; ------------------
+; THE 'VAL' FUNCTION
+; ------------------
+; (offset $1A: 'val')
 ;   VAL treats the characters in a string as a numeric expression.
 ;       e.g. VAL "2.3" = 2.3, VAL "2+4" = 6, VAL ("2" + "4") = 24.
 
 val:
+#ifdef ROM_sg81
+        rst     GET_CHAR        ; shorter way to fetch CH_ADD.
+#else
         ld      hl, (CH_ADD)    ; fetch value of system variable CH_ADD
+#endif
+
         push    hl              ; and save on the machine stack.
 
         call    STK_FETCH       ; routine STK-FETCH fetches the string operand
@@ -9328,9 +9233,10 @@ val:
                                 ; HL and DE from STKEND as it wasn't possible
                                 ; to preserve them during this routine.
 
-; ----------------
-; Handle STR$ (2A)
-; ----------------
+; -------------------
+; THE 'STR$' FUNCTION
+; -------------------
+; (offset $2A: 'str$')
 ;   This function returns a string representation of a numeric argument.
 ;   The method used is to trick the PRINT-FP routine into thinking it
 ;   is writing to a collapsed display file when in fact it is writing to
@@ -9379,6 +9285,11 @@ str_dollar:
         pop     hl              ; restore original
         ld      (S_POSN), hl    ; S_POSN values.
 
+#ifdef ROM_sg81
+;   New entry-point to exploit similarities and save 3 bytes of code.
+
+str_STK:
+#endif
         call    STK_STO_DOLLAR  ; routine STK-STO-$ stores the string
                                 ; descriptor on the calculator stack.
 
@@ -9436,7 +9347,7 @@ dec_jr_nz:
         exx                     ; switch in set that addresses code
 
         push    hl              ; save pointer to offset byte
-        ld      hl, BERG        ; address BREG in system variables
+        ld      hl, BREG        ; address BREG in system variables
         dec     (hl)            ; decrement it
         pop     hl              ; restore pointer
 
@@ -9454,18 +9365,27 @@ dec_jr_nz:
 ; ---------------------
 ; THE 'JUMP' SUBROUTINE
 ; ---------------------
-; (Offset $2F; 'jump')
+; Offset $2F; 'jump'
 ;   This enables the calculator to perform relative jumps just like
 ;   the Z80 chip's JR instruction.
 ;   This is one of the few routines to be polished for the ZX Spectrum.
 ;   See, without looking at the ZX Spectrum ROM, if you can get rid of the
 ;   relative jump.
 
-JUMP:
+jump:
         exx                     ;switch in pointer set
 
 JUMP_2:
         ld      e, (hl)         ; the jump byte 0-127 forward, 128-255 back.
+#ifdef ROM_sg81
+
+;   Note. Elegance from the ZX Spectrum.
+
+        ld      a, e            ; jump byte into E
+        rla                     ; sign bit into carry
+        sbc     a, a            ; A = $00 for no carry, or $FF for carry
+
+#else
         xor     a               ; clear accumulator.
         bit     7, e            ; test if negative jump
         jr      z, JUMP_3       ; skip, if positive, to JUMP-3.
@@ -9473,6 +9393,7 @@ JUMP_2:
         cpl                     ; else change to $FF.
 
 JUMP_3:
+#endif
         ld      d, a            ; transfer to high byte.
         add     hl, de          ; advance calculator pointer forward or back.
 
@@ -9482,7 +9403,7 @@ JUMP_3:
 ; -----------------------------
 ; THE 'JUMP ON TRUE' SUBROUTINE
 ; -----------------------------
-; (Offset $00; 'jump-true')
+; Offset $00; 'jump-true'
 ;   This enables the calculator to perform conditional relative jumps
 ;   dependent on whether the last test gave a true result
 ;   On the ZX81, the exponent will be zero for zero or else $81 for one.
@@ -9491,7 +9412,7 @@ jump_true:
         ld      a, (de)         ; collect exponent byte
 
         and     a               ; is result 0 or 1 ?
-        jr      nz, JUMP        ; back to JUMP if true (1).
+        jr      nz, jump        ; back to jump if true (1).
 
         exx                     ; else switch in the pointer set.
         inc     hl              ; step past the jump length.
@@ -9539,14 +9460,14 @@ n_mod_m:
 ;   for positive numbers. The truncate literal truncates negative numbers
 ;   upwards so that -3.4 gives -3 whereas the BASIC INT function has to
 ;   truncate negative numbers down so that INT -3.4 is 4.
-;   It is best to work through using, say, plus or minus 3.4 as examples.
+; It is best to work through using, say, plus and minus 3.4 as examples.
 
 int:
         rst     FP_CALC         ;; FP-CALC              x.    (= 3.4 or -3.4).
         defb    $2D             ;;duplicate             x, x.
         defb    $32             ;;less-0                x, (1/0)
         defb    $00             ;;jump-true             x, (1/0)
-        defb    $04             ;;to L1C46, X-NEG
+        defb    X_NEG - ASMPC   ;;to L1C46, X-NEG
 
         defb    $36             ;;truncate              trunc 3.4 = 3.
         defb    $34             ;;end-calc              3.
@@ -9563,7 +9484,7 @@ X_NEG:
         defb    $01             ;;exchange              -3, -.4.
         defb    $2C             ;;not                   -3, (0).
         defb    $00             ;;jump-true             -3.
-        defb    $03             ;;to L1C59, EXIT        -3.
+        defb    EXIT - ASMPC    ;;to L1C59, EXIT        -3.
 
         defb    $A1             ;;stk-one               -3, 1.
         defb    $03             ;;subtract              -4.
@@ -9574,15 +9495,28 @@ EXIT:
         ret                     ; return.
 
 
-; ----------------
-; Exponential (23)
-; ----------------
+; --------------------------
+; THE 'EXPONENTIAL' FUNCTION
+; --------------------------
+; (Offset $23: 'exp')
+;   The exponential function returns the exponential of the argument, or the
+;   value of 'e' (2.7182818...) raised to the power of the argument.
+;   PRINT EXP 1 gives 2.7182818
 ;
+;   EXP is the opposite of the LN function (see below) and is equivalent to
+;   the 'antiln' function found on pocket calculators or the 'Inverse ln'
+;   function found on the Windows scientific calculator.
+;   So PRINT EXP LN 5.3 will give 5.3 as will PRINT LN EXP 5.3 or indeed
+;   any number e.g. PRINT EXP LN PI.
 ;
+;   The applications of the exponential function are in areas where exponential
+;   growth is experienced, calculus, population growth and compound interest.
+;
+;   Error 6 if the argument is above 88.
 
-EXP:
+exp:
         rst     FP_CALC         ;; FP-CALC
-        defb    $30             ;;stk-data
+        defb    $30             ;;stk-data          1/LN 2
         defb    $F1             ;;Exponent: $81, Bytes: 4
         defb    $38, $AA, $3B, $29
                                 ;;
@@ -9701,13 +9635,13 @@ RSLT_ZERO:
 ;   First test that the argument to LN is a positive, non-zero number.
 
 ln:
-        rst     FP_CALC         ;; FP-CALC
-        defb    $2D             ;;duplicate
-        defb    $33             ;;greater-0
-        defb    $00             ;;jump-true
-        defb    $04             ;;to L1CB1, VALID
+        rst     FP_CALC         ;; FP-CALC      x.
+        defb    $2D             ;;duplicate     x,x.
+        defb    $33             ;;greater-0     x,(0/1).
+        defb    $00             ;;jump-true     x.
+        defb    VALID - ASMPC   ;;to L1CB1, VALID
 
-        defb    $34             ;;end-calc
+        defb    $34             ;;end-calc      x.
 
 
 REPORT_Ab:
@@ -9716,13 +9650,18 @@ REPORT_Ab:
                                 ; Error Report: Invalid argument
 
 VALID:
+#ifndef ROM_sg81
         defb    $A0             ;;stk-zero              Note. not
         defb    $02             ;;delete                necessary.
-        defb    $34             ;;end-calc
-        ld      a, (hl)         ;
+#endif
+        defb    $34             ;;end-calc      x.
 
-        ld      (hl), $80       ;
-        call    STACK_A         ; routine STACK-A
+;   Register HL addresses the 'last value' x.
+
+        ld      a, (hl)         ; Fetch exponent to A.
+
+        ld      (hl), $80       ; Insert 'plus zero' as exponent.
+        call    STACK_A         ; routine STACK-A stacks true binary exponent.
 
         rst     FP_CALC         ;; FP-CALC
         defb    $30             ;;stk-data
@@ -9738,7 +9677,7 @@ VALID:
         defb    $03             ;;subtract
         defb    $33             ;;greater-0
         defb    $00             ;;jump-true
-        defb    $08             ;;to L1CD2, GRE.8
+        defb    GRE_8 - ASMPC   ;;to L1CD2, GRE.8
 
         defb    $01             ;;exchange
         defb    $A1             ;;stk-one
@@ -9752,7 +9691,7 @@ VALID:
 
 GRE_8:
         defb    $01             ;;exchange
-        defb    $30             ;;stk-data
+        defb    $30             ;;stk-data          LN 2
         defb    $F0             ;;Exponent: $80, Bytes: 4
         defb    $31, $72, $17, $F8
                                 ;;
@@ -9804,3130 +9743,32 @@ GRE_8:
 
         ret                     ; return.
 
-; -----------------------------
-; THE 'TRIGONOMETRIC' FUNCTIONS
-; -----------------------------
-;   Trigonometry is rocket science. It is also used by carpenters and pyramid
-;   builders.
-;   Some uses can be quite abstract but the principles can be seen in simple
-;   right-angled triangles. Triangles have some special properties -
-;
-;   1) The sum of the three angles is always PI radians (180 degrees).
-;      Very helpful if you know two angles and wish to find the third.
-;   2) In any right-angled triangle the sum of the squares of the two shorter
-;      sides is equal to the square of the longest side opposite the right-angle.
-;      Very useful if you know the length of two sides and wish to know the
-;      length of the third side.
-;   3) Functions sine, cosine and tangent enable one to calculate the length
-;      of an unknown side when the length of one other side and an angle is
-;      known.
-;   4) Functions arcsin, arccosine and arctan enable one to calculate an unknown
-;      angle when the length of two of the sides is known.
-
-; --------------------------------
-; THE 'REDUCE ARGUMENT' SUBROUTINE
-; --------------------------------
-; (offset $35: 'get-argt')
-;
-;   This routine performs two functions on the angle, in radians, that forms
-;   the argument to the sine and cosine functions.
-;   First it ensures that the angle 'wraps round'. That if a ship turns through
-;   an angle of, say, 3*PI radians (540 degrees) then the net effect is to turn
-;   through an angle of PI radians (180 degrees).
-;   Secondly it converts the angle in radians to a fraction of a right angle,
-;   depending within which quadrant the angle lies, with the periodicity
-;   resembling that of the desired sine value.
-;   The result lies in the range -1 to +1.
-;
-;                       90 deg.
-;
-;                       (pi/2)
-;                II       +1        I
-;                         |
-;          sin+      |\   |   /|    sin+
-;          cos-      | \  |  / |    cos+
-;          tan-      |  \ | /  |    tan+
-;                    |   \|/)  |
-;   180 deg. (pi) 0 -|----+----|-- 0  (0)   0 degrees
-;                    |   /|\   |
-;          sin-      |  / | \  |    sin-
-;          cos-      | /  |  \ |    cos+
-;          tan+      |/   |   \|    tan-
-;                         |
-;                III      -1       IV
-;                       (3pi/2)
-;
-;                       270 deg.
-
-
-get_argt:
-        rst     FP_CALC         ;; FP-CALC         X.
-        defb    $30             ;;stk-data
-        defb    $EE             ;;Exponent: $7E,
-                                ;;Bytes: 4
-        defb    $22, $F9, $83, $6E
-                                ;;                 X, 1/(2*PI)
-        defb    $04             ;;multiply         X/(2*PI) = fraction
-
-        defb    $2D             ;;duplicate
-        defb    $A2             ;;stk-half
-        defb    $0F             ;;addition
-        defb    $24             ;;int
-
-        defb    $03             ;;subtract         now range -.5 to .5
-
-        defb    $2D             ;;duplicate
-        defb    $0F             ;;addition         now range -1 to 1.
-        defb    $2D             ;;duplicate
-        defb    $0F             ;;addition         now range -2 to 2.
-
-;   quadrant I (0 to +1) and quadrant IV (-1 to 0) are now correct.
-;   quadrant II ranges +1 to +2.
-;   quadrant III ranges -2 to -1.
-
-        defb    $2D             ;;duplicate        Y, Y.
-        defb    $27             ;;abs              Y, abs(Y).    range 1 to 2
-        defb    $A1             ;;stk-one          Y, abs(Y), 1.
-        defb    $03             ;;subtract         Y, abs(Y)-1.  range 0 to 1
-        defb    $2D             ;;duplicate        Y, Z, Z.
-        defb    $33             ;;greater-0        Y, Z, (1/0).
-
-        defb    $C0             ;;st-mem-0         store as possible sign
-                                ;;                 for cosine function.
-
-        defb    $00             ;;jump-true
-        defb    $04             ;;to L1D35, ZPLUS  with quadrants II and III
-
-;   else the angle lies in quadrant I or IV and value Y is already correct.
-
-        defb    $02             ;;delete          Y    delete test value.
-        defb    $34             ;;end-calc        Y.
-
-        ret                     ; return.         with Q1 and Q4 >>>
-
-;   The branch was here with quadrants II (0 to 1) and III (1 to 0).
-;   Y will hold -2 to -1 if this is quadrant III.
-
-ZPLUS:
-        defb    $A1             ;;stk-one         Y, Z, 1
-        defb    $03             ;;subtract        Y, Z-1.       Q3 = 0 to -1
-        defb    $01             ;;exchange        Z-1, Y.
-        defb    $32             ;;less-0          Z-1, (1/0).
-        defb    $00             ;;jump-true       Z-1.
-        defb    $02             ;;to L1D3C, YNEG
-                                ;;if angle in quadrant III
-
-;   else angle is within quadrant II (-1 to 0)
-
-        defb    $18             ;;negate          range +1 to 0
-
-
-YNEG:
-        defb    $34             ;;end-calc        quadrants II and III correct.
-
-        ret                     ; return.
-
-
-; ---------------------
-; THE 'COSINE' FUNCTION
-; ---------------------
-; (offset $1D: 'cos')
-;   Cosines are calculated as the sine of the opposite angle rectifying the
-;   sign depending on the quadrant rules.
-;
-;
-;             /|
-;          h /y|
-;           /  |o
-;          /x  |
-;         /----|
-;           a
-;
-;   The cosine of angle x is the adjacent side (a) divided by the hypotenuse 1.
-;   However if we examine angle y then a/h is the sine of that angle.
-;   Since angle x plus angle y equals a right-angle, we can find angle y by
-;   subtracting angle x from pi/2.
-;   However it's just as easy to reduce the argument first and subtract the
-;   reduced argument from the value 1 (a reduced right-angle).
-;   It's even easier to subtract 1 from the angle and rectify the sign.
-;   In fact, after reducing the argument, the absolute value of the argument
-;   is used and rectified using the test result stored in mem-0 by 'get-argt'
-;   for that purpose.
-
-cos:
-        rst     FP_CALC         ;; FP-CALC              angle in radians.
-        defb    $35             ;;get-argt              X       reduce -1 to +1
-
-        defb    $27             ;;abs                   ABS X   0 to 1
-        defb    $A1             ;;stk-one               ABS X, 1.
-        defb    $03             ;;subtract              now opposite angle
-                                ;;                      though negative sign.
-        defb    $E0             ;;get-mem-0             fetch sign indicator.
-        defb    $00             ;;jump-true
-        defb    $06             ;;fwd to L1D4B, C-ENT
-                                ;;forward to common code if in QII or QIII
-
-
-        defb    $18             ;;negate                else make positive.
-        defb    $2F             ;;jump
-        defb    $03             ;;fwd to L1D4B, C-ENT
-                                ;;with quadrants QI and QIV
-
-; -------------------
-; THE 'SINE' FUNCTION
-; -------------------
-; (offset $1C: 'sin')
-;   This is a fundamental transcendental function from which others such as cos
-;   and tan are directly, or indirectly, derived.
-;   It uses the series generator to produce Chebyshev polynomials.
-;
-;
-;             /|
-;          1 / |
-;           /  |x
-;          /a  |
-;         /----|
-;           y
-;
-;   The 'get-argt' function is designed to modify the angle and its sign
-;   in line with the desired sine value and afterwards it can launch straight
-;   into common code.
-
-sin:
-        rst     FP_CALC         ;; FP-CALC      angle in radians
-        defb    $35             ;;get-argt      reduce - sign now correct.
-
-C_ENT:
-        defb    $2D             ;;duplicate
-        defb    $2D             ;;duplicate
-        defb    $04             ;;multiply
-        defb    $2D             ;;duplicate
-        defb    $0F             ;;addition
-        defb    $A1             ;;stk-one
-        defb    $03             ;;subtract
-
-        defb    $86             ;;series-06
-        defb    $14             ;;Exponent: $64, Bytes: 1
-        defb    $E6             ;;(+00,+00,+00)
-        defb    $5C             ;;Exponent: $6C, Bytes: 2
-        defb    $1F, $0B        ;;(+00,+00)
-        defb    $A3             ;;Exponent: $73, Bytes: 3
-        defb    $8F, $38, $EE   ;;(+00)
-        defb    $E9             ;;Exponent: $79, Bytes: 4
-        defb    $15, $63, $BB, $23
-                                ;;
-        defb    $EE             ;;Exponent: $7E, Bytes: 4
-        defb    $92, $0D, $CD, $ED
-                                ;;
-        defb    $F1             ;;Exponent: $81, Bytes: 4
-        defb    $23, $5D, $1B, $EA
-                                ;;
-
-        defb    $04             ;;multiply
-        defb    $34             ;;end-calc
-
-        ret                     ; return.
-
-
-; ----------------------
-; THE 'TANGENT' FUNCTION
-; ----------------------
-; (offset $1E: 'tan')
-;
-;   Evaluates tangent x as    sin(x) / cos(x).
-;
-;
-;             /|
-;          h / |
-;           /  |o
-;          /x  |
-;         /----|
-;           a
-;
-;   The tangent of angle x is the ratio of the length of the opposite side
-;   divided by the length of the adjacent side. As the opposite length can
-;   be calculates using sin(x) and the adjacent length using cos(x) then
-;   the tangent can be defined in terms of the previous two functions.
-
-;   Error 6 if the argument, in radians, is too close to one like pi/2
-;   which has an infinite tangent. e.g. PRINT TAN (PI/2)  evaluates as 1/0.
-;   Similarly PRINT TAN (3*PI/2), TAN (5*PI/2) etc.
-
-tan:
-        rst     FP_CALC         ;; FP-CALC          x.
-        defb    $2D             ;;duplicate         x, x.
-        defb    $1C             ;;sin               x, sin x.
-        defb    $01             ;;exchange          sin x, x.
-        defb    $1D             ;;cos               sin x, cos x.
-        defb    $05             ;;division          sin x/cos x (= tan x).
-        defb    $34             ;;end-calc          tan x.
-
-        ret                     ; return.
-
-; ---------------------
-; THE 'ARCTAN' FUNCTION
-; ---------------------
-; (Offset $21: 'atn')
-;   The inverse tangent function with the result in radians.
-;   This is a fundamental transcendental function from which others such as
-;   asn and acs are directly, or indirectly, derived.
-;   It uses the series generator to produce Chebyshev polynomials.
-
-atn:
-        ld      a, (hl)         ; fetch exponent
-        cp      $81             ; compare to that for 'one'
-        jr      c, SMALL        ; forward, if less, to SMALL
-
-        rst     FP_CALC         ;; FP-CALC      X.
-        defb    $A1             ;;stk-one
-        defb    $18             ;;negate
-        defb    $01             ;;exchange
-        defb    $05             ;;division
-        defb    $2D             ;;duplicate
-        defb    $32             ;;less-0
-        defb    $A3             ;;stk-pi/2
-        defb    $01             ;;exchange
-        defb    $00             ;;jump-true
-        defb    $06             ;;to L1D8B, CASES
-
-        defb    $18             ;;negate
-        defb    $2F             ;;jump
-        defb    $03             ;;to L1D8B, CASES
-
-; ---
-
-SMALL:
-        rst     FP_CALC         ;; FP-CALC
-        defb    $A0             ;;stk-zero
-
-CASES:
-        defb    $01             ;;exchange
-        defb    $2D             ;;duplicate
-        defb    $2D             ;;duplicate
-        defb    $04             ;;multiply
-        defb    $2D             ;;duplicate
-        defb    $0F             ;;addition
-        defb    $A1             ;;stk-one
-        defb    $03             ;;subtract
-
-        defb    $8C             ;;series-0C
-        defb    $10             ;;Exponent: $60, Bytes: 1
-        defb    $B2             ;;(+00,+00,+00)
-        defb    $13             ;;Exponent: $63, Bytes: 1
-        defb    $0E             ;;(+00,+00,+00)
-        defb    $55             ;;Exponent: $65, Bytes: 2
-        defb    $E4, $8D        ;;(+00,+00)
-        defb    $58             ;;Exponent: $68, Bytes: 2
-        defb    $39, $bc        ;;(+00,+00)
-        defb    $5B             ;;Exponent: $6B, Bytes: 2
-        defb    $98, $FD        ;;(+00,+00)
-        defb    $9E             ;;Exponent: $6E, Bytes: 3
-        defb    $00, $36, $75   ;;(+00)
-        defb    $A0             ;;Exponent: $70, Bytes: 3
-        defb    $DB, $E8, $B4   ;;(+00)
-        defb    $63             ;;Exponent: $73, Bytes: 2
-        defb    $42, $C4        ;;(+00,+00)
-        defb    $E6             ;;Exponent: $76, Bytes: 4
-        defb    $B5, $09, $36, $BE
-                                ;;
-        defb    $E9             ;;Exponent: $79, Bytes: 4
-        defb    $36, $73, $1B, $5D
-                                ;;
-        defb    $EC             ;;Exponent: $7C, Bytes: 4
-        defb    $D8, $de, $63, $BE
-                                ;;
-        defb    $F0             ;;Exponent: $80, Bytes: 4
-        defb    $61, $A1, $B3, $0C
-                                ;;
-
-        defb    $04             ;;multiply
-        defb    $0F             ;;addition
-        defb    $34             ;;end-calc
-
-        ret                     ; return.
-
-
-; ---------------------
-; THE 'ARCSIN' FUNCTION
-; ---------------------
-; (Offset $1F: 'asn')
-;   The inverse sine function with result in radians.
-;   Derived from arctan function above.
-;   Error A unless the argument is between -1 and +1 inclusive.
-;   Uses an adaptation of the formula asn(x) = atn(x/sqr(1-x*x))
-;
-;
-;                 /|
-;                / |
-;              1/  |x
-;              /a  |
-;             /----|
-;               y
-;
-;   e.g. We know the opposite side (x) and hypotenuse (1)
-;   and we wish to find angle a in radians.
-;   We can derive length y by Pythagoras and then use ATN instead.
-;   Since y*y + x*x = 1*1 (Pythagoras Theorem) then
-;   y=sqr(1-x*x)                         - no need to multiply 1 by itself.
-;   So, asn(a) = atn(x/y)
-;   or more fully,
-;   asn(a) = atn(x/sqr(1-x*x))
-
-;   Close but no cigar.
-
-;   While PRINT ATN (x/SQR (1-x*x)) gives the same results as PRINT ASN x,
-;   it leads to division by zero when x is 1 or -1.
-;   To overcome this, 1 is added to y giving half the required angle and the
-;   result is then doubled.
-;   That is, PRINT ATN (x/(SQR (1-x*x) +1)) *2
-;
-;
-;               . /|
-;            .  c/ |
-;         .     /1 |x
-;      . c   b /a  |
-;    ---------/----|
-;      1      y
-;
-;   By creating an isosceles triangle with two equal sides of 1, angles c and
-;   c are also equal. If b+c+d = 180 degrees and b+a = 180 degrees then c=a/2.
-;
-;   A value higher than 1 gives the required error as attempting to find  the
-;   square root of a negative number generates an error in Sinclair BASIC.
-
-asn:
-        rst     FP_CALC         ;; FP-CALC      x.
-        defb    $2D             ;;duplicate     x, x.
-        defb    $2D             ;;duplicate     x, x, x.
-        defb    $04             ;;multiply      x, x*x.
-        defb    $A1             ;;stk-one       x, x*x, 1.
-        defb    $03             ;;subtract      x, x*x-1.
-        defb    $18             ;;negate        x, 1-x*x.
-        defb    $25             ;;sqr           x, sqr(1-x*x) = y.
-        defb    $A1             ;;stk-one       x, y, 1.
-        defb    $0F             ;;addition      x, y+1.
-        defb    $05             ;;division      x/y+1.
-        defb    $21             ;;atn           a/2     (half the angle)
-        defb    $2D             ;;duplicate     a/2, a/2.
-        defb    $0F             ;;addition      a.
-        defb    $34             ;;end-calc      a.
-
-        ret                     ; return.
-
-
-; ------------------------
-; THE 'ARCCOS' FUNCTION
-; ------------------------
-; (Offset $20: 'acs')
-;   The inverse cosine function with the result in radians.
-;   Error A unless the argument is between -1 and +1.
-;   Result in range 0 to pi.
-;   Derived from asn above which is in turn derived from the preceding atn. It
-;   could have been derived directly from atn using acs(x) = atn(sqr(1-x*x)/x).
-;   However, as sine and cosine are horizontal translations of each other,
-;   uses acs(x) = pi/2 - asn(x)
-
-;   e.g. the arccosine of a known x value will give the required angle b in
-;   radians.
-;   We know, from above, how to calculate the angle a using asn(x).
-;   Since the three angles of any triangle add up to 180 degrees, or pi radians,
-;   and the largest angle in this case is a right-angle (pi/2 radians), then
-;   we can calculate angle b as pi/2 (both angles) minus asn(x) (angle a).
-;
-;
-;            /|
-;         1 /b|
-;          /  |x
-;         /a  |
-;        /----|
-;          y
-
-acs:
-        rst     FP_CALC         ;; FP-CALC      x.
-        defb    $1F             ;;asn           asn(x).
-        defb    $A3             ;;stk-pi/2      asn(x), pi/2.
-        defb    $03             ;;subtract      asn(x) - pi/2.
-        defb    $18             ;;negate        pi/2 - asn(x) = acs(x).
-        defb    $34             ;;end-calc      acs(x)
-
-        ret                     ; return.
-
-
-; --------------------------
-; THE 'SQUARE ROOT' FUNCTION
-; --------------------------
-; (Offset $25: 'sqr')
-;   Error A if argument is negative.
-;   This routine is remarkable for its brevity - 7 bytes.
-;   The ZX81 code was originally 9K and various techniques had to be
-;   used to shoe-horn it into an 8K Rom chip.
-
-
-sqr:
-        rst     FP_CALC         ;; FP-CALC              x.
-        defb    $2D             ;;duplicate             x, x.
-        defb    $2C             ;;not                   x, 1/0
-        defb    $00             ;;jump-true             x, (1/0).
-        defb    $1E             ;;to L1DFD, LAST        exit if argument zero
-                                ;;                      with zero result.
-
-;   else continue to calculate as x ** .5
-
-        defb    $A2             ;;stk-half              x, .5.
-        defb    $34             ;;end-calc              x, .5.
-
-
-; ------------------------------
-; THE 'EXPONENTIATION' OPERATION
-; ------------------------------
-; (Offset $06: 'to-power')
-;   This raises the first number X to the power of the second number Y.
-;   As with the ZX80,
-;   0 ** 0 = 1
-;   0 ** +n = 0
-;   0 ** -n = arithmetic overflow.
-
-to_power:
-        rst     FP_CALC         ;; FP-CALC              X,Y.
-        defb    $01             ;;exchange              Y,X.
-        defb    $2D             ;;duplicate             Y,X,X.
-        defb    $2C             ;;not                   Y,X,(1/0).
-        defb    $00             ;;jump-true
-        defb    $07             ;;forward to L1DEE, XISO if X is zero.
-
-;   else X is non-zero. function 'ln' will catch a negative value of X.
-
-        defb    $22             ;;ln                    Y, LN X.
-        defb    $04             ;;multiply              Y * LN X
-        defb    $34             ;;end-calc
-
-        jp      EXP             ; jump back to EXP routine.  ->
-
-; ---
-
-;   These routines form the three simple results when the number is zero.
-;   begin by deleting the known zero to leave Y the power factor.
-
-XISO:
-        defb    $02             ;;delete                Y.
-        defb    $2D             ;;duplicate             Y, Y.
-        defb    $2C             ;;not                   Y, (1/0).
-        defb    $00             ;;jump-true
-        defb    $09             ;;forward to L1DFB, ONE if Y is zero.
-
-;   the power factor is not zero. If negative then an error exists.
-
-        defb    $A0             ;;stk-zero              Y, 0.
-        defb    $01             ;;exchange              0, Y.
-        defb    $33             ;;greater-0             0, (1/0).
-        defb    $00             ;;jump-true             0
-        defb    $06             ;;to L1DFD, LAST        if Y was any positive
-                                ;;                      number.
-
-;   else force division by zero thereby raising an Arithmetic overflow error.
-;   There are some one and two-byte alternatives but perhaps the most formal
-;   might have been to use end-calc; rst 08; defb 05.
-
-        defb    $A1             ;;stk-one               0, 1.
-        defb    $01             ;;exchange              1, 0.
-        defb    $05             ;;division              1/0    >> error
-
-; ---
-
-ONE:
-        defb    $02             ;;delete                .
-        defb    $A1             ;;stk-one               1.
-
-LAST:
-        defb    $34             ;;end-calc              last value 1 or 0.
-
-        ret                     ; return.
+#ifdef ROM_sg81
+#include "zx81_calc_sqrt.asm"
+#include "zx81_calc_trigonom.asm"
+#include "zx81_calc_exp.asm"
+#else
+#include "zx81_calc_trigonom.asm"
+#include "zx81_calc_sqrt.asm"
+
+; drop into the exponentiation operation
+
+#include "zx81_calc_exp.asm"
+#endif
 
 ; ---------------------
 ; THE 'SPARE LOCATIONS'
 ; ---------------------
 
 SPARE:
-        defb    $FF             ; That's all folks.
-
-
-
-; ------------------------
-; THE 'ZX81 CHARACTER SET'
-; ------------------------
-
-;; char-set - begins with space character.
-
-; $00 - Character: ' '          CHR$(0)
-
-char_set:
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-; $01 - Character: mosaic       CHR$(1)
-
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-
-; $02 - Character: mosaic       CHR$(2)
-
-        defb    %00001111
-        defb    %00001111
-        defb    %00001111
-        defb    %00001111
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-
-; $03 - Character: mosaic       CHR$(3)
-
-        defb    %11111111
-        defb    %11111111
-        defb    %11111111
-        defb    %11111111
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-; $04 - Character: mosaic       CHR$(4)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-
-; $05 - Character: mosaic       CHR$(5)
-
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-
-; $06 - Character: mosaic       CHR$(6)
-
-        defb    %00001111
-        defb    %00001111
-        defb    %00001111
-        defb    %00001111
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-
-; $07 - Character: mosaic       CHR$(7)
-
-        defb    %11111111
-        defb    %11111111
-        defb    %11111111
-        defb    %11111111
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-        defb    %11110000
-
-; $08 - Character: mosaic       CHR$(8)
-
-        defb    %10101010
-        defb    %01010101
-        defb    %10101010
-        defb    %01010101
-        defb    %10101010
-        defb    %01010101
-        defb    %10101010
-        defb    %01010101
-
-; $09 - Character: mosaic       CHR$(9)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %10101010
-        defb    %01010101
-        defb    %10101010
-        defb    %01010101
-
-; $0A - Character: mosaic       CHR$(10)
-
-        defb    %10101010
-        defb    %01010101
-        defb    %10101010
-        defb    %01010101
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-; $0B - Character: '"'          CHR$(11)
-
-        defb    %00000000
-        defb    %00100100
-        defb    %00100100
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-; $0B - Character: ukp          CHR$(12)
-
-        defb    %00000000
-        defb    %00011100
-        defb    %00100010
-        defb    %01111000
-        defb    %00100000
-        defb    %00100000
-        defb    %01111110
-        defb    %00000000
-
-; $0B - Character: '$'          CHR$(13)
-
-        defb    %00000000
-        defb    %00001000
-        defb    %00111110
-        defb    %00101000
-        defb    %00111110
-        defb    %00001010
-        defb    %00111110
-        defb    %00001000
-
-; $0B - Character: ':'          CHR$(14)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00010000
-        defb    %00000000
-        defb    %00000000
-        defb    %00010000
-        defb    %00000000
-
-; $0B - Character: '?'          CHR$(15)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %00000100
-        defb    %00001000
-        defb    %00000000
-        defb    %00001000
-        defb    %00000000
-
-; $10 - Character: '('          CHR$(16)
-
-        defb    %00000000
-        defb    %00000100
-        defb    %00001000
-        defb    %00001000
-        defb    %00001000
-        defb    %00001000
-        defb    %00000100
-        defb    %00000000
-
-; $11 - Character: ')'          CHR$(17)
-
-        defb    %00000000
-        defb    %00100000
-        defb    %00010000
-        defb    %00010000
-        defb    %00010000
-        defb    %00010000
-        defb    %00100000
-        defb    %00000000
-
-; $12 - Character: '>'          CHR$(18)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00010000
-        defb    %00001000
-        defb    %00000100
-        defb    %00001000
-        defb    %00010000
-        defb    %00000000
-
-; $13 - Character: '<'          CHR$(19)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000100
-        defb    %00001000
-        defb    %00010000
-        defb    %00001000
-        defb    %00000100
-        defb    %00000000
-
-; $14 - Character: '='          CHR$(20)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00111110
-        defb    %00000000
-        defb    %00111110
-        defb    %00000000
-        defb    %00000000
-
-; $15 - Character: '+'          CHR$(21)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00001000
-        defb    %00001000
-        defb    %00111110
-        defb    %00001000
-        defb    %00001000
-        defb    %00000000
-
-; $16 - Character: '-'          CHR$(22)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00111110
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-
-; $17 - Character: '*'          CHR$(23)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00010100
-        defb    %00001000
-        defb    %00111110
-        defb    %00001000
-        defb    %00010100
-        defb    %00000000
-
-; $18 - Character: '/'          CHR$(24)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000010
-        defb    %00000100
-        defb    %00001000
-        defb    %00010000
-        defb    %00100000
-        defb    %00000000
-
-; $19 - Character: ';'          CHR$(25)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00010000
-        defb    %00000000
-        defb    %00000000
-        defb    %00010000
-        defb    %00010000
-        defb    %00100000
-
-; $1A - Character: ','          CHR$(26)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00001000
-        defb    %00001000
-        defb    %00010000
-
-; $1B - Character: '.'          CHR$(27)
-
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00000000
-        defb    %00011000
-        defb    %00011000
-        defb    %00000000
-
-; $1C - Character: '0'          CHR$(28)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000110
-        defb    %01001010
-        defb    %01010010
-        defb    %01100010
-        defb    %00111100
-        defb    %00000000
-
-; $1D - Character: '1'          CHR$(29)
-
-        defb    %00000000
-        defb    %00011000
-        defb    %00101000
-        defb    %00001000
-        defb    %00001000
-        defb    %00001000
-        defb    %00111110
-        defb    %00000000
-
-; $1E - Character: '2'          CHR$(30)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %00000010
-        defb    %00111100
-        defb    %01000000
-        defb    %01111110
-        defb    %00000000
-
-; $1F - Character: '3'          CHR$(31)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %00001100
-        defb    %00000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $20 - Character: '4'          CHR$(32)
-
-        defb    %00000000
-        defb    %00001000
-        defb    %00011000
-        defb    %00101000
-        defb    %01001000
-        defb    %01111110
-        defb    %00001000
-        defb    %00000000
-
-; $21 - Character: '5'          CHR$(33)
-
-        defb    %00000000
-        defb    %01111110
-        defb    %01000000
-        defb    %01111100
-        defb    %00000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $22 - Character: '6'          CHR$(34)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000000
-        defb    %01111100
-        defb    %01000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $23 - Character: '7'          CHR$(35)
-
-        defb    %00000000
-        defb    %01111110
-        defb    %00000010
-        defb    %00000100
-        defb    %00001000
-        defb    %00010000
-        defb    %00010000
-        defb    %00000000
-
-; $24 - Character: '8'          CHR$(36)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %00111100
-        defb    %01000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $25 - Character: '9'          CHR$(37)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %01000010
-        defb    %00111110
-        defb    %00000010
-        defb    %00111100
-        defb    %00000000
-
-; $26 - Character: 'A'          CHR$(38)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %01000010
-        defb    %01111110
-        defb    %01000010
-        defb    %01000010
-        defb    %00000000
-
-; $27 - Character: 'B'          CHR$(39)
-
-        defb    %00000000
-        defb    %01111100
-        defb    %01000010
-        defb    %01111100
-        defb    %01000010
-        defb    %01000010
-        defb    %01111100
-        defb    %00000000
-
-; $28 - Character: 'C'          CHR$(40)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %01000000
-        defb    %01000000
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $29 - Character: 'D'          CHR$(41)
-
-        defb    %00000000
-        defb    %01111000
-        defb    %01000100
-        defb    %01000010
-        defb    %01000010
-        defb    %01000100
-        defb    %01111000
-        defb    %00000000
-
-; $2A - Character: 'E'          CHR$(42)
-
-        defb    %00000000
-        defb    %01111110
-        defb    %01000000
-        defb    %01111100
-        defb    %01000000
-        defb    %01000000
-        defb    %01111110
-        defb    %00000000
-
-; $2B - Character: 'F'          CHR$(43)
-
-        defb    %00000000
-        defb    %01111110
-        defb    %01000000
-        defb    %01111100
-        defb    %01000000
-        defb    %01000000
-        defb    %01000000
-        defb    %00000000
-
-; $2C - Character: 'G'          CHR$(44)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %01000000
-        defb    %01001110
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $2D - Character: 'H'          CHR$(45)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %01000010
-        defb    %01111110
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %00000000
-
-; $2E - Character: 'I'          CHR$(46)
-
-        defb    %00000000
-        defb    %00111110
-        defb    %00001000
-        defb    %00001000
-        defb    %00001000
-        defb    %00001000
-        defb    %00111110
-        defb    %00000000
-
-; $2F - Character: 'J'          CHR$(47)
-
-        defb    %00000000
-        defb    %00000010
-        defb    %00000010
-        defb    %00000010
-        defb    %01000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $30 - Character: 'K'          CHR$(48)
-
-        defb    %00000000
-        defb    %01000100
-        defb    %01001000
-        defb    %01110000
-        defb    %01001000
-        defb    %01000100
-        defb    %01000010
-        defb    %00000000
-
-; $31 - Character: 'L'          CHR$(49)
-
-        defb    %00000000
-        defb    %01000000
-        defb    %01000000
-        defb    %01000000
-        defb    %01000000
-        defb    %01000000
-        defb    %01111110
-        defb    %00000000
-
-; $32 - Character: 'M'          CHR$(50)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %01100110
-        defb    %01011010
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %00000000
-
-; $33 - Character: 'N'          CHR$(51)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %01100010
-        defb    %01010010
-        defb    %01001010
-        defb    %01000110
-        defb    %01000010
-        defb    %00000000
-
-; $34 - Character: 'O'          CHR$(52)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $35 - Character: 'P'          CHR$(53)
-
-        defb    %00000000
-        defb    %01111100
-        defb    %01000010
-        defb    %01000010
-        defb    %01111100
-        defb    %01000000
-        defb    %01000000
-        defb    %00000000
-
-; $36 - Character: 'Q'          CHR$(54)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000010
-        defb    %01000010
-        defb    %01010010
-        defb    %01001010
-        defb    %00111100
-        defb    %00000000
-
-; $37 - Character: 'R'          CHR$(55)
-
-        defb    %00000000
-        defb    %01111100
-        defb    %01000010
-        defb    %01000010
-        defb    %01111100
-        defb    %01000100
-        defb    %01000010
-        defb    %00000000
-
-; $38 - Character: 'S'          CHR$(56)
-
-        defb    %00000000
-        defb    %00111100
-        defb    %01000000
-        defb    %00111100
-        defb    %00000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $39 - Character: 'T'          CHR$(57)
-
-        defb    %00000000
-        defb    %11111110
-        defb    %00010000
-        defb    %00010000
-        defb    %00010000
-        defb    %00010000
-        defb    %00010000
-        defb    %00000000
-
-; $3A - Character: 'U'          CHR$(58)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %00111100
-        defb    %00000000
-
-; $3B - Character: 'V'          CHR$(59)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %00100100
-        defb    %00011000
-        defb    %00000000
-
-; $3C - Character: 'W'          CHR$(60)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %01000010
-        defb    %01011010
-        defb    %00100100
-        defb    %00000000
-
-; $3D - Character: 'X'          CHR$(61)
-
-        defb    %00000000
-        defb    %01000010
-        defb    %00100100
-        defb    %00011000
-        defb    %00011000
-        defb    %00100100
-        defb    %01000010
-        defb    %00000000
-
-; $3E - Character: 'Y'          CHR$(62)
-
-        defb    %00000000
-        defb    %10000010
-        defb    %01000100
-        defb    %00101000
-        defb    %00010000
-        defb    %00010000
-        defb    %00010000
-        defb    %00000000
-
-; $3F - Character: 'Z'          CHR$(63)
-
-        defb    %00000000
-        defb    %01111110
-        defb    %00000100
-        defb    %00001000
-        defb    %00010000
-        defb    %00100000
-        defb    %01111110
-        defb    %00000000
-
-#ifdef ROM_tk85
-; ======================
-; TK85 specific routines
-; ======================
-
-; --------------
-; MAKE_REM_SPACE
-; --------------
-; The user writes a 1 REM xx statement as the first program line, pokes at
-; 16514 the desired REM space (two characters after the REM) and calls USR 8192
-; This routine creates a 2 REM .... line as many dots as poked.
-
-MAKE_REM_SPACE:
-        call    FAST            ; Needs FAST to move memory
-
-        ld      bc, 6           ; Add 6 to desired space for total REM line length
-        ld      hl, (PROG+5)    ; input desired space
-        push    hl              ; * save desired_space in stack
-        add     hl, bc          ; desired_space + 6
-        ld      b, h
-        ld      c, l            ; total new REM line length to BC
-
-        ld      hl, (NXTLIN)    ; get address of next line to be executed
-        add     hl, bc
-        ld      (NXTLIN), hl    ; adjust with space to add
-
-; Similar to the ROM routine POINTERS at $09AD
-; NOTE: does not test for out-of-memory!
-
-        ld      hl, D_FILE      ; first pointer
-        ld      a, 09h          ; 9 pointers: D_FILE to STKEND
-
-NEXT_PTR_1:
-        ld      e, (hl)         ; pointer into DE
-        inc     hl
-        ld      d, (hl)
-
-        push    de              ; ** save current pointer
-
-        ex      de, hl          ; to HL
-        add     hl, bc          ; add space to move
-        ex      de, hl          ; DE = old_pointer + space_moved
-
-        ld      (hl), d         ; store new pointer
-        dec     hl
-        ld      (hl), e
-
-        inc     hl              ; advance to next pointer
-        inc     hl
-
-        dec     a
-        jr      z, PTR_DONE_1   ; end after 9 pointers
-
-        pop     de              ; ** get current pointer
-
-        jr      NEXT_PTR_1
-
-; enters with DE = new STKEND position and old STKEND position in stack
-
-PTR_DONE_1:
-        pop     hl              ; ** get last pointer: old STKEND
-        push    hl              ; ** save again in stack
-
-        ld      bc, PROG + 7    ; point to $76 at end of 1 REM
-
-        and     a
-        sbc     hl, bc          ; HL = end of space to move - start of space to move
-
-        ld      b, h            ; BC = number of bytes to move
-        ld      c, l
-
-        pop     hl              ; * old STKEND
-        lddr                    ; move bytes to DE = new STKEND
-
-        ld      hl, PROG + 8    ; point to first byte of 2 REM
-
-        ld      (hl), 0         ; add line number = 2
-        inc     hl
-        ld      (hl), 2
-        inc     hl
-
-        pop     bc              ; * pop desired space
-        inc     bc              ; add 2 for REM and NL
-        inc     bc
-
-        ld      (hl), c         ; store REM size
-        inc     hl
-        ld      (hl), b
-        inc     hl
-
-        ld      (hl), 0eah      ; store REM token
-
-        dec     bc              ; subract 2 to get desired_space
-        dec     bc
-
-        inc     hl              ; point to first REM byte
-
-        ld      de, 1           ; set DE to HL+1
-        ex      de, hl
-        add     hl, de
-        ex      de, hl
-
-        ld      (hl), '.' - 19  ; write a dot
-        ldir                    ; copy desired_size
-
-        ld      (hl), 75h       ; overwrite last copied byte with NL
-        inc     (hl)            ; why not ld (hl), $76???
-
-        call    SLOW
-        ret
-
-; ---
-        defs    2, $FF          ; unused locations
-
-
-; ==================
-; START OF TK-85 TOS
-; ==================
-; These routines handle saving and loading to and from tape at normal and hi-speed
-; of programs and data buffers
-; They start by creating a 44-byte stack frame pointed by IY with the following local variables:
-;
-;       iy-44 :
-;       iy-43 :
-;       iy-42 :
-;       iy-41 :
-;       iy-40 :
-;       iy-39 :
-;       iy-38 :
-;       iy-37 :
-;       iy-36 :
-;       iy-35 :
-;       iy-34 :
-;       iy-33 :
-;       iy-32 :
-;       iy-31 :
-;       iy-30 :
-;       iy-29 :
-;       iy-28 :
-;       iy-27 :
-;       iy-26 :
-;       iy-25 :
-;       iy-24 :
-;       iy-23 :
-;       iy-22 :
-;       iy-21 :
-;       iy-20 :
-;       iy-19 :
-;       iy-18 :
-;       iy-17 :
-;       iy-16 :
-;       iy-15 :
-;       iy-14 :
-;       iy-13 :
-;       iy-12 :
-;       iy-11 :
-;       iy-10 :
-;       iy-9  : signal bits for timer errors during load
-;               bit 0: timer <= 10
-;               bit 1: timer <= 110
-;               bit 2: timer <  215
-;       iy-8  : current load routine to re-enter in DLOAD
-;               read buffer size in DHLOAD
-;       iy-6  : location of Z variable number
-;       iy-4  : data buffer size
-;       iy-2  : data buffer address
-
-; ---------
-; Data Save
-; ---------
-; Saves the string pointed by Z$, with a maximum save size held in variable Z
-
-DSAVE:
-        call    PREP_DLO_DSA_WS ; set FAST and reserve work space
-        call    GET_BUFFER      ; get address and size of buffer
-        call    GET_SAVE_SIZE   ; get size to save
-        call    DSAVE_BUFFER    ; save buffer to tape
-
-        ld      bc, TOS_OK      ; return with OK result
-        jr      DLO_DSA_RET
-
-; ---------
-; Data Load
-; ---------
-; Loads data from tape to the string pointed by Z$
-; Save the number of bytes loaded in the variable Z
-
-DLOAD:
-        call    PREP_DLO_DSA_WS ; set FAST and reserve work space
-        call    GET_BUFFER      ; get address and size of buffer
-        call    GET_Z_VALUE     ; HL = address of Z variable
-
-        ld      (iy-5), h       ; save in IY(-6,-5); Note: unnecessary, already done
-        ld      (iy-6), l       ; in GET_Z_VALUE
-
-; set Z to zero
-
-        ld      b, 5            ; 5 bytes per number
-FILL_Z_ZERO:
-        ld      (hl), 00h
-        inc     hl
-        djnz    FILL_Z_ZERO
-
-        call    DLOAD_BUFFER    ; load buffer from tape, HL = number of bytes read
-        call    SAVE_Z_VALUE    ; store HL in the Z variable
-        jr      DLO_DSA_RET
-
-; --------------------------
-; Make DSAVE/DLOAD workspace
-; --------------------------
-; Checks for available RAM (Report G if not enough), sets FAST mode
-; and allocates a frame of 14 bytes in the stack, setting IY to the
-; frame pointer and original SP
-
-PREP_DLO_DSA_WS:
-        ld      hl, -44         ; working space 44 bytes below stack
-        add     hl, sp
-        ex      de, hl          ; SP - 44 -> DE
-
-        ld      hl, (STKEND)    ; check for free space
-        or      a
-        sbc     hl, de          ; HL = STKEND - (SP - 44), must be < 0
-        jr      c, PREP_DLO_DSA_CONT
-
-; --------------
-; THE 'REPORT-G'
-; --------------
-
-REPORT_G:                       ; NOTE: why not RST 08h, 0Fh?
-        ld      a, ERR_G_NO_ROOM_WS
-        ld      (ERR_NR), a
-        pop     hl              ; drop return address of DSAVE/DLOAD
-        ret                     ; return to original caller
-
-; DE has SP-44 as address of work buffer
-
-PREP_DLO_DSA_CONT:
-        call    SET_FAST_IF_SLOW; assert FAST mode
-
-        ld      iy, 0           ; IY = SP
-        add     iy, sp
-
-        inc     iy              ; IY = SP+2
-        inc     iy
-
-        pop     de              ; DE = return address to DSAVE / DLOAD
-                                ; IY = SP
-
-        ld      hl, -14         ; reserve 14 bytes below stack; IY is the frame pointer
-        add     hl, sp
-        ld      sp, hl
-
-        ex      de, hl          ; return to caller
-        jp      (hl)
-
-; Exit point from DLOAD et.al.
-; Restores the SP and IY
-
-DLO_DSA_RET:
-        ld      (2000h), a      ; Note: nonsense, writing to ROM
-        ld      sp, iy          ; Remove frame
-        ld      iy, ERR_NR      ; Restore IY
-        ret
-
-; -------------------------
-; Change to FAST if in SLOW
-; -------------------------
-
-SET_FAST_IF_SLOW:
-        ld      hl, CDFLAG      ; test SLOW/FAST bits
-        ld      a, (hl)
-        and     $C0
-        jr      z, IN_FAST_MODE ; both are clear - in FAST mode
-
-; wait for interruput and disable NMI
-
-        halt                    ; synchronize with display frame
-        out     (0fdh), a       ; Turn off the NMI generator.
-
-        ld      hl, CDFLAG      ; clear both bits - set FAST mode
-        ld      a, (hl)
-        and     3fh
-        ld      (hl), a
-
-IN_FAST_MODE:
-        ret
-
-; -------------
-; Hi-speed save
-; -------------
-; Save:
-;   - 512 zero bytes = 4096 zero bits
-;   - 1   one bit
-;   - $43 signature byte
-;   - E_LINE, LSB first
-;   - bytes from VERSN to (E_LINE)
-;   - twice the checksum byte computed by adding all bytes from VERSN to (E_LINE)
-
-HISAVE:
-        call    SET_FAST        ; FAST mode
-
-; save prologue of 512 zero bytes
-
-        ld      hl, 0           ; Reset counter
-
-HISAVE_PROLOGUE:
-        inc     hl
-
-        ld      d, 0            ; Save a zero byte
-        call    HISAVE_BYTE
-
-        ld      a, h            ; repeat until HL = $0200 (512 bytes)
-        cp      02h
-        jr      nz, HISAVE_PROLOGUE
-
-; save 1 one bit
-
-        ld      d, $FF          ; Save bit 7 of D
-        call    HISAVE_BIT
-
-; save signature byte
-
-        ld      d, $43
-        call    HISAVE_BYTE     ; Save signature $43
-
-; save E_LINE, LSB first
-
-        ld      hl, (E_LINE)    ; Fetch E_LINE, i.e. end of area to save
-
-        ld      d, l            ; save LSB of E_LINE
-        call    HISAVE_BYTE
-        ld      d, h            ; save MSB of E_LINE
-        call    HISAVE_BYTE
-
-        ld      hl, VERSN       ; Start address to be saved ($4009)
-
-; save bytes from VERSN to (E_LINE)
-
-        ld      e, 0            ; E is used for a checksum byte
-
-HISAVE_BYTES:
-        ld      a, (hl)         ; Fetch byte to be saved
-        ld      d, a            ; will save D
-
-        add     a, e            ; compute checksum: E := E + D
-        ld      e, a            ; save checksum
-
-        call    HISAVE_BYTE     ; save byte
-
-        inc     hl              ; point to next
-
-        push    de
-        ex      de, hl
-        ld      hl, (E_LINE)
-        scf                     ; compare < instead of <=
-        sbc     hl, de
-        ex      de, hl
-        pop     de
-        jr      nc, HISAVE_BYTES; repeat if HL < E_LINE
-
-; save checksum twice
-
-        ld      d, e            ; D = checksum
-        call    HISAVE_BYTE     ; save checksum
-
-        ld      d, e
-        call    HISAVE_BYTE     ; save checksum
-
-        jp      SLOW_FAST       ; exit through SLOW_FAST
-
-; save 8 bits
-
-HISAVE_BYTE:
-        call    HISAVE_BIT      ; Save bit 7
-        call    HISAVE_BIT      ; Save bit 6
-        call    HISAVE_BIT      ; Save bit 5
-        call    HISAVE_BIT      ; Save bit 4
-        call    HISAVE_BIT      ; Save bit 3
-        call    HISAVE_BIT      ; Save bit 2
-        call    HISAVE_BIT      ; Save bit 1
-        call    HISAVE_BIT      ; Save bit 0
-        ret
-
-; save bit-7 of D and rotate D
-
-HISAVE_BIT:
-        and     a               ; Reset carry flag
-        rl      d               ; Bit to save into carry
-        sbc     a, a            ; $FF if bit=1 or $00 if bit=0
-        and     26h             ; $26 if bit=1 or $00 if bit=0
-        add     a, 11h          ; $37 if bit=1 or $11 if bit=0
-
-        ld      b, a            ; transfer timer to B. a set bit has a longer
-                                ; mark pulse than a reset bit
-
-        ld      a, $7F          ; Read keyboard and start VSYNC pulse
-        in      a, ($FE)
-
-        rra                     ; check bit-0 = BREAK key
-
-        push    hl              ; Timing?
-        pop     hl
-
-        jr      nc, BREAK_PRESSED_2
-
-DELAY_8:
-        djnz    DELAY_8
-
-        ld      b, $11          ; space = size of zero bit
-        out     ($FF), a        ; End the VSYNC pulse
-
-DELAY_9:
-        djnz    DELAY_9
-
-        nop                     ; Timing?
-        nop
-        ret
-
-BREAK_PRESSED_2:
-        pop     hl              ; remove three return addresses
-        pop     hl
-        pop     hl
-        jp      REPORT_D        ; NOTE: Should call RST 08 directly
-
-
-; ---------------
-; Hi-speed verify
-; ---------------
-
-HIVERIFY:
-        call    HILOAD_WAIT_HEADER
-                                ; wait for header stream and signature
-
-        call    HILOAD_BYTE_1   ; read E_LINE low
-        ld      a, d
-        cpl                     ; is inverted
-        ld      l, a            ; into L
-
-        call    HILOAD_BYTE_1   ; read E_LINE high
-        ld      a, d
-        cpl                     ; is inverted
-        ld      h, a            ; into H
-
-        ld      (SPARE2), hl    ; save E_LINE in SPARE2
-
-        ld      b, 1            ; Note: seams to be a LOAD(0)/VERIFY(1) flag
-                                ; but is not used
-        ld      e, 0            ; init checksum to zero
-
-        ld      hl, VERSN       ; start of saved program
-
-HIVERIFY_BYTES:
-        call    HILOAD_BYTE_1   ; read next byte
-                                ; not compared with actual memory, just compute checksum
-        ld      a, d
-        cpl                     ; is inverted
-
-        add     a, e            ; compute checksum: E := E + D
-        ld      e, a            ; save checksum
-
-        inc     hl              ; point to next
-
-        push    de
-        ex      de, hl
-        ld      hl, (SPARE2)    ; SPARE2 has read E_LINE
-        scf                     ; compare < instead of <=
-        sbc     hl, de
-        ex      de, hl
-        pop     de
-        jr      nc, HIVERIFY_BYTES
-                                ; repeat if HL < read E_LINE
-
-        call    HILOAD_BYTE_1   ; read checksum - first copy discarded
-        call    HILOAD_BYTE_1   ; read checksum - second copy
-
-        ld      bc, TOS_OK
-
-        ld      a, d
-        cpl                     ; is inverted
-        cp      e               ; compare computed checksum with read checksum
-
-        jr      nz, HIVERIFY_ERROR
-                                ; compare checksum
-
-; print OK
-        ld      a, 'O' - 27
-        rst     PRINT_A
-        ld      a, 'K' - 27
-        rst     PRINT_A
-        jr      HIVERIFY_END
-
-; print ERRO (error in Portuguese)
-
-HIVERIFY_ERROR:
-        ld      a, 'E' - 27
-        rst     PRINT_A
-        ld      a, 'R' - 27
-        rst     PRINT_A
-        ld      a, 'R' - 27
-        rst     PRINT_A
-        ld      a, 'O' - 27
-        rst     PRINT_A
-
-; end through SLOW/FAST
-
-HIVERIFY_END:
-        jp      SLOW_FAST
-
-; ---
-
-        defs    9, $00          ; unused locations
-
-
-; -------------
-; Hi-speed load
-; -------------
-
-HILOAD:
-        call    HILOAD_WAIT_HEADER
-                                ; wait for header stream and signature
-
-        call    HILOAD_BYTE_1   ; read and discard E_LINE low
-        call    HILOAD_BYTE_1   ; read and discard E_LINE high
-
-        ld      b, 0            ; Note: seams to be a LOAD(0)/VERIFY(1) flag
-                                ; but is not used
-
-        ld      e, 0            ; init checksum to zero
-
-        ld      hl, VERSN       ; start of saved program
-
-HILOAD_BYTES:
-        call    HILOAD_BYTE_1   ; read next byte
-
-        ld      a, d
-        cpl                     ; is inverted
-        ld      (hl), a         ; store in memory
-
-        add     a, e            ; compute checksum: E := E + D
-        ld      e, a            ; save checksum
-
-        inc     hl              ; point to next
-
-        push    de
-        ex      de, hl
-        ld      hl, (E_LINE)    ; compare HL with E_LINE
-                                ; Note: has the same bug as the original ZX-81 ROM
-                                ; where a load may end early because the LSB of E_LINE
-                                ; is read from tape before the MSB, and this test can
-                                ; get a wrong E_LINE
-
-        scf                     ; compare < instead of <=
-        sbc     hl, de
-        ex      de, hl
-        pop     de
-        jr      nc, HILOAD_BYTES; repeat if HL < E_LINE
-
-        call    HILOAD_BYTE_1   ; read checksum - first copy discarded
-        call    HILOAD_BYTE_1   ; read checksum - second copy
-
-        ld      a, d
-        cpl                     ; is inverted
-        cp      e               ; compare computed checksum with read checksum
-
-        jp      nz, START       ; Reset if wrong checksum, as system variables may be
-                                ; corrupt
-                                ; NOTE: should be INITIAL
-
-        jp      SLOW_FAST
-
-; read inverted byte into D
-
-HILOAD_BYTE:
-        ld      d, 0
-        call    HILOAD_BIT      ; Load bit 7
-        call    HILOAD_BIT      ; Load bit 6
-        call    HILOAD_BIT      ; Load bit 5
-        call    HILOAD_BIT      ; Load bit 4
-        call    HILOAD_BIT      ; Load bit 3
-        call    HILOAD_BIT      ; Load bit 2
-        call    HILOAD_BIT      ; Load bit 1
-        call    HILOAD_BIT      ; Load bit 0
-        ret
-
-; read inverted bit into D-0
-
-HILOAD_BIT:
-        ld      a, $7F          ; read the keyboard row
-        in      a, ($FE)        ; with the SPACE key.
-
-        rra                     ; test for SPACE pressed.
-        jp      nc, BREAK_PRESSED_2
-                                ; jump if so
-
-        rla                     ; reverse above rotation
-        rla                     ; test tape bit.
-        jr      c, HILOAD_BIT   ; wait while bit=1
-
-        ld      c, 0            ; counter
-HILOAD_BIT_0:
-        inc     c               ; count loop
-
-        ld      a, $7F          ; read the keyboard row
-        in      a, ($FE)        ; with the SPACE key.
-
-        rra                     ; test for SPACE pressed.
-        jp      nc, BREAK_PRESSED_2
-                                ; jump if so
-
-        rla                     ; reverse above rotation
-        rla                     ; test tape bit.
-        jp      nc, HILOAD_BIT_0; wait while pulse is 0
-
-        out     ($FF), a        ; output signal to screen.
-
-        ld      a, c            ; loop counter
-        sub     $0A             ; compare to 10, Carry for short pulse (=0),
-                                ; no carry for long pulse (=1)
-
-        rl      d               ; read inverted bit into D
-        ret
-
-; wait for header with stream of of 0-bits, 1 1-bit, and $43 byte
-
-HILOAD_WAIT_HEADER:
-        call    SET_FAST
-
-WAIT_HEADER:
-        ld      e, 0            ; init counter
-
-WAIT_COUNT_ZEROS:
-        inc     e               ; count loops
-        out     ($FF), a        ; output signal to screen
-
-        ld      a, e            ; get counter
-        cp      $1E
-        jr      nc, WAIT_ONES   ; found header if found more than 30 0-bits
-
-        ld      d, 0            ; prepare to read one bit
-        call    HILOAD_BIT_1
-        ld      a, d            ; D=1 if bit=0
-
-        cp      $01
-        jr      nz, WAIT_HEADER ; bit=1, wait header and reset counter
-        jr      WAIT_COUNT_ZEROS; bit=0, count continuous 0 bits
-
-WAIT_ONES:
-        out     ($FF), a        ; output signal to screen
-
-        ld      d, 0            ; prepare to read one bit
-        call    HILOAD_BIT_1
-        ld      a, d            ; D=0 if bit=1
-
-        cp      $01
-        jr      z, WAIT_ONES    ; still a zero bit, wait for the marker 1-bit
-
-        call    HILOAD_BYTE     ; read byte
-        ld      a, d
-        cpl                     ; byte is read inverted
-
-        cp      $43             ; check signature
-        jr      nz, WAIT_HEADER ; wait for next if wrong
-
-        ret
-
-HILOAD_BYTE_1:
-        call    HILOAD_BYTE     ; Todo: nonsense!
-        ret
-
-HILOAD_BIT_1:
-        call    HILOAD_BIT      ; Todo: nonsense!
-        ret
-
-; ---
-
-        defs    77, $FF         ; unused locations
-
-; -------------
-; GET SAVE SIZE
-; -------------
-; Read buffer size and variable Z and set IY(-4,-3) to save size
-
-GET_SAVE_SIZE:
-        ld      a, ERR_H_INVALID_LENGTH
-        ld      (ERR_NR), a
-
-        call    GET_Z_VALUE     ; HL = address of Z number = number of bytes to save
-        ld      bc, TOS_Z_INT_OVERFLOW
-        call    TOS_FP_TO_INT   ; DE = integer value in Z
-
-        ld      h, (iy-3)       ; HL = buffer size
-        ld      l, (iy-4)
-
-        or      a
-        sbc     hl, de
-        ld      bc, TOS_Z_TOO_LARGE
-        jr      c, DLO_DSA_RET_2; bytes to save > buffer size -> error
-
-        ld      (iy-3), d       ; save new buffer size from Z variable
-        ld      (iy-4), e
-
-        ld      a, ERR_0_OK
-        ld      (ERR_NR), a
-        ret
-
-; ---------------
-; WRITE LOAD SIZE
-; ---------------
-; store HL in the Z variable
-
-SAVE_Z_VALUE:
-        ld      d, (iy-5)       ; DE = address of variable value
-        ld      e, (iy-6)
-
-        call    TOS_INT_TO_FP   ; save Z value
-        ret
-
-; ---------------------
-; FLOATING POINT TO INT
-; ---------------------
-; On input HL points at a 5 byte loating point value.
-; On output DE has the corresponding integer value.
-
-TOS_FP_TO_INT:
-        ld      a, (hl)         ; A = exponent+128
-        ld      de, 0           ; DE = return value
-        or      a
-        ret     z               ; exponent = 0 -> integer = 0
-
-        sub     81h             ; 1 is $81 $00 $00 $00 $00
-        jp      m, DLO_DSA_RET  ; number too small, error
-
-        inc     a               ; A = exponent+1
-        cp      11h
-        jr      nc, DLO_DSA_RET_2
-                                ; number too big, error
-
-        inc     hl              ; point at mantissa
-        ld      d, (hl)         ; get DE = mantissa
-        inc     hl
-        ld      e, (hl)
-
-        push    af              ; * save exponent+1
-
-        inc     hl              ; make sure the other 2 mantissa bytes are zero
-        ld      a, (hl)
-        inc     hl
-        or      (hl)
-        jr      nz, DLO_DSA_RET_2
-                                ; error if not
-
-        pop     af              ; * restore exponent+1
-
-        bit     7, d            ; sign bit
-        jr      nz, DLO_DSA_RET_2
-                                ; error if mantissa is negative
-        set     7, d            ; restore the most significant mantissa bit that
-                                ; shares memory with the sign bit
-
-        ex      de, hl          ; HL = mantissa
-        ld      de, 0           ; DE = 0
-
-CVT_TO_INT:
-        add     hl, hl          ; mantissa *= 2
-
-        ex      de, hl          ; add overflow to DE
-        adc     hl, hl
-        ex      de, hl
-
-        dec     a
-        jr      nz, CVT_TO_INT  ; repeat exponent times
-
-        ld      a, h
-        or      l
-        ret     z               ; HL must be zero, and DE has the converted number
-
-; fall through to error
-
-DLO_DSA_RET_2:
-        jp      DLO_DSA_RET
-
-; -----------------
-; Convert INT to FP
-; -----------------
-; HL has an integer value and DE the address of the FP variable to store
-; Converts integer to floating point
-
-TOS_INT_TO_FP:
-        ld      a, l
-        or      h
-        jr      z, STORE_FP     ; if HL = 0
-
-; shift HL right and decrement exponent while bit 15 of HL is zero
-
-        ld      a, $80+16       ; initial exponent
-
-NEXT_SHIFT:
-        bit     7, h
-        jr      nz, STORE_FP
-
-        add     hl, hl          ; rotate left
-        dec     a               ; decrement exponent
-        jr      NEXT_SHIFT
-
-STORE_FP:
-        ex      de, hl          ; HL = address, DE = mantissa
-
-        ld      (hl), a         ; save exponent
-
-        res     7, d            ; clear sign bit
-        inc     hl
-        ld      (hl), d         ; store mantissa high
-        inc     hl
-        ld      (hl), e         ; store mantissa low
-        inc     hl
-        ld      (hl), 0
-        inc     hl
-        ld      (hl), 0
-        ret
-
-; -----------------------
-; Data save at high speed
-; -----------------------
-; Save:
-;   - 512 zero bytes = 4096 zero bits
-;   - 1   one bit
-;   - $43 signature byte
-;   - size of buffer, LSB first
-;   - buffer bytes
-;   - once the checksum byte computed by adding all buffer bytes
-
-DHSAVE:
-        call    PREP_DLO_DSA_WS ; set FAST and reserve work space
-        call    GET_BUFFER      ; get address and size of buffer
-        call    GET_SAVE_SIZE   ; get size to save
-        call    DHSAVE_BUFFER   ; save buffer to tape
-
-        ld      bc, TOS_OK      ; return with OK result
-        jp      DLO_DSA_RET
-
-
-; --------------------------
-; Save a data buffer to tape
-; --------------------------
-; Save buffer pointed by IY(-2,-1) with size IY(-2,-1) to tape
-
-DHSAVE_BUFFER:
-        ld      d, (iy-3)       ; DE = buffer size
-        ld      e, (iy-4)
-
-        ld      hl, -40
-        add     hl, de
-        jr      c, HSIZE_OK
-
-; size to save < 40 -> error
-
-        ld      a, ERR_H_INVALID_LENGTH
-        ld      (ERR_NR), a
-
-        ld      bc, TOS_Z_TOO_SMALL
-        jp      DLO_DSA_RET     ; error
-
-HSIZE_OK:
-        push    de              ; * save buffer size
-
-; save prologue of 512 zero bytes
-
-        ld      hl, 0           ; Reset counter
-
-DHSAVE_PROLOGUE:
-        inc     hl
-        ld      d, 0            ; Save a zero byte
-        call    DHSAVE_BYTE
-
-        ld      a, h            ; repeat until HL = $0200 (512 bytes)
-        cp      02h
-        jr      nz, DHSAVE_PROLOGUE
-
-; save 1 one bit
-
-        ld      d, $FF          ; Save bit 7 of D
-        call    DHSAVE_BIT
-
-; save signature byte
-
-        ld      d, $43
-        call    DHSAVE_BYTE     ; Save signature $43
-
-        pop     de              ; * get buffer size
-        push    de              ; * and push it back
-
-        call    DHSAVE_BYTE     ; Save size MSB
-
-        ld      d, e
-        call    DHSAVE_BYTE     ; Save size LSB
-
-        pop     de              ; * restore buffer size
-
-        ld      h, (iy-1)       ; HL = buffer address
-        ld      l, (iy-2)
-
-        ld      c, 0            ; C is the checksum
-
-DHSAVE_BYTES:
-        push    de              ; * save buffer size
-
-        ld      d, (hl)         ; Fetch byte to be saved
-
-        ld      a, d            ; C += D
-        add     a, c
-        ld      c, a            ; save new checksum
-
-        call    DHSAVE_BYTE     ; save data byte
-
-        pop     de              ; * restore buffer size
-
-        inc     hl              ; advance address
-
-        dec     de              ; decrement size
-
-        ld      a, d
-        or      e
-        jr      nz, DHSAVE_BYTES; still more bytes to save
-
-        ld      d, c
-        call    DHSAVE_BYTE     ; save checksum
-
-        ret
-
-; save 8 bits
-
-DHSAVE_BYTE:                    ; Note: repeated???
-        call    DHSAVE_BIT      ; Save bit 7
-        call    DHSAVE_BIT      ; Save bit 6
-        call    DHSAVE_BIT      ; Save bit 5
-        call    DHSAVE_BIT      ; Save bit 4
-        call    DHSAVE_BIT      ; Save bit 3
-        call    DHSAVE_BIT      ; Save bit 2
-        call    DHSAVE_BIT      ; Save bit 1
-        call    DHSAVE_BIT      ; Save bit 0
-        ret
-
-; save bit-7 of D and rotate D
-
-DHSAVE_BIT:
-        and     a               ; Reset carry flag
-        rl      d               ; Bit to save into carry
-        sbc     a, a            ; $FF if bit=1 or $00 if bit=0
-        and     26h             ; $26 if bit=1 or $00 if bit=0
-        add     a, 11h          ; $37 if bit=1 or $11 if bit=0
-
-        ld      b, a            ; transfer timer to B. a set bit has a longer
-                                ; mark pulse than a reset bit
-
-        ld      a, $7F          ; Read keyboard and start VSYNC pulse
-        in      a, ($FE)
-
-        rra                     ; check bit-0 = BREAK key
-
-        push    hl              ; Timing?
-        pop     hl
-
-        jr      nc, BREAK_PRESSED_3
-
-DELAY_10:
-        djnz    DELAY_10
-
-        ld      b, $11          ; space = size of zero bit
-        out     ($FF), a        ; End the VSYNC pulse
-
-DELAY_11:
-        djnz    DELAY_11
-
-        nop                     ; Timing?
-        nop
-        ret
-
-BREAK_PRESSED_3:
-        ld      hl, CDFLAG
-        res     0, (hl)         ; signal no key available
-
-        ld      a, ($00FF)      ; Note: ??? A = $87
-        ld      (DB_ST), a
-
-        pop     hl
-
-        ld      a, ERR_D_BREAK  ; error - break pressed
-        ld      (ERR_NR), a
-
-        ld      bc, TOS_BREAK_PRESSED
-        jp      DLO_DSA_RET
-
-
-; ------------------
-; Data Hi-Speed Load
-; ------------------
-; Loads data from tape to the string pointed by Z$
-; Save the number of bytes loaded in the variable Z
-
-DHLOAD:
-        call    PREP_DLO_DSA_WS ; set FAST and reserve work space
-        call    GET_BUFFER      ; get address and size of buffer
-        call    GET_Z_VALUE     ; HL = address of Z variable
-
-        ld      (iy-5), h       ; save in IY(-6,-5); Note: unnecessary, already done
-        ld      (iy-6), l       ; in GET_Z_VALUE
-
-; set Z to zero
-
-        ld      b, 5            ; 5 bytes per number
-FILL_Z_ZERO_1:
-        ld      (hl), 00h
-        inc     hl
-        djnz    FILL_Z_ZERO_1
-
-        call    DHLOAD_BUFFER   ; load buffer from tape, HL = number of bytes read
-        call    SAVE_Z_VALUE    ; store HL in the Z variable
-        jp      DLO_DSA_RET
-
-
-DHLOAD_BUFFER:
-        ld      e, 0            ; init counter
-
-WAIT_COUNT_ZEROS_1:
-        inc     e               ; count loops
-        out     ($FF), a        ; output signal to screen
-
-        ld      a, e            ; get counter
-        cp      $1E
-        jr      nc, WAIT_ONES_1 ; found header if found more than 30 0-bits
-
-        ld      d, 0            ; prepare to read one bit
-        call    HILOAD_BIT_2
-        ld      a, d            ; D=1 if bit=0
-
-        cp      $01
-        jr      nz, DHLOAD_BUFFER
-                                ; bit=1, wait header and reset counter
-        jr      WAIT_COUNT_ZEROS_1
-                                ; bit=0, count continuous 0 bits
-
-WAIT_ONES_1:
-        out     ($FF), a        ; output signal to screen
-
-        ld      d, 0            ; prepare to read one bit
-        call    HILOAD_BIT_2
-        ld      a, d            ; D=0 if bit=1
-
-        cp      $01
-        jr      z, WAIT_ONES_1  ; still a zero bit, wait for the marker 1-bit
-
-        call    HILOAD_BYTE_2   ; read byte
-        ld      a, d
-        cpl                     ; byte is read inverted
-
-        cp      $43             ; check signature
-        jr      nz, DHLOAD_BUFFER
-                                ; wait for next if wrong
-
-        call    HILOAD_BYTE_2   ; read size low
-        ld      a, d
-        cpl                     ; is inverted
-        ld      (iy-7), a       ; size IY(-8,-7)
-
-        call    HILOAD_BYTE_2   ; read size high
-        ld      a, d
-        cpl                     ; is inverted
-        ld      (iy-8), a       ; size IY(-8,-7)
-
-; now read data
-
-        call    HILOAD_BYTE_2   ; read first buffer byte
-        ld      a, d            ; into A
-
-        ld      de, 0           ; DE = number of read bytes
-
-        ld      h, (iy-1)       ; get data buffer address
-        ld      l, (iy-2)
-
-        ld      b, 0
-
-DH_GET_NEXT_BYTE:
-        push    hl              ; * save data buffer address
-
-        ld      h, (iy-3)       ; get data buffer size
-        ld      l, (iy-4)
-
-        scf
-        sbc     hl, de          ; HL = size-read_bytes-1
-
-        jp      m, DH_MORE_THAN_BUFSIZ
-                                ; jump if read_bytes >= size - end of buffer
-
-        ld      h, (iy-7)       ; get buffer size read from tape header
-        ld      l, (iy-8)
-
-        scf
-        sbc     hl, de          ; HL = size-read_bytes-1
-
-        pop     hl              ; * restore data buffer address
-
-        jp      m, DHSAVE_END
-                                ; jump if read_bytes >= read size - end of tape data
-
-        inc     de              ; count read bytes
-
-        cpl                     ; is inverted
-        ld      (hl), a         ; store in memory
-
-        add     a, b            ; compute checksum: B := B + A
-        ld      b, a            ; save checksum
-
-        inc     hl              ; point to next
-
-        push    de              ; * save number of bytes read
-
-        call    HILOAD_BYTE_2   ; read next byte
-        ld      a, d            ; into A
-
-        pop     de              ; * restore number of bytes read
-
-        jr      DH_GET_NEXT_BYTE
-
-DH_MORE_THAN_BUFSIZ:
-        pop     hl              ; * drop data buffer address
-
-        ld      h, (iy-7)       ; get buffer size read from tape header
-        ld      l, (iy-8)
-
-        or      a               ; compare read bytes with buffer size from tape
-        sbc     hl, de
-        jr      z, DHSAVE_END   ; the same, OK
-
-        dec     hl
-
-DH_SKIP_BYTES:
-        ld      a, h            ; check if size is zero
-        or      l
-        jr      z, DH_READ_OVERFLOW
-                                ; end with error if reached the end
-
-        dec     hl              ; count bytes read
-
-        push    de              ; save read size
-        call    HILOAD_BYTE_2   ; read and discard byte from tape
-        pop     de              ; restore read size
-
-        jr      DH_SKIP_BYTES
-
-DH_READ_OVERFLOW:
-        ld      bc, TOS_READ_OVERFLOW
-        ex      de, hl
-        ret
-
-DHSAVE_END:
-        cpl                     ; A has last byte read - checksum; invert
-        cp      b               ; compare with checksum
-
-        jr      nz, DHSAVE_ERROR
-        ld      bc, TOS_OK
-        ex      de, hl
-        ret
-
-DHSAVE_ERROR:
-        ld      b, 0
-        ld      c, TOS_TAPE_ERROR_VOLUME_LOW
-        ex      de, hl          ; HL is number of bytes read
-        ret
-
-; read inverted byte into D
-
-HILOAD_BYTE_2:
-        ld      d, 0
-        call    HILOAD_BIT_2    ; Load bit 7
-        call    HILOAD_BIT_2    ; Load bit 6
-        call    HILOAD_BIT_2    ; Load bit 5
-        call    HILOAD_BIT_2    ; Load bit 4
-        call    HILOAD_BIT_2    ; Load bit 3
-        call    HILOAD_BIT_2    ; Load bit 2
-        call    HILOAD_BIT_2    ; Load bit 1
-        call    HILOAD_BIT_2    ; Load bit 0
-        ret
-
-; read inverted bit into D-0
-
-HILOAD_BIT_2:
-        ld      a, $7F          ; read the keyboard row
-        in      a, ($FE)        ; with the SPACE key.
-
-        rra                     ; test for SPACE pressed.
-        jr      nc, BREAK_PRESSED_4
-                                ; jump if so
-
-        rla                     ; reverse above rotation
-        rla                     ; test tape bit.
-        jr      c, HILOAD_BIT_2 ; wait while bit=1
-
-        ld      c, 0            ; counter
-HILOAD_BIT_0_2:
-        inc     c               ; count loop
-
-        ld      a, $7F          ; read the keyboard row
-        in      a, ($FE)        ; with the SPACE key.
-
-        rra                     ; test for SPACE pressed.
-        jr      nc, BREAK_PRESSED_4
-                                ; jump if so
-
-        rla                     ; reverse above rotation
-        rla                     ; test tape bit.
-        jr      nc, HILOAD_BIT_0_2
-                                ; wait while pulse is 0
-
-        out     ($FF), a        ; output signal to screen.
-
-        ld      a, c            ; loop counter
-        sub     $0A             ; compare to 10, Carry for short pulse (=0),
-                                ; no carry for long pulse (=1)
-
-        rl      d               ; read inverted bit into D
-        ret
-
-BREAK_PRESSED_4:
-        ld      a, ERR_D_BREAK
-        ld      (ERR_NR), a
-
-        ld      bc, TOS_BREAK_PRESSED
-        jp      DLO_DSA_RET
-
-;---
-        defs    182, $FF        ; unused locations
-
-
-; --------------------------
-; Save a data buffer to tape
-; --------------------------
-; Save buffer pointed by IY(-2,-1) with size IY(-2,-1) to tape
-
-DSAVE_BUFFER:
-        ld      d, (iy-3)       ; DE = buffer size
-        ld      e, (iy-4)
-
-        ld      hl, -40
-        add     hl, de
-        jp      c, SIZE_OK
-
-; size to save < 40 -> error
-
-        ld      a, ERR_H_INVALID_LENGTH
-        ld      (ERR_NR), a
-
-        ld      bc, TOS_Z_TOO_SMALL
-        jp      DLO_DSA_RET     ; error
-
-SIZE_OK:
-        ld      bc, $1388       ; five seconds(?) timing value
-        call    SILENCE_DELAY_BC; test for BREAK key and start VSYNC pulse (output=0)
-
-        ld      h, (iy-1)       ; HL = buffer address
-        ld      l, (iy-2)
-
-DSAVE_BYTES:
-        push    de              ; * save buffer size
-        call    D_OUT_BYTE      ; output one byte
-        pop     de              ; * restore buffer size
-
-        inc     hl              ; point to next byte
-        dec     de              ; decrement buffer size counter
-
-        ld      a, d
-        or      e
-        jp      nz, DSAVE_BYTES ; loop back while there are bytes to save
-
-        ret
-
-; -------------------------
-; THE 'OUT-BYTE' SUBROUTINE
-; -------------------------
-; This subroutine outputs a byte a bit at a time to a domestic tape recorder.
-; HL has the location of the byte to send
-
-D_OUT_BYTE:
-        ld      e, (hl)         ; fetch byte to be saved.
-        scf                     ; set carry flag - as a marker.
-
-D_EACH_BIT:
-        rl      e               ;  C < 76543210 < C
-        ret     z               ; return when the marker bit has passed
-                                ; right through.                        >>
-
-        sbc     a, a            ; $FF if set bit or $00 with no carry.
-        and     $05             ; $05               $00
-        add     a, $04          ; $09               $04
-        ld      c, a            ; transfer timer to C. a set bit has a longer
-                                ; pulse than a reset bit.
-
-D_PULSES:
-        out     ($FF), a        ; end the VSYNC pulse (output=1 during DELAY_5)
-
-        ld      b, $22          ; set timing constant
-DELAY_5:
-        djnz    DELAY_5         ; self-loop to DELAY-5
-
-
-        call    CHECK_BREAK     ; test for BREAK key and start VSYNC pulse
-
-        ld      b, $1D          ; set timing value.
-DELAY_6:
-        djnz    DELAY_6
-
-        dec     c               ; decrement pulse counter
-        jp      nz, D_PULSES    ; loop back to D_PULSES
-
-DELAY_7:
-        or      a               ; clear carry for next bit test.
-        djnz    DELAY_7         ; self loop to DELAY-4 (B is zero - 256)
-
-        jp      D_EACH_BIT
-
-; -----------
-; Load buffer
-; -----------
-; Load a data buffer from tape, return number of bytes read in HL
-
-DLOAD_BUFFER:
-        ld      hl, DLOAD_BUFFER
-        ld      (iy-7), h       ; save my own address in IY(-8,-7)
-        ld      (iy-8), l
-
-        ld      de, 0           ; DE = number of read bytes
-        ld      hl, $0BB8       ; wait timer
-
-DLOAD_WAIT_HEADER:
-        ld      (iy-9), 0       ; error flags
-
-        push    de              ; * save DE
-        call    DLOAD_IN_BYTE   ; carry set if got byte
-        pop     de              ; * retore DE
-
-        jp      c, D_GOT_BYTE
-
-        dec     hl              ; decrement header timner
-        ld      a, h
-        or      l
-        jp      nz, DLOAD_WAIT_HEADER
-
-        ld      bc, TOS_TIMEOUT ; exit with timeout error
-        jp      DLO_DSA_RET
-
-; Received a byte
-
-D_GOT_BYTE:
-        ld      h, (iy-1)       ; get data buffer address
-        ld      l, (iy-2)
-
-D_GET_NEXT_BYTE:
-        push    hl              ; * save data buffer address
-
-        ld      h, (iy-3)       ; get data buffer size
-        ld      l, (iy-4)
-
-        scf
-        sbc     hl, de          ; HL = size-read_bytes-1
-
-        pop     hl              ; * restore data buffer address
-
-        jp      m, DLOAD_SKIP_BYTES
-                                ; jump if read_bytes >= size
-
-        inc     de              ; count bytes read
-        ld      (hl), c         ; store byte read in buffer
-        inc     hl              ; and advance buffer pointer
-
-        push    de              ; get next byte
-        call    DLOAD_IN_BYTE
-        pop     de
-        jp      c, D_GET_NEXT_BYTE
-
-D_NO_MORE_BYTES:
-        ld      bc, TOS_OK
-        ld      a, (iy-9)       ; get timeout flags
-        or      a
-        jp      z, DLOAD_EXIT   ; all zero -> OK
-
-        add     a, 15           ; move timeout value to BC to return
-        ld      c, a
-        ld      b, 0
-
-DLOAD_EXIT:
-        ex      de, hl          ; return HL = number of bytes loaded
-        ret
-
-; tape buffer greater than read size, skip other tape bytes
-
-DLOAD_SKIP_BYTES:
-        push    de
-        call    DLOAD_IN_BYTE
-        pop     de
-
-        jp      c, DLOAD_SKIP_BYTES
-                                ; while read bytes
-
-        ld      bc, TOS_READ_OVERFLOW
-                                ; exit with read-overflow error
-        jp      DLOAD_EXIT
-
-
-; -----------
-; Data Verify
-; -----------
-; Verifies buffer from tape
-
-DVERIFY:
-        call    PREP_DLO_DSA_WS ; set FAST and reserve work space
-
-        ld      hl, DLO_DSA_RET ; save return address
-        push    hl
-
-        ld      hl, DVERIFY_BUFFER
-        ld      (iy-7), h       ; save my own address in IY(-8,-7)
-        ld      (iy-8), l
-
-DVERIFY_BUFFER:
-        ld      de, 0           ; DE = number of read bytes
-        ld      hl, $0BB8       ; wait timer
-
-DVERIFY_WAIT_HEADER:
-        ld      (iy-9), 0       ; error flags
-
-        push    de              ; * save DE
-        call    DLOAD_IN_BYTE   ; carry set if got byte
-        pop     de              ; * retore DE
-
-        jp      c, DV_GOT_BYTE
-
-        dec     hl              ; decrement header timner
-        ld      a, h
-        or      l
-        jp      nz, DVERIFY_WAIT_HEADER
-
-        ld      bc, TOS_TIMEOUT ; exit with timeout error
-        jp      DLO_DSA_RET
-
-; Received a byte
-
-DV_GOT_BYTE:
-        inc     de              ; count bytes read
-
-        push    de              ; get next byte
-        call    DLOAD_IN_BYTE
-        pop     de
-
-        jp      c, DV_GOT_BYTE
-        jp      D_NO_MORE_BYTES
-
-; ---------------------------
-; THE DATA IN BYTE SUBROUTINE
-; ---------------------------
-
-DLOAD_IN_BYTE:
-        ld      c, $01          ; prepare an eight counter 00000001.
-
-DLOAD_NEXT_BIT:
-        ld      b, $00          ; set counter to 256
-
-DLOAD_WAIT_BIT:
-        ld      a, $7F          ; read the keyboard row
-        in      a, ($FE)        ; with the SPACE key.
-
-        out     ($FF), a        ; output signal to screen.
-
-        bit     7, a            ; test tape signal
-        jp      nz, DLOAD_GET_BIT
-                                ; tape=1 -> found pulse
-
-        rrca                    ; test BREAK key
-
-        jp      nc, BREAK_PRESSED_1
-
-        djnz    DLOAD_WAIT_BIT
-
-        dec     c
-        jp      nz, DLOAD_TIMEOUT
-                                ; C has data read from tape, timeout reading
-
-        or      a               ; clear carry and return if no byte received
-        ret
-
-; exit if BREAK pressed
-
-BREAK_PRESSED_1:
-        pop     hl              ; drop two return addresses, go back to DLOAD level
-        pop     hl
-
-        ld      a, ERR_D_BREAK  ; signal BREAK-pressed error
-        ld      (ERR_NR), a
-
-        ld      bc, TOS_BREAK_PRESSED
-        ret
-
-DLOAD_GET_BIT:
-        ld      de, $FFBF       ; timing value
-
-DLOAD_TRAILER:
-        ld      b, $1E          ; counter
-
-DLOAD_COUNTER:
-        inc     de              ; increment timer
-        in      a, ($FE)        ; read tape port
-        rlca                    ; test bit 7 = tape
-
-        jp      c, DLOAD_TRAILER; found signal, loop back to trailer
-
-        djnz    DLOAD_COUNTER   ; wait for next pulse
-
-        ld      a, d            ; get counter-high
-        rlca                    ; test bit 15
-
-        jp      c, DLOAD_NEXT_BIT
-                                ; if 1, then a pulse was received before DE reaching 0
-
-        ld      a, $0A
-        cp      e
-
-        jp      c, DLOAD_TIMER_BIT_0
-                                ; jump if 10 < timer
-
-        set     0, (iy-9)       ; timer <= 10
-
-DLOAD_TIMER_BIT_0:
-        ld      a, $50
-        cp      e
-        jp      nc, DLOAD_UPDATE_COUNTER
-                                ; jump if 80 <= timer
-
-        ld      a, $6E
-        cp      e
-
-        jp      c, DLOAD_TIMER_BIT_1
-                                ; jump if 110 < timer
-
-        set     1, (iy-9)       ; timer <= 110
-
-DLOAD_TIMER_BIT_1:
-        ld      a, $D7
-        cp      e
-        jp      nc, DLOAD_TIMER_BIT_2
-                                ; jump if 215 <= timer
-
-        set     2, (iy-9)       ; timer < 215
-
-DLOAD_TIMER_BIT_2:
-        scf
-
-; enter with carry clear if timer >= 80, carry set if timer > 80
-
-DLOAD_UPDATE_COUNTER:
-        ld      a, c            ; initially = 1
-        adc     a, c            ; rotate left and add carry (read bit) to bit 0
-        ld      c, a            ; store new byte
-
-        jp      nc, DLOAD_NEXT_BIT
-                                ; while marker bit does not enter carry, i.e. 8 times
-
-        ret                     ; return with carry set if got a byte
-
-; timeout in the middle of reading a byte
-
-DLOAD_TIMEOUT:
-        pop     bc              ; pop two return addresses
-        pop     de
-
-        ld      hl, $FFD8
-        add     hl, de
-        jp      nc, DLOAD_RE_ENTER
-                                ; re-enter load if timer < -40
-
-        push    de              ; restore return addresses
-        push    bc
-        or      a               ; clear carry and return if no bit received
-        ret
-
-; Jump back to the address of my load routine
-
-DLOAD_RE_ENTER:
-        ld      h, (iy-7)       ; jump to my routine again
-        ld      l, (iy-8)
-        jp      (hl)
-
-; -------------
-; Silence delay
-; -------------
-; Wait in silence, input loop counter in BC
-
-SILENCE_DELAY_BC:
-        push    af              ; * save AF and HL
-        push    hl
-
-SV_LOOP_2:
-        push    bc              ; * save delay counter
-
-        ld      b, $EF          ; delay
-SV_LOOP_1:
-        djnz    SV_LOOP_1
-
-        call    CHECK_BREAK     ; check if BREAK pressed
-
-        pop     bc              ; * restore delay counter
-
-        dec     bc
-        ld      a, b
-        or      c
-        jp      nz, SV_LOOP_2   ; decrement and repeat while not zero
-
-        pop     hl
-        pop     af              ; * restore AF and HL
-        ret
-
-; -------------------------
-; Check if BREAK is pressed
-; -------------------------
-; Exit via error if BREAK key is pressed
-
-CHECK_BREAK:
-        push    hl
-
-        ld      a, $7F          ; read the keyboard row
-        in      a, ($FE)        ; with the SPACE key.
-        rra                     ; test for SPACE pressed.
-
-        ld      hl, CDFLAG
-        res     0, (hl)         ; signal no key available
-
-        ld      a, ($00FF)      ; Note: ??? A = $87
-        ld      (DB_ST), a
-
-        pop     hl
-        ret     c               ; Break not pressed
-
-; error - BREAK pressed
-
-        ld      a, ERR_D_BREAK
-        ld      (ERR_NR), a
-
-        ld      bc, TOS_BREAK_PRESSED
-        jp      DLO_DSA_RET
-
-; ---------------------------
-; GET BUFFER SIZE AND ADDRESS
-; ---------------------------
-; Read variable Z$ and get name of buffer x
-; Read variable x$() and get buffer address and size
-; Store address in IY(-2,-1), size in IY(-4,-3)
-; Returns if OK; else skips caller address and returns error.
-
-GET_BUFFER:
-        ld      a, ERR_H_INVALID_BUFFER
-                                ; prepare for REPORT I
-        ld      (ERR_NR), a
-
-; search for Z$
-
-        ld      a, +('Z' - 27) & $1F
-                                ; search Z$ or Z$() variable (bit 5=0)
-        call    SEARCH_VAR
-
-        cp      $80             ; found end marker $80 - Z$ undefined error
-        ld      bc, TOS_ZDOLLAR_UNDEF
-        jr      z, DLO_DSA_RET_1
-
-        or      a               ; found string array Z$() - error
-        ld      bc, TOS_ZDOLLAR_IS_ARR
-        jr      z, DLO_DSA_RET_1
-
-        ld      a, (hl)         ; Z$ found, check length
-        inc     hl
-        or      (hl)
-        ld      bc, TOS_ZDOLLAR_EMPTY
-        jr      z, DLO_DSA_RET_1; error - empty Z$
-
-; read Z$ - must contain name of string array to be used as buffer
-
-        inc     hl              ; point at Z$ data
-        ld      a, (hl)         ; read first character
-        ld      bc, TOS_ZDOLLAR_INVALID
-
-        cp      'A' - 27
-        jr      c, DLO_DSA_RET_1; character < 'A' -> error
-
-        cp      'Y' - 27 + 1
-        jr      nc, DLO_DSA_RET_1
-                                ; character >= 'Y' -> error
-
-; get string buffer
-
-        sub     20h             ; clear bit 5 -> search for x$ or x$()
-        call    SEARCH_VAR
-
-        cp      $80             ; found end marker $80 - buffer undefined error
-        ld      bc, TOS_BUFFER_UNDEF
-        jr      z, DLO_DSA_RET_1
-
-        or      a               ; found string x$ - error
-        ld      bc, TOS_BUFFER_IS_STR
-        jr      nz, DLO_DSA_RET_1
-
-        inc     hl              ; have a x$(); advance past total length
-        inc     hl
-
-        ld      a, (hl)         ; get number of dimensions
-        cp      1
-        ld      bc, TOS_BUFFER_IS_MULTI_DIMENSIONAL
-        jr      nz, DLO_DSA_RET_1
-                                ; error if multi-dimensional
-
-        inc     hl              ; point to dimension size
-        ld      e, (hl)         ; DE = buffer size
-        inc     hl
-        ld      d, (hl)
-        inc     hl              ; HL = buffer address
-
-        ld      (iy-3), d       ; save buffer size in Frame (-4,-3)
-        ld      (iy-4), e
-        ld      (iy-1), h       ; save buffer address in Frame (-2,-1)
-        ld      (iy-2), l
-
-        ld      a, ERR_0_OK
-        ld      (ERR_NR), a
-        ret
-
-DLO_DSA_RET_1:
-        jp      DLO_DSA_RET
-
-; -----------
-; GET Z VALUE
-; -----------
-; Read variable Z and get address of number
-; Store number address in IY(-6,-5), return in HL
-; Returns if OK; else skips caller address and returns error.
-
-GET_Z_VALUE:
-        ld      a, +('Z' - 27) & $3F
-                                ; search Z numeric variable (bit 5=1)
-        call    SEARCH_VAR
-
-        ld      bc, TOS_Z_UNDEF
-        cp      $80             ; check for end marker
-        jr      z, DLO_DSA_RET_1; error if end marker found
-
-        inc     hl              ; hl = location of Z variable data
-
-        ld      (iy-5), h       ; store in Frame (-6,-5)
-        ld      (iy-6), l
-        ret
-
-; ---------------------
-; SEARCH BASIC VARIABLE
-; ---------------------
-; Search BASIC variable in A (if input has bit 5=0) or A$() or A$ (if input has bit 5=1)
-; - if not found, return A = $80 end marker, HL poiting at marker
-; - if number or string return A = variable code in VARS, HL poiting at length field
-; - if string array return A = 0, HL poiting at length field
-; See comment on ZX-81 User VARIABLES to follow this code
-
-SEARCH_VAR:
-        ld      hl, (VARS)
-        ld      c, a            ; save variable to search in C
-
-SEARCH_VAR_NEXT:
-        ld      a, (hl)         ; check for end marker $80
-        cp      $80
-        ret     z               ; return HL pointing at the end marker
-
-        and     $C0             ; check bits 7 and 6
-        ld      a, c            ; restore letter
-        ld      bc, TOS_VARS_ERROR
-
-        jr      z, DLO_DSA_RET_1; %00x - invalid
-
-        ld      c, a            ; save variable to search
-
-        ld      a, (hl)
-        and     20h             ; check bit 5
-        jr      z, VAR_IS_STR_OR_ARR
-                                ; bit 5 = 0 - array or string
-
-        ld      a, (hl)         ; check bit 7
-        rla
-        jr      nc, VAR_IS_NUMBER
-                                ; bit 7=0 & bit 5=1
-
-        rla                     ; check bit 6
-        ld      e, 1+3*5+2      ; size of FOR-NEXT variable
-        jr      c, VAR_SKIP_E   ; bit 7=1 & bit 6=1 & bit 5=1 - FOR-NEXT variable
-
-VAR_SKIP_NAME:                  ; bit 7=1 & bit 6=0 & bit 5=1 - long number variable
-                                ; last char has bit 7=1
-        inc     hl
-        ld      a, (hl)
-        rla
-        jr      nc, VAR_SKIP_NAME
-                                ; loop while bit 7=0
-        jr      VAR_SKIP_NUMBER
-
-; Found a number variable with one letter only - %011 vvvvv
-; Return if it is the search variable, or skip to next variable otherwise
-
-VAR_IS_NUMBER:
-        rra                     ; restore A
-        xor     c               ; compare with letter being searched
-        and     3fh             ; keep only lower 5 bits - letter code
-        ret     z               ; return if found number variable
-
-VAR_SKIP_NUMBER:
-        ld      e, 1+5          ; advance past letter code and value
-
-VAR_SKIP_E:
-        ld      d, 0
-
-VAR_SKIP_DE:
-        add     hl, de          ; skip to next variable
-        jr      SEARCH_VAR_NEXT
-
-; Found a string or number array, or a string variable - %xx0 vvvvv
-
-VAR_IS_STR_OR_ARR:
-        ld      a, (hl)
-        and     40h             ; check bit 6
-        jr      z, VAR_IS_NUMARR
-                                ; bit 6=0 & bit 5=0 - array of numbers
-
-; bit 6=1 & bit 5=0 - string or array of chars
-
-        ld      a, (hl)         ; restore A
-        xor     c               ; compare with letter being searched
-        and     3fh             ; keep only lower 5 bits - letter code
-        jr      z, VAR_FOUND_STR_OR_STRARR
-                                ; return if found string variable
-
-VAR_IS_NUMARR:
-        inc     hl
-        ld      e, (hl)
-        inc     hl
-        ld      d, (hl)
-        inc     hl
-        jr      VAR_SKIP_DE
-
-VAR_FOUND_STR_OR_STRARR:
-        ld      a, (hl)         ; restore A
-        or      a
-        inc     hl              ; point at length
-        ret     p               ; end if bit 7=0 - string
-        xor     a               ; A = 0 for string array
-        ret
-
-;---
-
-; Signature
-        defb    $34
-        defb    $20
-        defb    $41
+#ifdef ROM_sg81
+        defs    $1E00 - ASMPC, $00
+#else
+        defs    $1E00 - ASMPC, $FF
 #endif
+      
+; That's all folks.
 
 
-
-
+#include "zx81_char_set.asm"
+#include "tk85_tos.asm"

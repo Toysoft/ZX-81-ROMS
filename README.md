@@ -26,7 +26,7 @@ The ROM Disassembly Book by Dr. Ian Logan and Dr. Frank O'Hara [https://k1.spdns
 
 ## ZX-81 "Shoulder of Giants" ROM
 
-ROM disassembly: ...work in progress...
+ROM disassembly: [https://www.dropbox.com/s/hrnha9ouqt8qbs0/sg81.html?dl=0](https://www.dropbox.com/s/hrnha9ouqt8qbs0/sg81.html?dl=0 "ZX-81 Shoulder of Giants ROM")
 
 This is a customized ZX81 ROM variant by Geoff Wearmouth which uses space-saving techniques to make way for Newton's square root calculation, improved decimal number input and consistent output to the screen and printer of floating point numbers. 
 
