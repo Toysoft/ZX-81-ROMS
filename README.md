@@ -71,7 +71,7 @@ The ROM is based on the improved ZX-81 version 2 ROM, with the following changes
 - Has the bugfix of the "print a number to the printer prints garbage" from the Shoulder Of Giants ROM, caused 
   by RST $10 not preserving the A register when printing to the printer.
 
-- Fixes the rouding problem of the improved version 2 ZX-81 ROM, reported by Dr. Frank O'Hara:
+- Fixes the rounding problem of the improved version 2 ZX-81 ROM, reported by Dr. Frank O'Hara:
 
 	"This jump is made to the wrong place. No 34th bit will ever be obtained without first shifting
 	the dividend. Hence important results like 1/10 and 1/1000 are not rounded up as they should be.
