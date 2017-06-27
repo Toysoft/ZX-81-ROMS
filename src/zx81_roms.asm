@@ -5,8 +5,10 @@
 ;
 ; Constants:
 ;       ROM_zx81    ZX-81 version 2 (improved) ROM
+;       ROM_zx81v1  ZX-81 version 1 (buggy) ROM
 ;       ROM_tk85    TK-85 ROM
 ;       ROM_sg81    ZX-81 "Shoulder of Giants" ROM
+;       ROM_ts1500  Timex Sinclair 1500 ROM
 ; *****************************************************************************
 
 #endif
@@ -376,8 +378,13 @@ defc    MEMBOT  = $405D         ; SN30  16477
                                 ;       Calculator's memory area; used to store
                                 ;       numbers that cannot conveniently be put
                                 ;       on the calculator stack.
+#ifdef ROM_ts1500
+defc    PROG_STRT = $407B       ;   S2  16507
+                                ;       Start of program area
+#else
 defc    SPARE2  = $407B         ;   S2  16507
                                 ;       Not used.
+#endif
 
 defc    PROG    = $407D         ;       16509
                                 ;       Start of BASIC program
@@ -385,7 +392,11 @@ defc    PROG    = $407D         ;       16509
 #ifdef ROM_tk85
 defc    MAXRAM  = $FEFF         ; Maximum value of RAMTOP (TK85)
 #else
+#ifdef ROM_ts1500
+defc    MAXRAM  = $8000         ; Timex Sinclair 1500 starts at 16K
+#else
 defc    MAXRAM  = $7FFF         ; Maximum value of RAMTOP
+#endif
 #endif
 
 defc    IY0     = ERR_NR        ; Base of system variables
@@ -573,7 +584,11 @@ START:
                                 ; running in ZX81 hardware. This does nothing
                                 ; if this ROM is running within an upgraded
                                 ; ZX80.
+#ifdef ROM_ts1500
+        ld      hl, MAXRAM      ; Set HL to the top of possible RAM+1.
+#else
         ld      bc, MAXRAM      ; Set BC to the top of possible RAM.
+#endif
                                 ; The higher unpopulated addresses are used for
                                 ; video generation.
         jp      RAM_CHECK       ; Jump forward to RAM-CHECK.
@@ -1436,7 +1451,11 @@ BREAK_3:
         cp      d               ; ugh.
 
 RESTART:
+#ifdef ROM_ts1500
+        jp      nc, INITIAL+1   ; BUG; should jump to INITIAL if D is zero
+#else
         jp      nc, INITIAL     ; jump forward to INITIAL if D is zero
+#endif
                                 ; to reset the system
                                 ; if the tape signal has timed out for example
                                 ; if the tape is stopped. Not just a simple
@@ -1565,8 +1584,14 @@ NAME:
 
 NEW:
         call    SET_FAST        ; routine SET-FAST
+
+#ifdef ROM_ts1500
+        ld      hl, (RAMTOP)    ; fetch value of system variable RAMTOP
+
+#else
         ld      bc, (RAMTOP)    ; fetch value of system variable RAMTOP
         dec     bc              ; point to last system byte.
+#endif
 
 ; -----------------------
 ; THE 'RAM CHECK' ROUTINE
@@ -1574,33 +1599,77 @@ NEW:
 ;
 ;
 
+#ifdef ROM_ts1500
+
+; TS-1500 only clears the memory and does not check for the existence of the 16K ram pack.
+; Instead it checks for an expansion ROM loaded at $2000 and jumps into it if found.
+
 RAM_CHECK:
-        ld      h, b            ;
-        ld      l, c            ;
-        ld      a, $3F          ;
+        dec     hl              ; point to last system byte.
+
+        ld      a, $3F
+        ld      b, h            ; save top of ram in BC; there is no stack yet
+        ld      c, l
 
 RAM_FILL:
-        ld      (hl), $02       ;
-        dec     hl              ;
-        cp      h               ;
+        ld      (hl), $00
+        dec     hl
+        cp      h
+        jr      nz, RAM_FILL    ; to RAM-FILL
+
+        ld      h, b            ; restore top of ram
+        ld      l, c
+        inc     hl
+        ld      (RAMTOP), hl    ; set system variable RAMTOP to first byte
+                                ; above the BASIC system area.
+
+; Start expansion ROM at $2000 if byte != $FF
+
+        ld      hl, $2000       ; first address in the expansion ROM
+        dec     (hl)            ; decrement it; if it was $FF (i.e. no ROM present)
+                                ; decrements to zero
+                                ; the TS-1500 does full-address decoding, i.e. there is no copy
+                                ; of the base 8K rom at $2000
+        jr      nz, INITIAL     ; no ROM present - continue to setup memory
+
+; Jump into expansion ROM
+
+        jp      (hl)
+
+        defb    0               ; spare byte
+
+#else
+
+RAM_CHECK:
+        ld      h, b
+        ld      l, c
+        ld      a, $3F
+
+RAM_FILL:
+        ld      (hl), $02
+        dec     hl
+        cp      h
         jr      nz, RAM_FILL    ; to RAM-FILL
 
 RAM_READ:
-        and     a               ;
-        sbc     hl, bc          ;
-        add     hl, bc          ;
-        inc     hl              ;
+        and     a
+        sbc     hl, bc
+        add     hl, bc
+        inc     hl
         jr      nc, SET_TOP     ; to SET-TOP
 
-        dec     (hl)            ;
+        dec     (hl)
         jr      z, SET_TOP      ; to SET-TOP
 
-        dec     (hl)            ;
+        dec     (hl)
         jr      z, RAM_READ     ; to RAM-READ
 
 SET_TOP:
         ld      (RAMTOP), hl    ; set system variable RAMTOP to first byte
                                 ; above the BASIC system area.
+
+#endif
+
 
 ; ----------------------------
 ; THE 'INITIALIZATION' ROUTINE
@@ -1640,6 +1709,14 @@ INITIAL:
 
         ld      hl, PROG        ; The first location after System Variables -
                                 ; 16509 decimal.
+
+#ifdef ROM_ts1500
+        ld      (PROG_STRT), hl ; set start of program area to this value.
+                                ; this would make it possible to move the
+                                ; program area up in memory if the ld xx,PROG
+                                ; at LINE_ADDR was replaced by ld xx,(PROG_STRT)
+#endif
+
         ld      (D_FILE), hl    ; set system variable D_FILE to this value.
         ld      b, $19          ; prepare minimal screen of 24 NEWLINEs
                                 ; following an initial NEWLINE.
@@ -3168,7 +3245,11 @@ PTR_DONE:
 
 LINE_ADDR:
         push    hl              ;
-        ld      hl, PROG        ;
+#ifdef ROM_ts1500
+        ld      hl, PROG        ; Bug: should be ld hl,(PROG_STRT)
+#else
+        ld      hl, PROG
+#endif
         ld      d, h            ;
         ld      e, l            ;
 
@@ -7202,7 +7283,7 @@ PF_ZEROS:
         ld      a, $1B          ; prepare character '.'
         rst     PRINT_A         ; PRINT-A
 
-#ifdef ROM_sg81
+#if defined(ROM_sg81) || defined(ROM_ts1500)
 PF_ZRO_LP:
         ld      a, $1C          ; prepare a '0' in the accumulator each time.
 
@@ -8045,7 +8126,12 @@ COUNT_ONE:
         jp      m, DIV_LOOP     ; back while still minus to DIV-LOOP
 
         push    af              ;
+
+#ifdef ROM_ts1500
+        jr      z, div_34th     ; Solve ZX-81 improved ROM bug
+#else
         jr      z, DIV_START    ; back to DIV-START
+#endif
 
 ; "This jump is made to the wrong place. No 34th bit will ever be obtained
 ; without first shifting the dividend. Hence important results like 1/10 and

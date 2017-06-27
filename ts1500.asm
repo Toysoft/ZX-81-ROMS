@@ -1,6 +1,3 @@
-; =============================================================================
-; An Assembly Listing of the Operating System of the ZX81 version 1 (buggy) ROM
-; =============================================================================
 ;
 ; Work in progress.
 ; This file will cross-assemble an original version of the "Improved"
@@ -320,13 +317,13 @@ defc    MEMBOT  = $405D         ; SN30  16477
                                 ;       Calculator's memory area; used to store
                                 ;       numbers that cannot conveniently be put
                                 ;       on the calculator stack.
-defc    SPARE2  = $407B         ;   S2  16507
-                                ;       Not used.
+defc    PROG_STRT = $407B       ;   S2  16507
+                                ;       Start of program area
 
 defc    PROG    = $407D         ;       16509
                                 ;       Start of BASIC program
 
-defc    MAXRAM  = $7FFF         ; Maximum value of RAMTOP
+defc    MAXRAM  = $8000         ; Timex Sinclair 1500 starts at 16K
 
 defc    IY0     = ERR_NR        ; Base of system variables
 
@@ -428,7 +425,7 @@ START:
                                 ; running in ZX81 hardware. This does nothing
                                 ; if this ROM is running within an upgraded
                                 ; ZX80.
-        ld      bc, MAXRAM      ; Set BC to the top of possible RAM.
+        ld      hl, MAXRAM      ; Set HL to the top of possible RAM+1.
                                 ; The higher unpopulated addresses are used for
                                 ; video generation.
         jp      RAM_CHECK       ; Jump forward to RAM-CHECK.
@@ -1573,7 +1570,7 @@ BREAK_3:
         cp      d               ; ugh.
 
 RESTART:
-        jp      nc, INITIAL     ; jump forward to INITIAL if D is zero
+        jp      nc, INITIAL+1   ; BUG; should jump to INITIAL if D is zero
                                 ; to reset the system
                                 ; if the tape signal has timed out for example
                                 ; if the tape is stopped. Not just a simple
@@ -1703,8 +1700,8 @@ NAME:
 NEW:
         call    SET_FAST        ; routine SET-FAST
 
-        ld      bc, (RAMTOP)    ; fetch value of system variable RAMTOP
-        dec     bc              ; point to last system byte.
+        ld      hl, (RAMTOP)    ; fetch value of system variable RAMTOP
+
 
 ; -----------------------
 ; THE 'RAM CHECK' ROUTINE
@@ -1713,33 +1710,42 @@ NEW:
 ;
 
 
+; TS-1500 only clears the memory and does not check for the existence of the 16K ram pack.
+; Instead it checks for an expansion ROM loaded at $2000 and jumps into it if found.
+
 RAM_CHECK:
-        ld      h, b
-        ld      l, c
+        dec     hl              ; point to last system byte.
+
         ld      a, $3F
+        ld      b, h            ; save top of ram in BC; there is no stack yet
+        ld      c, l
 
 RAM_FILL:
-        ld      (hl), $02
+        ld      (hl), $00
         dec     hl
         cp      h
         jr      nz, RAM_FILL    ; to RAM-FILL
 
-RAM_READ:
-        and     a
-        sbc     hl, bc
-        add     hl, bc
+        ld      h, b            ; restore top of ram
+        ld      l, c
         inc     hl
-        jr      nc, SET_TOP     ; to SET-TOP
-
-        dec     (hl)
-        jr      z, SET_TOP      ; to SET-TOP
-
-        dec     (hl)
-        jr      z, RAM_READ     ; to RAM-READ
-
-SET_TOP:
         ld      (RAMTOP), hl    ; set system variable RAMTOP to first byte
                                 ; above the BASIC system area.
+
+; Start expansion ROM at $2000 if byte != $FF
+
+        ld      hl, $2000       ; first address in the expansion ROM
+        dec     (hl)            ; decrement it; if it was $FF (i.e. no ROM present)
+                                ; decrements to zero
+                                ; the TS-1500 does full-address decoding, i.e. there is no copy
+                                ; of the base 8K rom at $2000
+        jr      nz, INITIAL     ; no ROM present - continue to setup memory
+
+; Jump into expansion ROM
+
+        jp      (hl)
+
+        defb    0               ; spare byte
 
 
 
@@ -1782,6 +1788,10 @@ INITIAL:
         ld      hl, PROG        ; The first location after System Variables -
                                 ; 16509 decimal.
 
+        ld      (PROG_STRT), hl ; set start of program area to this value.
+                                ; this would make it possible to move the
+                                ; program area up in memory if the ld xx,PROG
+                                ; at LINE_ADDR was replaced by ld xx,(PROG_STRT)
 
         ld      (D_FILE), hl    ; set system variable D_FILE to this value.
         ld      b, $19          ; prepare minimal screen of 24 NEWLINEs
@@ -3311,7 +3321,7 @@ PTR_DONE:
 
 LINE_ADDR:
         push    hl              ;
-        ld      hl, PROG
+        ld      hl, PROG        ; Bug: should be ld hl,(PROG_STRT)
         ld      d, h            ;
         ld      e, l            ;
 
@@ -4891,6 +4901,11 @@ INPUT:
         jr      nz, REPORT_8    ; REPORT-8 (Input must have line number)
 
 
+; In edition 2 ROM, a new CALL instruction added to clear the workspace
+; during the INPUT routine
+
+        call    X_TEMP          ; Call X-TEMP to clears the workspace
+
         ld      hl, FLAGX       ; FLAGX
         set     5, (hl)         ; Set INPUT mode
         res     6, (hl)         ; to string
@@ -4967,9 +4982,14 @@ PAUSE:
         call    DISPLAY_P       ; Call DISPLAY-P to generate display until
                                 ; FRAMES zero or a key is pressed
 
+
+; In edition 2 ROM, rewritten PAUSE routine to ensure bit 15 of FRAMES set.
+
+        ld      (iy+FRAMES+1-IY0), $FF
+                                ; Set high byte of FRAMES to make sure a
+                                ; new frame does not get FRAMES to zero
+
         call    SLOW_FAST       ; Call SLOW/FAST to re-enter "normal" slow mode
-        set     7, (iy+$35)     ; Sets the top bit (bit 15) of FRAMES
-                                ; to indicate not in PAUSE
         jr      DEBOUNCE        ; routine DEBOUNCE
 
 ; ----------------------
@@ -5247,10 +5267,14 @@ S_LTR_DGT:
         call    z, STK_VAR      ; routine STK-VAR stacks string parameters or
                                 ; returns cell location if numeric.
 
-        bit     6, (iy+FLAGS-IY0)
-                                ; IY=4000H
-        jr      z, S_CONT_2     ; Jump to S-CONT-2 to continue processing
-                                ; if not a number
+
+; In Edition 2 ROM, rewritten numeric processing routine to cater for
+; syntax checking.
+
+        ld      a, (FLAGS)      ; Fetch the value of FLAGS
+        cp      $C0             ; Test bit 6 & 7 together
+        jr      c, S_CONT_2     ; Jump to S-CONT-2 to continue processing if
+                                ; not a number and/or are syntax checking
 
         inc     hl              ; A numeric value is to be stacked during
                                 ; line execution
@@ -7293,9 +7317,9 @@ PF_ZEROS:
         ld      a, $1B          ; prepare character '.'
         rst     PRINT_A         ; PRINT-A
 
-        ld      a, $1C          ; prepare a '0'
-
 PF_ZRO_LP:
+        ld      a, $1C          ; prepare a '0' in the accumulator each time.
+
         rst     PRINT_A         ; PRINT-A
 
         djnz    PF_ZRO_LP       ; loop back to PF-ZRO-LP
@@ -7509,9 +7533,6 @@ ADDEND_0:
         exx                     ; select alternate set for more significant
                                 ; bytes.
 
-        ld      a, h
-        sub     l
-        ld      h, a
 
 ; In Edition 2 ROM, deleted spurious instructions causing floating point bug
 
@@ -8129,7 +8150,7 @@ COUNT_ONE:
 
         push    af              ;
 
-        jr      z, DIV_START    ; back to DIV-START
+        jr      z, div_34th     ; Solve ZX-81 improved ROM bug
 
 ; "This jump is made to the wrong place. No 34th bit will ever be obtained
 ; without first shifting the dividend. Hence important results like 1/10 and

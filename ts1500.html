@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>zx81.asm</title>
+<title>ts1500.asm</title>
 <style>
 *{
 	font-family: Courier New;
@@ -10,10 +10,7 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF">
-;&nbsp;<b>================================================================================</b>
-<br>;&nbsp;An&nbsp;Assembly&nbsp;Listing&nbsp;of&nbsp;the&nbsp;Operating&nbsp;System&nbsp;of&nbsp;the&nbsp;ZX81&nbsp;version&nbsp;2&nbsp;(improved)&nbsp;ROM
-<br>;&nbsp;<b>================================================================================</b>
-<br>;
+;
 <br>;&nbsp;Work&nbsp;in&nbsp;progress.
 <br>;&nbsp;This&nbsp;file&nbsp;will&nbsp;cross-assemble&nbsp;an&nbsp;original&nbsp;version&nbsp;of&nbsp;the&nbsp;&quot;Improved&quot;
 <br>;&nbsp;ZX81&nbsp;ROM.&nbsp;&nbsp;The&nbsp;file&nbsp;can&nbsp;be&nbsp;modified&nbsp;to&nbsp;change&nbsp;the&nbsp;behaviour&nbsp;of&nbsp;the&nbsp;ROM
@@ -332,13 +329,13 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculator&#39;s&nbsp;memory&nbsp;area;&nbsp;used&nbsp;to&nbsp;store
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers&nbsp;that&nbsp;cannot&nbsp;conveniently&nbsp;be&nbsp;put
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on&nbsp;the&nbsp;calculator&nbsp;stack.
-<br><a name="SPARE2"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SPARE2">SPARE2</a>&nbsp;&nbsp;=&nbsp;<b>$407B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16507
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not&nbsp;used.
+<br><a name="PROG_STRT"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PROG_STRT">PROG_STRT</a>&nbsp;=&nbsp;<b>$407B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;S2&nbsp;&nbsp;16507
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start&nbsp;of&nbsp;program&nbsp;area
 <br>
 <br><a name="PROG"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407D</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16509
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start&nbsp;of&nbsp;BASIC&nbsp;program
 <br>
-<br><a name="MAXRAM"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;=&nbsp;<b>$7FFF</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Maximum&nbsp;value&nbsp;of&nbsp;<a href="#RAMTOP">RAMTOP</a>
+<br><a name="MAXRAM"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;=&nbsp;<b>$8000</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Timex&nbsp;Sinclair&nbsp;1500&nbsp;starts&nbsp;at&nbsp;16K
 <br>
 <br><a name="IY0"></a>defc&nbsp;&nbsp;&nbsp;&nbsp;<a href="#IY0">IY0</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<a href="#ERR_NR">ERR_NR</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Base&nbsp;of&nbsp;system&nbsp;variables
 <br>
@@ -440,7 +437,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;running&nbsp;in&nbsp;ZX81&nbsp;hardware.&nbsp;This&nbsp;does&nbsp;nothing
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;this&nbsp;ROM&nbsp;is&nbsp;running&nbsp;within&nbsp;an&nbsp;upgraded
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;ZX80.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Set&nbsp;BC&nbsp;to&nbsp;the&nbsp;top&nbsp;of&nbsp;possible&nbsp;RAM.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Set&nbsp;HL&nbsp;to&nbsp;the&nbsp;top&nbsp;of&nbsp;possible&nbsp;RAM+1.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;The&nbsp;higher&nbsp;unpopulated&nbsp;addresses&nbsp;are&nbsp;used&nbsp;for
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;video&nbsp;generation.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#RAM_CHECK">RAM_CHECK</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Jump&nbsp;forward&nbsp;to&nbsp;RAM-CHECK.
@@ -1585,7 +1582,7 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;ugh.
 <br>
 <br><a name="RESTART"></a><a href="#RESTART">RESTART</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#jump">jump</a>&nbsp;forward&nbsp;to&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;if&nbsp;D&nbsp;is&nbsp;zero
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#INITIAL">INITIAL</a>+1&nbsp;&nbsp;&nbsp;;&nbsp;BUG;&nbsp;should&nbsp;<a href="#jump">jump</a>&nbsp;to&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;if&nbsp;D&nbsp;is&nbsp;zero
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;reset&nbsp;the&nbsp;system
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;the&nbsp;tape&nbsp;signal&nbsp;has&nbsp;timed&nbsp;out&nbsp;for&nbsp;example
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;the&nbsp;tape&nbsp;is&nbsp;stopped.&nbsp;Not&nbsp;just&nbsp;a&nbsp;simple
@@ -1715,8 +1712,8 @@
 <br><a name="NEW"></a><a href="#NEW">NEW</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SET_FAST">SET_FAST</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;routine&nbsp;SET-<a href="#FAST">FAST</a>
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc,&nbsp;(<a href="#RAMTOP">RAMTOP</a>)&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;fetch&nbsp;value&nbsp;of&nbsp;system&nbsp;variable&nbsp;<a href="#RAMTOP">RAMTOP</a>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;point&nbsp;to&nbsp;last&nbsp;system&nbsp;byte.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;(<a href="#RAMTOP">RAMTOP</a>)&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;fetch&nbsp;value&nbsp;of&nbsp;system&nbsp;variable&nbsp;<a href="#RAMTOP">RAMTOP</a>
+<br>
 <br>
 <br>;&nbsp;<b>-----------------------</b>
 <br>;&nbsp;THE&nbsp;&#39;RAM&nbsp;CHECK&#39;&nbsp;ROUTINE
@@ -1725,33 +1722,42 @@
 <br>;
 <br>
 <br>
+<br>;&nbsp;TS-1500&nbsp;only&nbsp;clears&nbsp;the&nbsp;memory&nbsp;and&nbsp;does&nbsp;<a href="#not">not</a>&nbsp;check&nbsp;for&nbsp;the&nbsp;existence&nbsp;of&nbsp;the&nbsp;16K&nbsp;ram&nbsp;pack.
+<br>;&nbsp;Instead&nbsp;it&nbsp;checks&nbsp;for&nbsp;an&nbsp;expansion&nbsp;ROM&nbsp;loaded&nbsp;at&nbsp;<b>$2000</b>&nbsp;and&nbsp;jumps&nbsp;into&nbsp;it&nbsp;if&nbsp;found.
+<br>
 <br><a name="RAM_CHECK"></a><a href="#RAM_CHECK">RAM_CHECK</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h,&nbsp;b
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l,&nbsp;c
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;point&nbsp;to&nbsp;last&nbsp;system&nbsp;byte.
+<br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$3F</b>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;save&nbsp;top&nbsp;of&nbsp;ram&nbsp;in&nbsp;BC;&nbsp;there&nbsp;is&nbsp;no&nbsp;stack&nbsp;yet
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c,&nbsp;l
 <br>
 <br><a name="RAM_FILL"></a><a href="#RAM_FILL">RAM_FILL</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl),&nbsp;<b>$02</b>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl),&nbsp;<b>$00</b>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#RAM_FILL">RAM_FILL</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;RAM-FILL
 <br>
-<br><a name="RAM_READ"></a><a href="#RAM_READ">RAM_READ</a>:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;bc
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;bc
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h,&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;restore&nbsp;top&nbsp;of&nbsp;ram
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l,&nbsp;c
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nc,&nbsp;<a href="#SET_TOP">SET_TOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;SET-TOP
-<br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#SET_TOP">SET_TOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;SET-TOP
-<br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#RAM_READ">RAM_READ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;to&nbsp;RAM-READ
-<br>
-<br><a name="SET_TOP"></a><a href="#SET_TOP">SET_TOP</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#RAMTOP">RAMTOP</a>),&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;system&nbsp;variable&nbsp;<a href="#RAMTOP">RAMTOP</a>&nbsp;to&nbsp;first&nbsp;byte
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;above&nbsp;the&nbsp;BASIC&nbsp;system&nbsp;area.
+<br>
+<br>;&nbsp;Start&nbsp;expansion&nbsp;ROM&nbsp;at&nbsp;<b>$2000</b>&nbsp;if&nbsp;byte&nbsp;!=&nbsp;<b>$FF</b>
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<b>$2000</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;first&nbsp;address&nbsp;in&nbsp;the&nbsp;expansion&nbsp;ROM
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;decrement&nbsp;it;&nbsp;if&nbsp;it&nbsp;was&nbsp;<b>$FF</b>&nbsp;(i.e.&nbsp;no&nbsp;ROM&nbsp;present)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;decrements&nbsp;to&nbsp;zero
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;the&nbsp;TS-1500&nbsp;does&nbsp;full-address&nbsp;decoding,&nbsp;i.e.&nbsp;there&nbsp;is&nbsp;no&nbsp;copy
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;of&nbsp;the&nbsp;base&nbsp;8K&nbsp;rom&nbsp;at&nbsp;<b>$2000</b>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nz,&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;no&nbsp;ROM&nbsp;present&nbsp;-&nbsp;continue&nbsp;to&nbsp;setup&nbsp;memory
+<br>
+<br>;&nbsp;Jump&nbsp;into&nbsp;expansion&nbsp;ROM
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hl)
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defb&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;spare&nbsp;byte
 <br>
 <br>
 <br>
@@ -1794,6 +1800,10 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;The&nbsp;first&nbsp;location&nbsp;after&nbsp;System&nbsp;Variables&nbsp;-
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;16509&nbsp;decimal.
 <br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#PROG_STRT">PROG_STRT</a>),&nbsp;hl&nbsp;;&nbsp;set&nbsp;start&nbsp;of&nbsp;program&nbsp;area&nbsp;to&nbsp;this&nbsp;value.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;this&nbsp;would&nbsp;make&nbsp;it&nbsp;possible&nbsp;to&nbsp;move&nbsp;the
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;program&nbsp;area&nbsp;up&nbsp;in&nbsp;memory&nbsp;if&nbsp;the&nbsp;ld&nbsp;xx,<a href="#PROG">PROG</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;at&nbsp;<a href="#LINE_ADDR">LINE_ADDR</a>&nbsp;was&nbsp;replaced&nbsp;by&nbsp;ld&nbsp;xx,(<a href="#PROG_STRT">PROG_STRT</a>)
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#D_FILE">D_FILE</a>),&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;set&nbsp;system&nbsp;variable&nbsp;<a href="#D_FILE">D_FILE</a>&nbsp;to&nbsp;this&nbsp;value.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b,&nbsp;<b>$19</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;prepare&nbsp;minimal&nbsp;screen&nbsp;of&nbsp;24&nbsp;NEWLINEs
@@ -3323,7 +3333,7 @@
 <br>
 <br><a name="LINE_ADDR"></a><a href="#LINE_ADDR">LINE_ADDR</a>:
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<a href="#PROG">PROG</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hl,&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Bug:&nbsp;should&nbsp;be&nbsp;ld&nbsp;hl,(<a href="#PROG_STRT">PROG_STRT</a>)
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d,&nbsp;h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e,&nbsp;l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>
@@ -7319,9 +7329,9 @@
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$1B</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;prepare&nbsp;character&nbsp;&#39;.&#39;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_A">PRINT_A</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#PRINT">PRINT</a>-A
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$1C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;prepare&nbsp;a&nbsp;&#39;0&#39;
-<br>
 <br><a name="PF_ZRO_LP"></a><a href="#PF_ZRO_LP">PF_ZRO_LP</a>:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a,&nbsp;<b>$1C</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;prepare&nbsp;a&nbsp;&#39;0&#39;&nbsp;in&nbsp;the&nbsp;accumulator&nbsp;each&nbsp;time.
+<br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PRINT_A">PRINT_A</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<a href="#PRINT">PRINT</a>-A
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;djnz&nbsp;&nbsp;&nbsp;&nbsp;<a href="#PF_ZRO_LP">PF_ZRO_LP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;loop&nbsp;back&nbsp;to&nbsp;PF-ZRO-LP
@@ -8152,7 +8162,7 @@
 <br>
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push&nbsp;&nbsp;&nbsp;&nbsp;af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 <br>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#DIV_START">DIV_START</a>&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;back&nbsp;to&nbsp;DIV-<a href="#START">START</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z,&nbsp;<a href="#div_34th">div_34th</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;Solve&nbsp;ZX-81&nbsp;improved&nbsp;ROM&nbsp;bug
 <br>
 <br>;&nbsp;&quot;This&nbsp;<a href="#jump">jump</a>&nbsp;is&nbsp;made&nbsp;to&nbsp;the&nbsp;wrong&nbsp;place.&nbsp;No&nbsp;34th&nbsp;bit&nbsp;will&nbsp;ever&nbsp;be&nbsp;obtained
 <br>;&nbsp;without&nbsp;first&nbsp;shifting&nbsp;the&nbsp;dividend.&nbsp;Hence&nbsp;important&nbsp;results&nbsp;like&nbsp;1/10&nbsp;and
@@ -11349,11 +11359,9 @@
 <br>;&nbsp;<a href="#REPORT_D">REPORT_D</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03A6</b>
 <br>;&nbsp;<a href="#NAME">NAME</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03A8</b>
 <br>;&nbsp;<a href="#NEW">NEW</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03C3</b>
-<br>;&nbsp;<a href="#RAM_CHECK">RAM_CHECK</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03CB</b>
-<br>;&nbsp;<a href="#RAM_FILL">RAM_FILL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03CF</b>
-<br>;&nbsp;<a href="#RAM_READ">RAM_READ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03D5</b>
-<br>;&nbsp;<a href="#SET_TOP">SET_TOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03E2</b>
-<br>;&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03E5</b>
+<br>;&nbsp;<a href="#RAM_CHECK">RAM_CHECK</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03C9</b>
+<br>;&nbsp;<a href="#RAM_FILL">RAM_FILL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03CE</b>
+<br>;&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03E2</b>
 <br>;&nbsp;<a href="#LINE">LINE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0408</b>
 <br>;&nbsp;<a href="#NL_ONLY">NL_ONLY</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0413</b>
 <br>;&nbsp;<a href="#UPPER">UPPER</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0419</b>
@@ -11793,7 +11801,7 @@
 <br>;&nbsp;<a href="#PF_E_TENS">PF_E_TENS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$169E</b>
 <br>;&nbsp;<a href="#PF_E_LOW">PF_E_LOW</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16AD</b>
 <br>;&nbsp;<a href="#PF_ZEROS">PF_ZEROS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16B2</b>
-<br>;&nbsp;<a href="#PF_ZRO_LP">PF_ZRO_LP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16BA</b>
+<br>;&nbsp;<a href="#PF_ZRO_LP">PF_ZRO_LP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16B8</b>
 <br>;&nbsp;<a href="#PF_ZERO_1">PF_ZERO_1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16BF</b>
 <br>;&nbsp;<a href="#PF_DC_OUT">PF_DC_OUT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16C2</b>
 <br>;&nbsp;<a href="#PF_FRAC_LP">PF_FRAC_LP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16C8</b>
@@ -11985,8 +11993,9 @@
 <br>;&nbsp;<a href="#CDFLAG">CDFLAG</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$403B</b>
 <br>;&nbsp;<a href="#PRBUFF">PRBUFF</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$403C</b>
 <br>;&nbsp;<a href="#MEMBOT">MEMBOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$405D</b>
+<br>;&nbsp;<a href="#PROG_STRT">PROG_STRT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407B</b>
 <br>;&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407D</b>
-<br>;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$7FFF</b>
+<br>;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$8000</b>
 <br>
 <br>;&nbsp;<b>****************</b>
 <br>;&nbsp;Map&nbsp;file&nbsp;by&nbsp;name
@@ -12209,7 +12218,7 @@
 <br>;&nbsp;<a href="#IMPOSS">IMPOSS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0E69</b>
 <br>;&nbsp;<a href="#INC_CH_ADD">INC_CH_ADD</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0049</b>
 <br>;&nbsp;<a href="#INC_LINE">INC_LINE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0457</b>
-<br>;&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03E5</b>
+<br>;&nbsp;<a href="#INITIAL">INITIAL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03E2</b>
 <br>;&nbsp;<a href="#INPUT">INPUT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0EE9</b>
 <br>;&nbsp;<a href="#INPUT_REP">INPUT_REP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0D6F</b>
 <br>;&nbsp;<a href="#INTERRUPT">INTERRUPT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0038</b>
@@ -12288,7 +12297,7 @@
 <br>;&nbsp;<a href="#MAKE_ROOM">MAKE_ROOM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$099E</b>
 <br>;&nbsp;<a href="#MARGIN">MARGIN</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4028</b>
 <br>;&nbsp;<a href="#MATCHING">MATCHING</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0371</b>
-<br>;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$7FFF</b>
+<br>;&nbsp;<a href="#MAXRAM">MAXRAM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$8000</b>
 <br>;&nbsp;<a href="#MEM">MEM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$401F</b>
 <br>;&nbsp;<a href="#MEMBOT">MEMBOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$405D</b>
 <br>;&nbsp;<a href="#MLT_LOOP">MLT_LOOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$17E7</b>
@@ -12377,7 +12386,7 @@
 <br>;&nbsp;<a href="#PF_ZEROS">PF_ZEROS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16B2</b>
 <br>;&nbsp;<a href="#PF_ZERO_1">PF_ZERO_1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16BF</b>
 <br>;&nbsp;<a href="#PF_ZERO_6">PF_ZERO_6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$164B</b>
-<br>;&nbsp;<a href="#PF_ZRO_LP">PF_ZRO_LP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16BA</b>
+<br>;&nbsp;<a href="#PF_ZRO_LP">PF_ZRO_LP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$16B8</b>
 <br>;&nbsp;<a href="#PF_loop">PF_loop</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$1AE3</b>
 <br>;&nbsp;<a href="#PLOT">PLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0BE9</b>
 <br>;&nbsp;<a href="#PLOT_END">PLOT_END</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0BF1</b>
@@ -12402,6 +12411,7 @@
 <br>;&nbsp;<a href="#PRINT_SP">PRINT_SP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$07F5</b>
 <br>;&nbsp;<a href="#PRINT_STK">PRINT_STK</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0B55</b>
 <br>;&nbsp;<a href="#PROG">PROG</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407D</b>
+<br>;&nbsp;<a href="#PROG_STRT">PROG_STRT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$407B</b>
 <br>;&nbsp;<a href="#PROMPT">PROMPT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0F05</b>
 <br>;&nbsp;<a href="#PR_CC">PR_CC</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4038</b>
 <br>;&nbsp;<a href="#PR_STR_1">PR_STR_1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0B64</b>
@@ -12442,9 +12452,8 @@
 <br>;&nbsp;<a href="#P_STOP">P_STOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0C58</b>
 <br>;&nbsp;<a href="#P_UNPLOT">P_UNPLOT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0C9E</b>
 <br>;&nbsp;<a href="#RAMTOP">RAMTOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$4004</b>
-<br>;&nbsp;<a href="#RAM_CHECK">RAM_CHECK</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03CB</b>
-<br>;&nbsp;<a href="#RAM_FILL">RAM_FILL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03CF</b>
-<br>;&nbsp;<a href="#RAM_READ">RAM_READ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03D5</b>
+<br>;&nbsp;<a href="#RAM_CHECK">RAM_CHECK</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03C9</b>
+<br>;&nbsp;<a href="#RAM_FILL">RAM_FILL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03CE</b>
 <br>;&nbsp;<a href="#RAND">RAND</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0E6C</b>
 <br>;&nbsp;<a href="#RECLAIM_1">RECLAIM_1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0A5D</b>
 <br>;&nbsp;<a href="#RECLAIM_2">RECLAIM_2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0A60</b>
@@ -12498,7 +12507,6 @@
 <br>;&nbsp;<a href="#SET_STK_B">SET_STK_B</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$14A6</b>
 <br>;&nbsp;<a href="#SET_STK_E">SET_STK_E</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$14A9</b>
 <br>;&nbsp;<a href="#SET_STRLN">SET_STRLN</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$0D63</b>
-<br>;&nbsp;<a href="#SET_TOP">SET_TOP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$03E2</b>
 <br>;&nbsp;<a href="#SHIFT_FP">SHIFT_FP</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$171A</b>
 <br>;&nbsp;<a href="#SHIFT_LEN">SHIFT_LEN</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$1769</b>
 <br>;&nbsp;<a href="#SHIFT_ONE">SHIFT_ONE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<b>$1841</b>

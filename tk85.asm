@@ -1787,6 +1787,7 @@ NAME:
 
 NEW:
         call    SET_FAST        ; routine SET-FAST
+
         ld      bc, (RAMTOP)    ; fetch value of system variable RAMTOP
         dec     bc              ; point to last system byte.
 
@@ -1796,33 +1797,36 @@ NEW:
 ;
 ;
 
+
 RAM_CHECK:
-        ld      h, b            ;
-        ld      l, c            ;
-        ld      a, $3F          ;
+        ld      h, b
+        ld      l, c
+        ld      a, $3F
 
 RAM_FILL:
-        ld      (hl), $02       ;
-        dec     hl              ;
-        cp      h               ;
+        ld      (hl), $02
+        dec     hl
+        cp      h
         jr      nz, RAM_FILL    ; to RAM-FILL
 
 RAM_READ:
-        and     a               ;
-        sbc     hl, bc          ;
-        add     hl, bc          ;
-        inc     hl              ;
+        and     a
+        sbc     hl, bc
+        add     hl, bc
+        inc     hl
         jr      nc, SET_TOP     ; to SET-TOP
 
-        dec     (hl)            ;
+        dec     (hl)
         jr      z, SET_TOP      ; to SET-TOP
 
-        dec     (hl)            ;
+        dec     (hl)
         jr      z, RAM_READ     ; to RAM-READ
 
 SET_TOP:
         ld      (RAMTOP), hl    ; set system variable RAMTOP to first byte
                                 ; above the BASIC system area.
+
+
 
 ; ----------------------------
 ; THE 'INITIALIZATION' ROUTINE
@@ -1862,6 +1866,8 @@ INITIAL:
 
         ld      hl, PROG        ; The first location after System Variables -
                                 ; 16509 decimal.
+
+
         ld      (D_FILE), hl    ; set system variable D_FILE to this value.
         ld      b, $19          ; prepare minimal screen of 24 NEWLINEs
                                 ; following an initial NEWLINE.
@@ -3390,7 +3396,7 @@ PTR_DONE:
 
 LINE_ADDR:
         push    hl              ;
-        ld      hl, PROG        ;
+        ld      hl, PROG
         ld      d, h            ;
         ld      e, l            ;
 
@@ -8215,6 +8221,7 @@ COUNT_ONE:
         jp      m, DIV_LOOP     ; back while still minus to DIV-LOOP
 
         push    af              ;
+
         jr      z, DIV_START    ; back to DIV-START
 
 ; "This jump is made to the wrong place. No 34th bit will ever be obtained

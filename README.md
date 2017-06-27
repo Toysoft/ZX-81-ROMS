@@ -43,6 +43,45 @@ This is a customized ZX81 ROM variant by Geoff Wearmouth which uses space-saving
 Source: [https://web.archive.org/web/20150501015418/http://www.wearmouth.demon.co.uk/sg.htm](https://web.archive.org/web/20150501015418/http://www.wearmouth.demon.co.uk/sg.htm "The Shoulders of Giants ZX81 ROM Assembly")
 
 
+## Timex Sinclair 1500 ROM
+
+ROM disassembly: [https://www.dropbox.com/s/hrnha9ouqt8qbs0/sg81.html?dl=0](https://www.dropbox.com/s/hrnha9ouqt8qbs0/ts1500.html?dl=0 "Timex Sinclair 1500 ROM")
+
+This is the ROM delivered with the Timex Sinclair 1500 computer, which was a ZX-81 with internal 16k of 
+RAM and rubber keys as the ZX-Spectrum.
+
+The ROM is based on the improved ZX-81 version 2 ROM, with the following changes:
+
+- Support for starting a ROM-cartridge program loaded at $2000, i.e. in the 8K between the ROM and the start 
+  of RAM. It works because the TS-1500 does full address decoding, and reading location $2000 will return $FF 
+  if no memory exists at that location, as opposed to the ZX-81 that returns a copy of the first 8K ROM. If a
+  value different from $FF is found, the ROM jumps to $2000 on boot.
+
+- The memory check code is removed to give space to the ROM-cartridge feature, and the memory size is assumed to 
+  be always 16k.
+
+- Prepares the system to be able to insert space between the system variables and the program area, 
+  as it is done in the ZX-Spectrum. This feature is incomplete, as it only loads the start of the program area in 
+  the SPARE system variable at $407B, but it does not read this variable. This should have been done in the LINE_ADDR function at $09D9 by replacing the $21 by $2A
+
+- Has a new Bug in the load routine after a load failure. It jumps into the second byte of the INITAL routine,
+  missing the initialization of HL to RAMTOP and loading the stack at the current load address, causing most 
+  probably a crash.
+
+- Has the bugfix of the "print a number to the printer prints garbage" from the Shoulder Of Giants ROM, caused 
+  by RST $10 not preserving the A register when printing to the printer.
+
+- Fixes the rouding problem of the improved version 2 ZX-81 ROM, reported by Dr. Frank O'Hara:
+
+	"This jump is made to the wrong place. No 34th bit will ever be obtained without first shifting
+	the dividend. Hence important results like 1/10 and 1/1000 are not rounded up as they should be.
+	Rounding up never occurs when it depends on the 34th bit. The jump should be made to div-34th
+	above." [Dr. Frank O'Hara, "The Complete Spectrum ROM Disassembly", 1983, published by Melbourne House].
+
+	However if you make this change, then while (1/2=.5) will now evaluate as true, (.25=1/4), which did evaluate as true, no longer does.
+
+
+
 ## TK-85 ROM
 
 ROM disassembly: [https://www.dropbox.com/s/0crgpfcqqcu2jbt/tk85.html?dl=0](https://www.dropbox.com/s/0crgpfcqqcu2jbt/tk85.html?dl=0 "TK-85 ROM")

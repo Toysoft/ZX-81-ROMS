@@ -5,12 +5,14 @@ all:
 	@$(CALL_MAKE) PROJ=zx81v1 make_proj
 	@$(CALL_MAKE) PROJ=tk85   make_proj
 	@$(CALL_MAKE) PROJ=sg81   make_proj
+	@$(CALL_MAKE) PROJ=ts1500 make_proj
 
 clean: 
 	@$(CALL_MAKE) PROJ=zx81   clean_proj
 	@$(CALL_MAKE) PROJ=zx81v1 clean_proj
 	@$(CALL_MAKE) PROJ=tk85   clean_proj
 	@$(CALL_MAKE) PROJ=sg81   clean_proj
+	@$(CALL_MAKE) PROJ=ts1500 clean_proj
 
 make_proj: $(PROJ).bin $(PROJ).html
 
@@ -18,7 +20,7 @@ $(PROJ).bin: $(PROJ).asm
 	z80asm -b -l -m $(PROJ).asm 
 	dz80c -q $(PROJ).bin $(PROJ).dump
 	dz80c -q $(PROJ).rom $(PROJ).rom.dump
-	diff -I '^;' $(PROJ).dump $(PROJ).rom.dump
+	diff -I '^;' $(PROJ).rom.dump $(PROJ).dump
 	rm $(PROJ).rom.dump
 
 $(PROJ).asm: $(wildcard src/*.asm)
